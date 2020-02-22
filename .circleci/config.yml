@@ -1,0 +1,15 @@
+version: 2.0
+
+jobs:
+  build:
+    docker:
+      - image: zondax/docker-optee:latest
+    steps:
+      - checkout
+      - run: . $HOME/.cargo/env && cd src && QEMU=1 make
+
+workflows:
+  version: 2
+  build_all:
+    jobs:
+      - build

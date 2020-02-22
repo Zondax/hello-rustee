@@ -1,0 +1,6 @@
+[build]
+target = "armv7-unknown-linux-gnueabihf"
+rustflags = [
+	"-C", "relocation-model=ropi",
+    "-C", "link-arg=-nostartfiles",
+]

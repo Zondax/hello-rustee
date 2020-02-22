@@ -1,0 +1,13 @@
+[package]
+authors = ["Zondax GmbH <info@zondax.ch>"]
+name = "rustee_host"
+version = "0.1.0"
+edition = "2018"
+readme = "README.md"
+
+[lib]
+name = "rustee_host"
+crate-type = ["staticlib"]
+
+[dependencies]
+panic-halt = "0.2.0"

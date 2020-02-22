@@ -1,0 +1,19 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/home/zondax/optee/out-br/host/arm-buildroot-linux-gnueabihf/sysroot/usr/include",
+                "/home/zondax/optee/optee_os/lib/libutee/include",
+                "/home/zondax/optee/optee_os/out/arm/export-ta_arm32/include"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "clang-x64"
+        }
+    ],
+    "version": 4
+}
