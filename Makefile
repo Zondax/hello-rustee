@@ -37,3 +37,17 @@ clean:
 # TODO: autologin + automount?
 qemu:
 	$(call run_docker,$(MOUNTPATH)/scripts/launch_qemu.sh)
+
+install_device: build
+	@echo "Copying TAs..."
+	scp -r $(CURDIR)/src/ta/*.ta root@stm32mp1:/lib/optee_armtz
+	@echo "Copying Host"
+	scp -r $(CURDIR)/src/host/hello_rustee root@stm32mp1:/home/root/hello_rustee
+	@echo
+	@echo --------------------------------------------------------------------
+	@echo
+	@echo TA and host have been installed in your device. 
+	@echo
+	@echo You can run the application by executing: /home/root/hello_rustee
+	@echo
+	@echo --------------------------------------------------------------------
