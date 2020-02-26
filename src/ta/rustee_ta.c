@@ -20,7 +20,7 @@ TEE_Result TA_OpenSessionEntryPoint(uint32_t param_types,
                                     void **sess_ctx) {
     UNUSED(params)
     UNUSED(sess_ctx)
-// TODO: Redirect full call to rust library
+    // TODO: Redirect full call to rust library
 
     uint32_t exp_param_types = TEE_PARAM_TYPES(
             TEE_PARAM_TYPE_NONE,
@@ -68,7 +68,6 @@ TEE_Result TA_InvokeCommandEntryPoint(void *sess_ctx,
             return TEE_SUCCESS;
         }
         default:
-            return
-                    TEE_ERROR_BAD_PARAMETERS;
+            return TEE_ERROR_BAD_PARAMETERS;
     }
 }
