@@ -19,6 +19,16 @@ This project provides a basic framework and development environment for OPTEE Tr
 - TA: Trusted Application
 - QEMU: Quick Emulator (https://en.wikipedia.org/wiki/QEMU)
 
+## Compiling
+
+To compile host and TA apps, run (in your host, not in qemu):
+
+```shell
+make
+```
+
+This will launch a temporary docker container that will crosscompile both the host and TA. The output are ARM binaries so they will only work within qemu.
+
 ## Starting Qemu
 
 To start the emulator run:
@@ -36,16 +46,6 @@ mount -t 9p -o trans=virtio host /mnt
 This will mount your source in `/mnt`
 
 > We will soon improve and minimize the amount of required steps
-
-## Compiling
-
-To compile host and TA apps, run (in your host, not in qemu):
-
-```shell
-make
-```
-
-This will launch a temporary docker container that will crosscompile both the host and TA. The output are ARM binaries so they will only work within qemu.
 
 ## Running
 
