@@ -12,8 +12,12 @@ CFLAGS 	+= -Wall -I../ta/include -I$(TEEC_EXPORT)/usr/include -I./include
 CFLAGS 	+= -I../rust/host/include
 
 LDFLAGS +=
-LDLIBS 	+= -lteec -L$(TEEC_EXPORT)/lib --sysroot=$(TEEC_EXPORT)
+LDLIBS 	+= -lteec -L$(TEEC_EXPORT)/lib
 LDLIBS 	+= -lrustee_host -L../rust/target/armv7-unknown-linux-gnueabihf/release
+
+ifdef OVERRIDE_SYSROOT
+LDLIBS 	+= --sysroot=$(TEEC_EXPORT)
+endif
 
 BIN_NAME = hello_rustee
 
