@@ -14,6 +14,8 @@ endif
 
 export V?=0
 
+CARGO_BIN ?= $(HOME)/.cargo/bin
+
 all:
 	cd rust && $(CARGO_BIN)/cargo build --release
 	$(MAKE) -C host CROSS_COMPILE="$(HOST_CROSS_COMPILE)" --no-builtin-variables
