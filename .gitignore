@@ -40,3 +40,4 @@ src/ta/user_ta_header.o
 src/rust/.cargo/.package-cache
 
 /.idea
+src/ta/dyn_list
