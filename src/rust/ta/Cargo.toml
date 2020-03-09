@@ -11,6 +11,3 @@ crate-type = ["staticlib"]
 
 [target.armv7-unknown-linux-gnueabihf.dev-dependencies]
 panic-halt = "0.2.0"
-
-[dependencies]
-panic-halt = "0.2.0"

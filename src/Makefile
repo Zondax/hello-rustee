@@ -11,13 +11,15 @@ export TA_DEV_KIT_DIR = $(OPTEE)/optee_os/out/arm/export-ta_arm32
 export OVERRIDE_SYSROOT=1
 endif
 
+export RUST_TARGET=armv7-unknown-linux-gnueabihf
+
 export V?=0
 
 CARGO_BIN ?= $(HOME)/.cargo/bin
 CARGO_CUSTOM_HOME ?= $(CURDIR)/rust/.cargo
 
 all:
-	cd rust && CARGO_HOME=$(CARGO_CUSTOM_HOME) $(CARGO_BIN)/cargo build --release
+	cd rust && CARGO_HOME=$(CARGO_CUSTOM_HOME) $(CARGO_BIN)/cargo build --target $(RUST_TARGET) --release
 	$(MAKE) -C host CROSS_COMPILE="$(HOST_CROSS_COMPILE)" --no-builtin-variables
 	$(MAKE) -C ta CROSS_COMPILE="$(TA_CROSS_COMPILE)" LDFLAGS=""
 
