@@ -15,11 +15,11 @@ endif
 export V?=0
 
 all:
-	cd rust && CARGO_HOME="$(CURDIR)/rust/.cargo" cargo build --release
+	cd rust && $(CARGO_BIN)/cargo build --release
 	$(MAKE) -C host CROSS_COMPILE="$(HOST_CROSS_COMPILE)" --no-builtin-variables
 	$(MAKE) -C ta CROSS_COMPILE="$(TA_CROSS_COMPILE)" LDFLAGS=""
 
 clean:
-	cd rust && CARGO_HOME="$(CURDIR)/rust/.cargo" cargo clean
+	cd rust && $(CARGO_BIN)/cargo clean
 	$(MAKE) -C host clean
 	$(MAKE) -C ta clean
