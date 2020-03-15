@@ -11,7 +11,7 @@ READELF ?= $(CROSS_COMPILE)readelf
 CFLAGS 	+= -Wall -I../ta/include -I$(TEEC_EXPORT)/usr/include -I./include
 CFLAGS 	+= -I../rust/host/include
 
-LDFLAGS +=
+LDFLAGS += --hash-style=gnu
 LDLIBS 	+= -lteec -L$(TEEC_EXPORT)/lib
 LDLIBS 	+= -lrustee_host
 
