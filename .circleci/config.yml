@@ -3,13 +3,23 @@ version: 2.0
 jobs:
   build:
     docker:
-      - image: zondax/docker-optee:latest
+      - image: zondax/builder-qemuv7
     steps:
       - checkout
-      - run: . $HOME/.cargo/env && cd src && QEMU=1 make
+      - run: . $HOME/.cargo/env && cd src && QEMU_V7=1 make
+#      - run: . $HOME/.cargo/env && cd src && make clean && QEMU_V8=1 make
+
+  build_armv8:
+    docker:
+      - image: zondax/builder-qemuv8
+    steps:
+      - checkout
+      - run: . $HOME/.cargo/env && cd src && QEMU_v8=1 make
+#      - run: . $HOME/.cargo/env && cd src && make clean && QEMU_V8=1 make
 
 workflows:
   version: 2
   build_all:
     jobs:
       - build
+      - build_armv8
