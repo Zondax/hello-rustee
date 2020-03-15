@@ -5,3 +5,9 @@ rustflags = [
 	"-C", "relocation-model=ropi",
     "-C", "link-arg=-nostartfiles",
 ]
+
+[target.aarch64-unknown-linux-]
+rustflags = [
+	"-C", "relocation-model=ropi",
+    "-C", "link-arg=-nostartfiles",
+]

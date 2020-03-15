@@ -1,4 +1,5 @@
-DOCKER_IMAGE="zondax/docker-optee"
+DOCKER_IMAGE_V7="zondax/builder-qemuv7"
+DOCKER_IMAGE_V8="zondax/builder-qemuv8"
 
 INTERACTIVE:=$(shell [ -t 0 ] && echo 1)
 
@@ -19,24 +20,33 @@ define run_docker
 	-v $(shell pwd)/src:$(MOUNTPATH) \
 	-e DISPLAY=$(shell echo ${DISPLAY}) \
 	-v /tmp/.X11-unix:/tmp/.X11-unix:ro \
-	$(DOCKER_IMAGE) \
-	"$(1)"
+	$(1) \
+	"$(2)"
 endef
 
 default: build
 
-shell:
-	$(call run_docker,zsh)
+shell_v7:
+	$(call run_docker,$(DOCKER_IMAGE_V7),zsh)
 
-build:
-	$(call run_docker,QEMU=1 make -C $(MOUNTPATH))
+shell_v8:
+	$(call run_docker,$(DOCKER_IMAGE_V8),zsh)
+
+build_v7:
+	$(call run_docker,$(DOCKER_IMAGE_V7),QEMU_V7=1 make -C $(MOUNTPATH))
+
+build_v8:
+	$(call run_docker,$(DOCKER_IMAGE_V8),QEMU_V8=1 make -C $(MOUNTPATH))
 
 clean:
-	$(call run_docker,QEMU=1 make -C $(MOUNTPATH) clean)
+	$(call run_docker,$(DOCKER_IMAGE_V7),QEMU_V7=1 make -C $(MOUNTPATH) clean)
 
 # TODO: autologin + automount?
-qemu:
-	$(call run_docker,$(MOUNTPATH)/scripts/launch_qemu.sh)
+qemu_v7:
+	$(call run_docker,$(DOCKER_IMAGE_V7),QEMU_V7=1 $(MOUNTPATH)/scripts/launch_qemu.sh)
+
+qemu_v8:
+	$(call run_docker,$(DOCKER_IMAGE_V8),QEMU_V8=1 $(MOUNTPATH)/scripts/launch_qemu.sh)
 
 install_device: build
 	@echo "Copying TAs..."
@@ -46,7 +56,7 @@ install_device: build
 	@echo
 	@echo --------------------------------------------------------------------
 	@echo
-	@echo TA and host have been installed in your device. 
+	@echo TA and host have been installed in your device.
 	@echo
 	@echo You can run the application by executing: /home/root/hello_rustee
 	@echo

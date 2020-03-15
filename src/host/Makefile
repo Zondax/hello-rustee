@@ -13,7 +13,11 @@ CFLAGS 	+= -I../rust/host/include
 
 LDFLAGS +=
 LDLIBS 	+= -lteec -L$(TEEC_EXPORT)/lib
-LDLIBS 	+= -lrustee_host -L../rust/target/armv7-unknown-linux-gnueabihf/release
+LDLIBS 	+= -lrustee_host
+
+# Add both search paths
+LDLIBS 	+= -L../rust/target/armv7-unknown-linux-gnueabihf/release
+LDLIBS 	+= -L../rust/target/aarch64-unknown-linux-gnu/release
 
 ifdef OVERRIDE_SYSROOT
 LDLIBS 	+= --sysroot=$(TEEC_EXPORT)
