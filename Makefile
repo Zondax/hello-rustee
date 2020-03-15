@@ -24,7 +24,7 @@ define run_docker
 	"$(2)"
 endef
 
-default: build
+default: build_v7
 
 shell_v7:
 	$(call run_docker,$(DOCKER_IMAGE_V7),zsh)
