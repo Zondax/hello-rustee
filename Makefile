@@ -26,6 +26,10 @@ endef
 
 default: build_v7
 
+pull:
+	docker pull $(DOCKER_IMAGE_V7)
+	docker pull $(DOCKER_IMAGE_V8)
+
 shell_v7:
 	$(call run_docker,$(DOCKER_IMAGE_V7),zsh)
 
