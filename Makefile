@@ -42,10 +42,12 @@ build_v7:
 build_v8:
 	$(call run_docker,$(DOCKER_IMAGE_V8),QEMU_V8=1 make -C $(MOUNTPATH))
 
+test_unit:
+	cd src && cargo test
+
 clean:
 	$(call run_docker,$(DOCKER_IMAGE_V7),QEMU_V7=1 make -C $(MOUNTPATH) clean)
 
-# TODO: autologin + automount?
 qemu_v7:
 	$(call run_docker,$(DOCKER_IMAGE_V7),QEMU_V7=1 $(MOUNTPATH)/scripts/launch_qemu.sh)
 

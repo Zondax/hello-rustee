@@ -7,3 +7,4 @@ echo "QEMU Entrypoint script"
 echo "----------------------"
 echo
 /mnt/scripts/run_app.sh
+/bin/sh

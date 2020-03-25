@@ -3,14 +3,14 @@
 
 This project provides a basic framework and development environment for OPTEE Trusted Applications (TAs). It combines Docker, Rust and qemu to improve daily development experience.
 
+**Normally, you will build this via a Yocto layer (meta-zondax). You only need to follow this instructions if you plan to develop a new TA.**
+
 ## Preconditions
 
-- These instructions have been written and tested in Ubuntu. Very likely works well in other linux distributions. It has not been tested in Windows or OSX.
+Attention: Instructions have been tested in Ubuntu only.
 
 - You need to install:
-
-  - Docker
-  - *????? COMPLETE*
+  - [Docker](https://docs.docker.com/install/linux/docker-ce/ubuntu/)
 
 ## Glossary
 
@@ -24,7 +24,7 @@ This project provides a basic framework and development environment for OPTEE Tr
 To compile host and TA apps, run (in your host, not in qemu):
 
 ```shell
-make
+make 
 ```
 
 This will launch a temporary docker container that will crosscompile both the host and TA. The output are ARM binaries so they will only work within qemu.

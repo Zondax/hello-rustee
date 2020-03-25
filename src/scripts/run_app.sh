@@ -9,4 +9,9 @@ echo
 echo ------------------------ LAUNCHING HOST -------------------------------
 echo
 
-/mnt/host/hello_rustee
+FILE=/mnt/host/hello_rustee
+if test -f "$FILE"; then
+  /mnt/host/hello_rustee
+else
+  echo "File binary does not exist. Did you compile your app?"
+fi
