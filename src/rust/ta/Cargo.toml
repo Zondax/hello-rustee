@@ -12,6 +12,20 @@ crate-type = ["staticlib"]
 [target.armv7-unknown-linux-gnueabihf.dev-dependencies]
 panic-halt = "0.2.0"
 
+[dependencies.rand]
+version = "0.7.3"
+default-features = false
+features = ["getrandom"]
+
+[dependencies.rand_core]
+version = "0.5.1"
+default-features = false
+
+[dependencies.schnorrkel]
+version = "0.9.1"
+default-features = false
+features = ["u32_backend", "getrandom"]
+
 [dependencies.heapless]
 version = "0.5.3"
 

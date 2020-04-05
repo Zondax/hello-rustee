@@ -19,7 +19,7 @@ TEEC_Result call_rustee(TEEC_Session *sess) {
 
     printf("[RUSTEE] <= %d\n", op.params[0].value.a);
 
-    res = TEEC_InvokeCommand(sess, TA_FUNCID_VERSION, &op, &err_origin);
+    res = TEEC_InvokeCommand(sess, TA_FUNCID_SIGN, &op, &err_origin);
     if (res != TEEC_SUCCESS) {
         errx(1, "TEEC_InvokeCommand failed. [Code 0x%x origin 0x%x]", res, err_origin);
     }

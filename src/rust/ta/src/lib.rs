@@ -9,6 +9,8 @@ use core::fmt::Write;
 use heapless::consts::*;
 use heapless::String;
 
+mod optee;
+
 #[cfg(not(test))]
 use core::panic::PanicInfo;
 
@@ -41,13 +43,24 @@ pub extern "C" fn ta_version() -> u8 {
     42
 }
 
+#[no_mangle]
+pub extern "C" fn ta_sign(
+    message_ptr: *const u8,
+    message_len: u32,
+    signature_ptr: *mut u8,
+    signature_length: u32,
+) -> u8 {
+    0
+}
+
 #[cfg(test)]
 mod tests {
     extern crate simple_logger;
+
     use crate::{ta_version, to_hex_string};
 
     #[test]
-    fn test_local() {
+    fn test_version() {
         simple_logger::init().unwrap();
 
         let v = ta_version();
