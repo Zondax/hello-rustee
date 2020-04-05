@@ -24,7 +24,8 @@ default-features = false
 [dependencies.schnorrkel]
 version = "0.9.1"
 default-features = false
-features = ["u32_backend", "getrandom"]
+#features = ["u32_backend", "getrandom"]
+features = ["u32_backend"]
 
 [dependencies.heapless]
 version = "0.5.3"

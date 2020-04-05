@@ -1,6 +1,8 @@
 #![no_std]
 #![no_builtins]
 
+mod optee;
+
 #[cfg(test)]
 #[macro_use]
 extern crate log;
@@ -9,7 +11,10 @@ use core::fmt::Write;
 use heapless::consts::*;
 use heapless::String;
 
-mod optee;
+//use schnorrkel;
+//use schnorrkel::SIGNATURE_LENGTH;
+
+const SIGNATURE_LENGTH: usize = 64;
 
 #[cfg(not(test))]
 use core::panic::PanicInfo;
@@ -50,7 +55,27 @@ pub extern "C" fn ta_sign(
     signature_ptr: *mut u8,
     signature_length: u32,
 ) -> u8 {
-    0
+    let message = unsafe {
+        // FIXME: panic results in undefined behavior
+        assert!(!message_ptr.is_null());
+        core::slice::from_raw_parts(message_ptr, message_len as usize)
+    };
+
+    let signature_out = unsafe {
+        // FIXME: panic results in undefined behavior
+        assert!(!signature_ptr.is_null());
+        assert_eq!(signature_length as usize, SIGNATURE_LENGTH);
+        core::slice::from_raw_parts_mut(signature_ptr, signature_length as usize)
+    };
+
+    // let keypair = Keypair::generate_with(::rand_core::OsRng);
+    //
+    // let context = signing_context(b"this signature does this thing");
+    // let signature = keypair.sign(context.bytes(message));
+    //
+    // signature_out.copy_from_slice(&signature.to_bytes());
+
+    3
 }
 
 #[cfg(test)]
