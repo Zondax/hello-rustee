@@ -4,6 +4,9 @@ default: all
 # Set environment according to /optee/build/common.mk & specific
 
 ifdef QEMU_V7
+$(info )
+$(info ************  QEMU V7 ************)
+$(info )
 export RUST_TARGET ?= armv7-unknown-linux-gnueabihf
 export OPTEE ?= $(HOME)/optee
 export TEEC_EXPORT ?= $(OPTEE)/out-br/host/arm-buildroot-linux-gnueabihf/sysroot
@@ -15,6 +18,9 @@ export CARGO_CUSTOM_HOME ?= $(CURDIR)/rust/.cargo
 endif
 
 ifdef QEMU_V8
+$(info )
+$(info ************  QEMU V8 ************)
+$(info )
 export RUST_TARGET ?= aarch64-unknown-linux-gnu
 export OPTEE ?= $(HOME)/optee
 export TEEC_EXPORT ?= $(OPTEE)/out-br/host/aarch64-buildroot-linux-gnu/sysroot

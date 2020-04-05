@@ -48,7 +48,7 @@ TEE_Result TA_InvokeCommandEntryPoint(void *sess_ctx,
     UNUSED(sess_ctx)
 
     switch (cmd_id) {
-        case TA_FUNCID_CALL_RUSTEE: {
+        case TA_FUNCID_VERSION: {
             // TODO: Do this directly in Rust
             uint32_t exp_param_types = TEE_PARAM_TYPES(TEE_PARAM_TYPE_VALUE_INOUT,
                                                        TEE_PARAM_TYPE_NONE,
@@ -61,7 +61,7 @@ TEE_Result TA_InvokeCommandEntryPoint(void *sess_ctx,
             IMSG("[RUSTEE-BEFORE] : %u", params[0].value.a);
 
             // Here we call rust
-            params[0].value.a += ta_test();
+            params[0].value.a += ta_version();
 
             IMSG("[RUSTEE-AFTER ] : %u", params[0].value.a);
 
