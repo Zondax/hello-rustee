@@ -10,3 +10,5 @@ src/ta/*.lds
 src/ta/dyn_list
 src/host/*.o
 src/host/hello_rustee
+src/oe-logs
+src/oe-workdir
