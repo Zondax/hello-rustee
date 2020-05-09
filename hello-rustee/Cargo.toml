@@ -1,0 +1,23 @@
+[[bin]]
+name = "hello_rustee_host"
+path = "src/host.rs"
+
+[[bin]]
+name = "hello_rustee_ta"
+path = "src/ta.rs"
+
+[dependencies]
+libc = { default-features = false, version = "0.2" }
+zondee = { features = ["framework"], path = "../zondee" }
+serde = { default-features = false, features = ["derive"], version = "1.0" }
+
+[lib]
+name = "hello_rustee"
+path = "src/lib.rs"
+
+[package]
+authors = ["Zondax GmbH <info@zondax.ch>"]
+edition = "2018"
+name = "hello_rustee"
+readme = "README.md"
+version = "0.1.0"

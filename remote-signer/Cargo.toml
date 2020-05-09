@@ -1,0 +1,27 @@
+[[bin]]
+name = "remote_signer_host"
+path = "src/host.rs"
+
+[[bin]]
+name = "remote_signer_ta"
+path = "src/ta.rs"
+
+[dependencies]
+libc = { default-features = false, version = "0.2" }
+rand_core = { default-features = false, features = ["getrandom"], version = "0.5" }
+schnorrkel = { default-features = false, features = ["getrandom", "u32_backend"], version = "0.9" }
+serde = { default-features = false, features = ["derive"], version = "1.0" }
+tokio = { default-features = false, features = ["macros"], version = "0.2" }
+warp = { default-features = false, version = "0.2" }
+zondee = { features = ["framework"], path = "../zondee" }
+
+[lib]
+name = "remote_signer"
+path = "src/lib.rs"
+
+[package]
+authors = ["Zondax GmbH <info@zondax.ch>"]
+edition = "2018"
+name = "remote-signer"
+readme = "README.md"
+version = "0.1.0"

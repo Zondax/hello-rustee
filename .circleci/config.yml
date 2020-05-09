@@ -6,14 +6,25 @@ jobs:
       - image: zondax/builder-qemuv7
     steps:
       - checkout
-      - run: . $HOME/.cargo/env && cd src && QEMU_V7=1 make
-
+      - run:
+          command: . $HOME/.cargo/env && make
+          environment:
+            CLIENT_ROOT: /home/zondax/optee/out-br/host/arm-buildroot-linux-gnueabihf/sysroot/usr
+            COMPILER_PREFIX: /home/zondax/optee/toolchains/aarch32/bin/arm-linux-gnueabihf-
+            OS_ROOT: /home/zondax/optee/optee_os/out/arm/export-ta_arm32
+          name: Build
   build_armv8:
     docker:
       - image: zondax/builder-qemuv8
     steps:
       - checkout
-      - run: . $HOME/.cargo/env && cd src && QEMU_v8=1 make
+      - run:
+          command: . $HOME/.cargo/env && make
+          environment:
+            CLIENT_ROOT: /home/zondax/optee/out-br/host/aarch64-buildroot-linux-gnu/sysroot/usr
+            COMPILER_PREFIX: /home/zondax/optee/toolchains/aarch64/bin/arm-linux-gnueabihf-
+            OS_ROOT: /home/zondax/optee/optee_os/out/arm/export-ta_arm64
+          name: Build
 
 workflows:
   version: 2
