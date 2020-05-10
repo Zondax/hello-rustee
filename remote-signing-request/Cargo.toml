@@ -1,6 +1,5 @@
 [dependencies]
 reqwest = { default-features = false, features = ["json"], version = "0.10" }
-serde = { default-features = false, optional = true, version = "1.0" }
 tokio = { default-features = false, features = ["macros", "rt-core"], version = "0.2" }
 
 [package]

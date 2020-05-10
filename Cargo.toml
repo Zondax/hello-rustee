@@ -20,8 +20,8 @@ panic = "abort"
 [workspace]
 members = [
     "hello-rustee",
-    #"remote-signer",
-    #"remote-signing-request",
+    "remote-signer",
+    "remote-signing-request",
     "zondee-macros",
     "zondee-teec",
     "zondee-utee",

@@ -2,7 +2,7 @@
 #![no_std]
 
 use rand_core::OsRng;
-use remote_signer::{Input,UUID, Output};
+use remote_signer::{Input, Output, UUID};
 use schnorrkel::{signing_context, Keypair};
 use zondee::StackVec;
 use zondee_utee::{

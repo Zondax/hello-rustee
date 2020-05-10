@@ -8,6 +8,11 @@ pub struct Uuid {
 
 impl Uuid {
     pub const fn as_fields(&self) -> (u32, u16, u16, [u8; 8]) {
-        (self.time_low, self.time_mid, self.time_hi_and_version, self.clock_seq_and_node)
+        (
+            self.time_low,
+            self.time_mid,
+            self.time_hi_and_version,
+            self.clock_seq_and_node,
+        )
     }
 }

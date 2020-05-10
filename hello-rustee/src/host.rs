@@ -1,6 +1,6 @@
-use hello_rustee::{Input, UUID, Output};
+use hello_rustee::{Input, Output, UUID};
 use zondee::StackStr;
-use zondee_teec::{framework::Client};
+use zondee_teec::framework::Client;
 
 fn main() -> zondee_teec::Result<()> {
     let ctx = Default::default();

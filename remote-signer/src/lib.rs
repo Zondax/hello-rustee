@@ -1,5 +1,5 @@
 use schnorrkel::SIGNATURE_LENGTH;
-use zondee::{Uuid, StackVec};
+use zondee::{StackVec, Uuid};
 
 pub const UUID: Uuid = Uuid {
     time_low: 2179707489,

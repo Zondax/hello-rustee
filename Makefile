@@ -24,7 +24,7 @@ export CARGO_CUSTOM_HOME ?= $(CURDIR)/rust/.cargo
 export OBJCOPY ?= $(COMPILER_PREFIX)objcopy
 export UTEE_ROOT := $(UTEE_ROOT)
 export RUST_TEST_THREADS ?= 1
-export RUSTFLAGS ?= -C link-arg=-Wl,-Tta.lds -C link-arg=-Wl,--sort-section=alignment -C link-arg=-Wl,-pie -Clink-arg=-Wl,--allow-multiple-definition
+export RUSTFLAGS ?= -C link-arg=-Wl,-Tta.lds -C link-arg=-Wl,--sort-section=alignment -C link-arg=-pie
 export TEEC_ROOT ?= $(TEEC_ROOT)
 export UUID ?= $(shell cat "uuid.txt")
 

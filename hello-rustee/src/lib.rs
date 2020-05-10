@@ -1,4 +1,4 @@
-use zondee::{Uuid, StackStr};
+use zondee::{StackStr, Uuid};
 
 pub const UUID: Uuid = Uuid {
     time_low: 2179707489,

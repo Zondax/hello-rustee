@@ -7,6 +7,7 @@ name = "remote_signer_ta"
 path = "src/ta.rs"
 
 [dependencies]
+jsonrpc-core = { default-features = false, version = "14.0" }
 libc = { default-features = false, version = "0.2" }
 rand_core = { default-features = false, features = ["getrandom"], version = "0.5" }
 schnorrkel = { default-features = false, features = ["getrandom", "u32_backend"], version = "0.9" }
@@ -14,7 +15,7 @@ serde = { default-features = false, features = ["derive"], version = "1.0" }
 tokio = { default-features = false, features = ["macros", "rt-core"], version = "0.2" }
 warp = { default-features = false, version = "0.2" }
 zondee = { path = "../zondee" }
-zondee-teec = { features = ["framework"], path = "../zondee-teec" }
+zondee-teec = { features = ["framework", "std"], path = "../zondee-teec" }
 zondee-utee = { features = ["framework"], path = "../zondee-utee" }
 
 [lib]

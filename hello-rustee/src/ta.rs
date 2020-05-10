@@ -1,7 +1,7 @@
 #![no_main]
 #![no_std]
 
-use hello_rustee::{Input, UUID, Output};
+use hello_rustee::{Input, Output, UUID};
 use zondee::StackStr;
 use zondee_utee::{
     framework::invoke_command,

@@ -10,6 +10,7 @@ zondee-macros = { optional = true, path = "../zondee-macros", version = "0.1" }
 [features]
 default = []
 framework = ["zondee/with-serde_cbor", "zondee/with-serde", "with-serde", "with-zondee-macros", "zondee-macros/framework"]
+std = ["serde/std", "zondee/std"]
 with-serde = ["serde"]
 with-zondee-macros = ["zondee-macros"]
 
