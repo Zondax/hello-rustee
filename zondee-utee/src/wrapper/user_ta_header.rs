@@ -1,6 +1,6 @@
 // https://github.com/mesalock-linux/rust-optee-trustzone-sdk/blob/e48eef965c0a14b50c481fa4d829c155ce6c711c/optee-utee/optee-utee-sys/src/user_ta_header.rs
 
-use crate::wrapper::os::{self, raw::TEE_NUM_PARAMS};
+use crate::wrapper::{self, raw::TEE_NUM_PARAMS};
 
 pub const TA_FLAG_CACHE_MAINTENANCE: u32 = 1 << 7;
 pub const TA_FLAG_EXEC_DDR: u32 = 0;
@@ -13,7 +13,7 @@ pub const TA_FLAG_USER_MODE: u32 = 0;
 
 #[repr(C)]
 pub struct ta_head {
-    pub uuid: os::Uuid,
+    pub uuid: wrapper::Uuid,
     pub stack_size: u32,
     pub flags: u32,
     pub entry: unsafe extern "C" fn(libc::c_ulong, libc::c_ulong, *mut utee_params, libc::c_ulong),

@@ -1,17 +1,14 @@
-use crate::{
-    framework,
-    wrapper::client::{
-        self,
-        raw::{
-            TEEC_CloseSession, TEEC_Context, TEEC_FinalizeContext, TEEC_InitializeContext,
-            TEEC_InvokeCommand, TEEC_OpenSession, TEEC_Operation, TEEC_Session, TEEC_LOGIN_PUBLIC,
-            TEEC_SUCCESS,
-        },
-        Operation, ParamNone, ParamTmpRef,
+use crate::wrapper::{
+    self,
+    raw::{
+        TEEC_CloseSession, TEEC_Context, TEEC_FinalizeContext, TEEC_InitializeContext,
+        TEEC_InvokeCommand, TEEC_OpenSession, TEEC_Operation, TEEC_Session, TEEC_LOGIN_PUBLIC,
+        TEEC_SUCCESS,
     },
-    StackVec,
+    Operation, ParamNone, ParamTmpRef,
 };
 use core::ptr::null_mut;
+use zondee::StackVec;
 
 #[derive(Debug)]
 pub struct Client {
@@ -21,7 +18,7 @@ pub struct Client {
 }
 
 impl Client {
-    pub fn new(mut ctx: TEEC_Context, name: &str, sess: TEEC_Session) -> framework::Result<Self> {
+    pub fn new(mut ctx: TEEC_Context, name: &str, sess: TEEC_Session) -> crate::Result<Self> {
         Self::initialize_context(name, &mut ctx)?;
         Ok(Self {
             ctx,
@@ -32,9 +29,9 @@ impl Client {
 
     pub fn open_session(
         &mut self,
-        destination: client::Uuid,
+        destination: wrapper::Uuid,
         operation: &mut TEEC_Operation,
-    ) -> framework::Result<()> {
+    ) -> crate::Result<()> {
         let rslt = unsafe {
             TEEC_OpenSession(
                 &mut self.ctx,
@@ -49,14 +46,11 @@ impl Client {
         if rslt == TEEC_SUCCESS {
             Ok(())
         } else {
-            Err(framework::Error::ClientCodeWithOrigin(
-                rslt,
-                self.return_origin,
-            ))
+            Err(crate::Error::ClientCodeWithOrigin(rslt, self.return_origin))
         }
     }
 
-    pub fn invoke_command<T, U>(&mut self, instance: T) -> framework::Result<U>
+    pub fn invoke_command<T, U>(&mut self, instance: T) -> crate::Result<U>
     where
         T: serde::Serialize,
         U: for<'a> serde::Deserialize<'a>,
@@ -64,7 +58,7 @@ impl Client {
         let mut input_buffer = StackVec::new([0; 256], 0);
         let mut output_buffer = StackVec::new([0; 256], 0);
 
-        framework::serialize(&instance, &mut input_buffer);
+        zondee::serialize(&instance, &mut input_buffer);
         let p0 = ParamTmpRef::new_input(&input_buffer);
         let p1 = ParamTmpRef::new_output(&mut output_buffer);
         let mut operation = Operation::new(p0, p1, ParamNone, ParamNone);
@@ -78,21 +72,18 @@ impl Client {
         };
         if rslt == TEEC_SUCCESS {
             let mut scratch = [0; 256];
-            Ok(framework::deserialize(&output_buffer, &mut scratch))
+            Ok(zondee::deserialize(&output_buffer, &mut scratch))
         } else {
-            Err(framework::Error::ClientCodeWithOrigin(
-                rslt,
-                self.return_origin,
-            ))
+            Err(crate::Error::ClientCodeWithOrigin(rslt, self.return_origin))
         }
     }
 
-    fn initialize_context(name: &str, ctx: &mut TEEC_Context) -> framework::Result<()> {
+    fn initialize_context(name: &str, ctx: &mut TEEC_Context) -> crate::Result<()> {
         let rslt = unsafe { TEEC_InitializeContext(name.as_ptr() as *const _, ctx as *mut _) };
         if rslt == TEEC_SUCCESS {
             Ok(())
         } else {
-            Err(framework::Error::ClientCode(rslt))
+            Err(crate::Error::ClientCode(rslt))
         }
     }
 }

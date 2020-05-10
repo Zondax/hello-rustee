@@ -1,8 +1,6 @@
-use crate::{
-    wrapper::os::raw::{trace_get_level, trace_set_level, utee_log},
-    StackStr,
-};
+use crate::wrapper::raw::{trace_get_level, trace_set_level, utee_log};
 use core::fmt;
+use zondee::StackStr;
 
 pub struct Trace;
 

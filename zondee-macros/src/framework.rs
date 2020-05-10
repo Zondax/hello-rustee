@@ -17,18 +17,18 @@ pub fn os_invoke_command(input: TokenStream) -> TokenStream {
             _sess_ctx: *mut core::ffi::c_void,
             _cmd_id: u32,
             param_types: u32,
-            params: &mut [zondee::wrapper::os::raw::TEE_Param; 4],
-        ) -> zondee::wrapper::os::raw::TEE_Result {
-            let mut params = zondee::wrapper::os::params(params, param_types);
+            params: &mut [zondee_utee::wrapper::raw::TEE_Param; 4],
+        ) -> zondee_utee::wrapper::raw::TEE_Result {
+            let mut params = zondee_utee::wrapper::params(params, param_types);
             let mut scratch = [0; 128];
             let mut input_mem = unsafe { params[0].as_memref().expect("Buffer doesn't exist") };
             let decoded: #fun_arg_ty;
-            decoded = zondee::framework::deserialize(input_mem.buffer(), &mut scratch);
+            decoded = zondee::deserialize(input_mem.buffer(), &mut scratch);
             match #fun_name(decoded) {
                 Ok(output) => {
                     let mut output_mem = unsafe { params[1].as_memref().expect("Buffer doesn't exist") };
-                    zondee::framework::serialize(&output, output_mem.buffer());
-                    zondee::wrapper::os::raw::TEE_SUCCESS
+                    zondee::serialize(&output, output_mem.buffer());
+                    zondee_utee::wrapper::raw::TEE_SUCCESS
                 },
                 Err(e) => e as u32
             }

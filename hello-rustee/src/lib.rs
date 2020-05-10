@@ -1,10 +1,10 @@
-use zondee::{wrapper::os, StackStr};
+use zondee::{Uuid, StackStr};
 
-pub const UUID: os::Uuid = os::Uuid {
-    timeLow: 2179707489,
-    timeMid: 45827,
-    timeHiAndVersion: 19152,
-    clockSeqAndNode: [186, 244, 215, 41, 130, 228, 122, 139],
+pub const UUID: Uuid = Uuid {
+    time_low: 2179707489,
+    time_mid: 45827,
+    time_hi_and_version: 19152,
+    clock_seq_and_node: [186, 244, 215, 41, 130, 228, 122, 139],
 };
 
 #[derive(Debug, serde::Deserialize, serde::Serialize)]

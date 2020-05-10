@@ -13,6 +13,7 @@ mod user_ta_header;
 #[allow(clippy::all, non_camel_case_types)]
 mod uuid;
 
+#[cfg(feature = "with-zondee-macros")]
 pub use zondee_macros::{
     wrapper_os_close_session as close_session, wrapper_os_create as create,
     wrapper_os_destroy as destroy, wrapper_os_invoke_command as invoke_command,

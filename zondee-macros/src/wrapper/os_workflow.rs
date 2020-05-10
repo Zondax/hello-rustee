@@ -9,10 +9,10 @@ pub fn os_create(input: TokenStream) -> TokenStream {
     let fun_name = &fun.sig.ident;
     quote!(
         #[no_mangle]
-        pub extern "C" fn TA_CreateEntryPoint() -> zondee::wrapper::os::raw::TEE_Result {
-            let rslt: zondee::wrapper::os::Result<()> = #fun_name();
+        pub extern "C" fn TA_CreateEntryPoint() -> zondee_utee::wrapper::raw::TEE_Result {
+            let rslt: zondee_utee::wrapper::Result<()> = #fun_name();
             match rslt {
-                Ok(_) => zondee::wrapper::os::raw::TEE_SUCCESS,
+                Ok(_) => zondee_utee::wrapper::raw::TEE_SUCCESS,
                 Err(e) => e as u32
             }
         }
@@ -29,12 +29,12 @@ pub fn os_open_session(input: TokenStream) -> TokenStream {
         #[no_mangle]
         pub extern "C" fn TA_OpenSessionEntryPoint(
             _param_types: u32,
-            _params: &mut [zondee::wrapper::os::raw::TEE_Param; 4],
+            _params: &mut [zondee_utee::wrapper::raw::TEE_Param; 4],
             _sess_ctx: *mut *mut core::ffi::c_void,
-        ) -> zondee::wrapper::os::raw::TEE_Result {
-            let rslt: zondee::wrapper::os::Result<()> = #fun_name();
+        ) -> zondee_utee::wrapper::raw::TEE_Result {
+            let rslt: zondee_utee::wrapper::Result<()> = #fun_name();
             match rslt {
-                Ok(_) => zondee::wrapper::os::raw::TEE_SUCCESS,
+                Ok(_) => zondee_utee::wrapper::raw::TEE_SUCCESS,
                 Err(e) => e as u32
             }
         }
@@ -53,10 +53,10 @@ pub fn os_invoke_command(input: TokenStream) -> TokenStream {
             _sess_ctx: *mut core::ffi::c_void,
             cmd_id: u32,
             param_types: u32,
-            params: &mut [zondee::wrapper::os::raw::TEE_Param; 4],
-        ) -> zondee::wrapper::os::raw::TEE_Result {
-            let mut params = zondee::wrapper::os::params(params, param_types);
-            let fun: fn(u32, &mut zondee::wrapper::os::params) -> zondee::wrapper::os::Result<()> = #fun_name;
+            params: &mut [zondee_utee::wrapper::raw::TEE_Param; 4],
+        ) -> zondee_utee::wrapper::raw::TEE_Result {
+            let mut params = zondee_utee::wrapper::params(params, param_types);
+            let fun: fn(u32, &mut zondee_utee::wrapper::params) -> zondee_utee::wrapper::Result<()> = #fun_name;
             match fun(cmd_id, &mut parameters) {
                 Ok(_) => {
                     optee_utee_sys::TEE_SUCCESS

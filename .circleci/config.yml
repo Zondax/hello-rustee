@@ -9,9 +9,9 @@ jobs:
       - run:
           command: . $HOME/.cargo/env && make
           environment:
-            CLIENT_ROOT: /home/zondax/optee/out-br/host/arm-buildroot-linux-gnueabihf/sysroot/usr
             COMPILER_PREFIX: /home/zondax/optee/toolchains/aarch32/bin/arm-linux-gnueabihf-
             OS_ROOT: /home/zondax/optee/optee_os/out/arm/export-ta_arm32
+            TEEC_ROOT: /home/zondax/optee/out-br/host/arm-buildroot-linux-gnueabihf/sysroot/usr
           name: Build
   build_armv8:
     docker:
@@ -21,9 +21,9 @@ jobs:
       - run:
           command: . $HOME/.cargo/env && make
           environment:
-            CLIENT_ROOT: /home/zondax/optee/out-br/host/aarch64-buildroot-linux-gnu/sysroot/usr
             COMPILER_PREFIX: /home/zondax/optee/toolchains/aarch64/bin/arm-linux-gnueabihf-
             OS_ROOT: /home/zondax/optee/optee_os/out/arm/export-ta_arm64
+            TEEC_ROOT: /home/zondax/optee/out-br/host/aarch64-buildroot-linux-gnu/sysroot/usr
           name: Build
 
 workflows:

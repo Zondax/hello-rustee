@@ -1,21 +1,11 @@
-[build-dependencies]
-bindgen = { default-features = false, version = "0.53" }
-
 [dependencies]
-libc = { default-features = false, version = "0.2" }
 serde = { default-features = false, optional = true, version = "1.0" }
 serde_cbor = { default-features = false, optional = true, version = "0.11" }
-uuid = { default-features = false, optional = true, version = "0.8" }
-zondee-macros = { optional = true, path = "../zondee-macros", version = "0.1" }
 
 [features]
 default = []
-framework = ["with-serde", "with-serde_cbor", "with-uuid", "with-zondee-macros", "zondee-macros/framework"]
-std = []
-with-serde = ["serde/std", "serde_cbor/std", "uuid/std"]
+with-serde = ["serde"]
 with-serde_cbor = ["serde_cbor"]
-with-uuid = ["uuid"]
-with-zondee-macros = ["zondee-macros"]
 
 [package]
 authors = ["Zondax GmbH <info@zondax.ch>"]

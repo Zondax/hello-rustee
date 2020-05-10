@@ -1,4 +1,4 @@
-use crate::wrapper::client::{raw::TEEC_Operation, Param, ParamTypes};
+use crate::wrapper::{raw::TEEC_Operation, Param, ParamTypes};
 use core::marker::PhantomData;
 
 /// This type defines the payload of either an open session operation or an

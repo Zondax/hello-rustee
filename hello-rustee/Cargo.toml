@@ -8,8 +8,10 @@ path = "src/ta.rs"
 
 [dependencies]
 libc = { default-features = false, version = "0.2" }
-zondee = { features = ["framework"], path = "../zondee" }
 serde = { default-features = false, features = ["derive"], version = "1.0" }
+zondee = { features = ["with-serde", "with-serde_cbor"], path = "../zondee" }
+zondee-teec = { features = ["framework"], path = "../zondee-teec" }
+zondee-utee = { features = ["framework"], path = "../zondee-utee" }
 
 [lib]
 name = "hello_rustee"

@@ -1,0 +1,11 @@
+[dependencies]
+reqwest = { default-features = false, features = ["json"], version = "0.10" }
+serde = { default-features = false, optional = true, version = "1.0" }
+tokio = { default-features = false, features = ["macros", "rt-core"], version = "0.2" }
+
+[package]
+authors = ["Zondax GmbH <info@zondax.ch>"]
+edition = "2018"
+name = "remote-signing-request"
+readme = "README.md"
+version = "0.1.0"

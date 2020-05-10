@@ -1,6 +1,6 @@
 // https://github.com/mesalock-linux/rust-optee-trustzone-sdk/blob/master/optee-utee/src/param.rs
 
-use crate::wrapper::os::{
+use crate::wrapper::{
     self,
     raw::{MemRef, TEE_Param, Value},
 };
@@ -19,7 +19,7 @@ impl Param {
         }
     }
 
-    pub unsafe fn as_value(&mut self) -> os::Result<ParamValue> {
+    pub unsafe fn as_value(&mut self) -> wrapper::Result<ParamValue> {
         match self.param_type {
             ParamType::ValueInput | ParamType::ValueInout | ParamType::ValueOutput => {
                 Ok(ParamValue {
@@ -28,11 +28,11 @@ impl Param {
                     phantom: PhantomData,
                 })
             }
-            _ => Err(os::Error::BadParameters),
+            _ => Err(wrapper::Error::BadParameters),
         }
     }
 
-    pub unsafe fn as_memref(&mut self) -> os::Result<ParamMemRef> {
+    pub unsafe fn as_memref(&mut self) -> wrapper::Result<ParamMemRef> {
         match self.param_type {
             ParamType::MemRefInout | ParamType::MemRefInput | ParamType::MemRefOutput => {
                 Ok(ParamMemRef {
@@ -41,7 +41,7 @@ impl Param {
                     phantom: PhantomData,
                 })
             }
-            _ => Err(os::Error::BadParameters),
+            _ => Err(wrapper::Error::BadParameters),
         }
     }
 

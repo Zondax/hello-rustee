@@ -1,6 +1,6 @@
 // https://github.com/mesalock-linux/rust-optee-trustzone-sdk/blob/9785e927b14b607f3d052821b2df6d8a60535a79/optee-teec/src/parameter.rs
 
-use crate::wrapper::client::raw::{TEEC_Parameter, TEEC_TempMemoryReference};
+use crate::wrapper::raw::{TEEC_Parameter, TEEC_TempMemoryReference};
 use core::{marker::PhantomData, mem};
 
 pub trait Param {

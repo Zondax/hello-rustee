@@ -107,15 +107,15 @@ pub fn os_params(input: TokenStream) -> TokenStream {
         const TRACE_EXT_PREFIX: &[u8] = #trace_ext_prefix;
         const TRACE_LEVEL: i32 = #trace_level;
 
-        static FLAG_BOOL: bool = (TA_FLAGS & zondee::wrapper::os::TA_FLAG_SINGLE_INSTANCE) != 0;
-        static FLAG_MULTI: bool = (TA_FLAGS & zondee::wrapper::os::TA_FLAG_MULTI_SESSION) != 0;
-        static FLAG_INSTANCE: bool = (TA_FLAGS & zondee::wrapper::os::TA_FLAG_INSTANCE_KEEP_ALIVE) != 0;
+        static FLAG_BOOL: bool = (TA_FLAGS & zondee_utee::wrapper::TA_FLAG_SINGLE_INSTANCE) != 0;
+        static FLAG_MULTI: bool = (TA_FLAGS & zondee_utee::wrapper::TA_FLAG_MULTI_SESSION) != 0;
+        static FLAG_INSTANCE: bool = (TA_FLAGS & zondee_utee::wrapper::TA_FLAG_INSTANCE_KEEP_ALIVE) != 0;
 
         extern "C" {
             fn __utee_entry(
                 func: libc::c_ulong,
                 session_id: libc::c_ulong,
-                up: *mut zondee::wrapper::os::utee_params,
+                up: *mut zondee_utee::wrapper::utee_params,
                 cmd_id: libc::c_ulong,
             );
         }
@@ -127,7 +127,7 @@ pub fn os_params(input: TokenStream) -> TokenStream {
 
         #[no_mangle]
         #[link_section = ".ta_head"]
-        pub static ta_head: zondee::wrapper::os::ta_head = zondee::wrapper::os::ta_head {
+        pub static ta_head: zondee_utee::wrapper::ta_head = zondee_utee::wrapper::ta_head {
             uuid: #uuid,
             stack_size: TA_STACK_SIZE + TA_FRAMEWORK_STACK_SIZE,
             flags: TA_FLAGS,
@@ -135,7 +135,7 @@ pub fn os_params(input: TokenStream) -> TokenStream {
                 as unsafe extern "C" fn(
                     libc::c_ulong,
                     libc::c_ulong,
-                    *mut zondee::wrapper::os::utee_params,
+                    *mut zondee_utee::wrapper::utee_params,
                     libc::c_ulong,
                 ),
         };
@@ -151,50 +151,50 @@ pub fn os_params(input: TokenStream) -> TokenStream {
         pub static ta_num_props: libc::size_t = 9;
 
         #[no_mangle]
-        pub static ta_props: [zondee::wrapper::os::user_ta_property; 9] = [
-            zondee::wrapper::os::user_ta_property {
-                name: zondee::wrapper::os::raw::TA_PROP_STR_SINGLE_INSTANCE.as_ptr() as *const _,
-                prop_type: zondee::wrapper::os::raw::user_ta_prop_type_USER_TA_PROP_TYPE_BOOL,
+        pub static ta_props: [zondee_utee::wrapper::user_ta_property; 9] = [
+            zondee_utee::wrapper::user_ta_property {
+                name: zondee_utee::wrapper::raw::TA_PROP_STR_SINGLE_INSTANCE.as_ptr() as *const _,
+                prop_type: zondee_utee::wrapper::raw::user_ta_prop_type_USER_TA_PROP_TYPE_BOOL,
                 value: &FLAG_BOOL as *const bool as *mut _,
             },
-            zondee::wrapper::os::user_ta_property {
-                name: zondee::wrapper::os::raw::TA_PROP_STR_MULTI_SESSION.as_ptr() as *const _,
-                prop_type: zondee::wrapper::os::raw::user_ta_prop_type_USER_TA_PROP_TYPE_BOOL,
+            zondee_utee::wrapper::user_ta_property {
+                name: zondee_utee::wrapper::raw::TA_PROP_STR_MULTI_SESSION.as_ptr() as *const _,
+                prop_type: zondee_utee::wrapper::raw::user_ta_prop_type_USER_TA_PROP_TYPE_BOOL,
                 value: &FLAG_MULTI as *const bool as *mut _,
             },
-            zondee::wrapper::os::user_ta_property {
-                name: zondee::wrapper::os::raw::TA_PROP_STR_KEEP_ALIVE.as_ptr() as *const _,
-                prop_type: zondee::wrapper::os::raw::user_ta_prop_type_USER_TA_PROP_TYPE_BOOL,
+            zondee_utee::wrapper::user_ta_property {
+                name: zondee_utee::wrapper::raw::TA_PROP_STR_KEEP_ALIVE.as_ptr() as *const _,
+                prop_type: zondee_utee::wrapper::raw::user_ta_prop_type_USER_TA_PROP_TYPE_BOOL,
                 value: &FLAG_INSTANCE as *const bool as *mut _,
             },
-            zondee::wrapper::os::user_ta_property {
-                name: zondee::wrapper::os::raw::TA_PROP_STR_DATA_SIZE.as_ptr() as *const _,
-                prop_type: zondee::wrapper::os::raw::user_ta_prop_type_USER_TA_PROP_TYPE_U32,
+            zondee_utee::wrapper::user_ta_property {
+                name: zondee_utee::wrapper::raw::TA_PROP_STR_DATA_SIZE.as_ptr() as *const _,
+                prop_type: zondee_utee::wrapper::raw::user_ta_prop_type_USER_TA_PROP_TYPE_U32,
                 value: &TA_DATA_SIZE as *const u32 as *mut _,
             },
-            zondee::wrapper::os::user_ta_property {
-                name: zondee::wrapper::os::raw::TA_PROP_STR_STACK_SIZE.as_ptr() as *const _,
-                prop_type: zondee::wrapper::os::raw::user_ta_prop_type_USER_TA_PROP_TYPE_U32,
+            zondee_utee::wrapper::user_ta_property {
+                name: zondee_utee::wrapper::raw::TA_PROP_STR_STACK_SIZE.as_ptr() as *const _,
+                prop_type: zondee_utee::wrapper::raw::user_ta_prop_type_USER_TA_PROP_TYPE_U32,
                 value: &TA_STACK_SIZE as *const u32 as *mut _,
             },
-            zondee::wrapper::os::user_ta_property {
-                name: zondee::wrapper::os::raw::TA_PROP_STR_VERSION.as_ptr() as *const _,
-                prop_type: zondee::wrapper::os::raw::user_ta_prop_type_USER_TA_PROP_TYPE_STRING,
+            zondee_utee::wrapper::user_ta_property {
+                name: zondee_utee::wrapper::raw::TA_PROP_STR_VERSION.as_ptr() as *const _,
+                prop_type: zondee_utee::wrapper::raw::user_ta_prop_type_USER_TA_PROP_TYPE_STRING,
                 value: TA_VERSION as *const [u8] as *mut _,
             },
-            zondee::wrapper::os::user_ta_property {
-                name: zondee::wrapper::os::raw::TA_PROP_STR_DESCRIPTION.as_ptr() as *const _,
-                prop_type: zondee::wrapper::os::raw::user_ta_prop_type_USER_TA_PROP_TYPE_STRING,
+            zondee_utee::wrapper::user_ta_property {
+                name: zondee_utee::wrapper::raw::TA_PROP_STR_DESCRIPTION.as_ptr() as *const _,
+                prop_type: zondee_utee::wrapper::raw::user_ta_prop_type_USER_TA_PROP_TYPE_STRING,
                 value: TA_DESCRIPTION as *const [u8] as *mut _,
             },
-            zondee::wrapper::os::user_ta_property {
+            zondee_utee::wrapper::user_ta_property {
                 name: "gp.ta.description\0".as_ptr() as *const _,
-                prop_type: zondee::wrapper::os::raw::user_ta_prop_type_USER_TA_PROP_TYPE_STRING,
+                prop_type: zondee_utee::wrapper::raw::user_ta_prop_type_USER_TA_PROP_TYPE_STRING,
                 value: EXT_PROP_VALUE_1 as *const [u8] as *mut _,
             },
-            zondee::wrapper::os::user_ta_property {
+            zondee_utee::wrapper::user_ta_property {
                 name: "gp.ta.version\0".as_ptr() as *const _,
-                prop_type: zondee::wrapper::os::raw::user_ta_prop_type_USER_TA_PROP_TYPE_U32,
+                prop_type: zondee_utee::wrapper::raw::user_ta_prop_type_USER_TA_PROP_TYPE_U32,
                 value: &EXT_PROP_VALUE_2 as *const u32 as *mut _,
             },
         ];
