@@ -1,5 +1,5 @@
-use crate::StackStr;
 use core::fmt::Write;
+use heapless::consts::U512;
 
 #[cfg(all(feature = "with-serde", feature = "with-serde_cbor"))]
 pub fn deserialize<'a: 'b, 'b, T>(bytes: &'a [u8], scratch: &mut [u8]) -> T
@@ -21,11 +21,11 @@ where
         .expect("Bad instance representation");
 }
 
-pub fn to_hex(data: &[u8]) -> crate::Result<StackStr<[u8; 512]>> {
+pub fn to_hex(data: &[u8]) -> crate::Result<heapless::String<U512>> {
     if data.len() * 2 >= 512 {
         return Err(crate::Error::InvalidHexInput);
     }
-    let mut buf = StackStr::default();
+    let mut buf = heapless::String::default();
     for &byte in data {
         write!(&mut buf, "{:02x}", byte).expect("Bad hex string");
     }

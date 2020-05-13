@@ -1,14 +1,15 @@
 use jsonrpc_core::{IoHandler, Params, Value};
 use remote_signer::{Input, Output, UUID};
 use warp::Filter;
-use zondee::{to_hex, StackStr, StackVec};
+use zondee::{to_hex,};
 use zondee_teec::framework::Client;
+use heapless::consts::U256;
 
 #[tokio::main]
 async fn main() {
     let mut io = IoHandler::<()>::default();
     io.add_method("sign", |params: Params| {
-        let bytes: StackStr<[u8; 256]> = params.parse().unwrap();
+        let bytes: heapless::String<U256> = params.parse().unwrap();
         let ctx = Default::default();
         let mut client = Client::new(ctx, "HOST", Default::default()).unwrap();
         client
@@ -25,7 +26,7 @@ async fn main() {
 
 fn sign(client: &mut Client, bytes_str: &str) -> zondee_teec::Result<String> {
     let input = Input::Sign({
-        let mut sv = StackVec::default();
+        let mut sv = heapless::Vec::default();
         sv.extend(bytes_str.as_bytes().iter().copied());
         sv
     });

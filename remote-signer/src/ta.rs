@@ -4,7 +4,6 @@
 use rand_core::OsRng;
 use remote_signer::{Input, Output, UUID};
 use schnorrkel::{signing_context, Keypair};
-use zondee::StackVec;
 use zondee_utee::{
     framework::invoke_command,
     wrapper::{self, close_session, create, destroy, open_session},
@@ -32,7 +31,7 @@ fn invoke_command(input: Input) -> wrapper::Result<Output> {
         Input::Sign(msg) => Output::Sign({
             let keypair = Keypair::generate_with(OsRng);
             let ctx = signing_context(b"Some context");
-            let mut signature = StackVec::default();
+            let mut signature = heapless::Vec::default();
             signature.extend(keypair.sign(ctx.bytes(&msg)).to_bytes().iter().copied());
             signature
         }),

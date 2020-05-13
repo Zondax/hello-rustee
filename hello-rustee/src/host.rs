@@ -1,5 +1,4 @@
 use hello_rustee::{Input, Output, UUID};
-use zondee::StackStr;
 use zondee_teec::framework::Client;
 
 fn main() -> zondee_teec::Result<()> {
@@ -12,7 +11,7 @@ fn main() -> zondee_teec::Result<()> {
 }
 
 fn hello_from_ree(client: &mut Client) -> zondee_teec::Result<()> {
-    let input = Input::HelloFromRee(StackStr::from_str("🎉 From REE, this is a UTF-8 message"));
+    let input = Input::HelloFromRee("🎉 From REE, this is a UTF-8 message".into());
     let rslt: Output = client.invoke_command(input)?;
     println!("{:?}", rslt);
     Ok(())

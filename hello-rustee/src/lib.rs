@@ -1,4 +1,5 @@
-use zondee::{StackStr, Uuid};
+use zondee::Uuid;
+use heapless::consts::U64;
 
 pub const UUID: Uuid = Uuid {
     time_low: 2179707489,
@@ -9,12 +10,12 @@ pub const UUID: Uuid = Uuid {
 
 #[derive(Debug, serde::Deserialize, serde::Serialize)]
 pub enum Input {
-    HelloFromRee(StackStr<[u8; 64]>),
+    HelloFromRee(heapless::String<U64>),
     Version,
 }
 
 #[derive(Debug, serde::Deserialize, serde::Serialize)]
 pub enum Output {
-    HelloFromTee(StackStr<[u8; 64]>),
+    HelloFromTee(heapless::String<U64>),
     Version(u32),
 }

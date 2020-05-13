@@ -1,4 +1,5 @@
 [dependencies]
+heapless = { default-features = false, version = "0.5" }
 serde = { default-features = false, optional = true, version = "1.0" }
 serde_cbor = { default-features = false, optional = true, version = "0.11" }
 

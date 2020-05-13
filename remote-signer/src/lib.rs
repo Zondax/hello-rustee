@@ -1,5 +1,5 @@
-use schnorrkel::SIGNATURE_LENGTH;
-use zondee::{StackVec, Uuid};
+use heapless::consts::{U64, U128};
+use zondee::{Uuid};
 
 pub const UUID: Uuid = Uuid {
     time_low: 2179707489,
@@ -10,10 +10,10 @@ pub const UUID: Uuid = Uuid {
 
 #[derive(Debug, serde::Deserialize, serde::Serialize)]
 pub enum Input {
-    Sign(StackVec<[u8; 128]>),
+    Sign(heapless::Vec<u8, U128>),
 }
 
 #[derive(Debug, serde::Deserialize, serde::Serialize)]
 pub enum Output {
-    Sign(StackVec<[u8; SIGNATURE_LENGTH]>),
+    Sign(heapless::Vec<u8, U64>),
 }

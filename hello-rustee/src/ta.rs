@@ -2,11 +2,11 @@
 #![no_std]
 
 use hello_rustee::{Input, Output, UUID};
-use zondee::StackStr;
 use zondee_utee::{
     framework::invoke_command,
     wrapper::{self, close_session, create, destroy, open_session, Trace},
 };
+
 
 wrapper::params!(
     wrapper::Uuid::from_fields(UUID.as_fields()),
@@ -29,7 +29,7 @@ fn invoke_command(input: Input) -> wrapper::Result<Output> {
     Ok(match input {
         Input::HelloFromRee(hello_from_ree) => {
             Trace::msg(format_args!("{}", hello_from_ree.as_str()));
-            Output::HelloFromTee(StackStr::from_str("From TEE, this is a UTF-8 message 🎊"))
+            Output::HelloFromTee("From TEE, this is a UTF-8 message 🎊".into())
         }
         Input::Version => Output::Version(42),
     })

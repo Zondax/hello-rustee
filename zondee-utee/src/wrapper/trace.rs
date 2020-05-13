@@ -1,6 +1,6 @@
 use crate::wrapper::raw::{trace_get_level, trace_set_level, utee_log};
 use core::fmt;
-use zondee::StackStr;
+use heapless::consts::U64;
 
 pub struct Trace;
 
@@ -10,8 +10,9 @@ impl Trace {
     }
 
     pub fn msg(args: fmt::Arguments) {
-        let ss: StackStr<[u8; 64]> = StackStr::from_arguments(args);
-        unsafe { utee_log(ss.as_str().as_ptr() as *const _, ss.as_str().len() as _) }
+        let mut s: heapless::String<U64> = heapless::String::new();
+        fmt::write(&mut s, args).expect("Bad formatting");
+        unsafe { utee_log(s.as_str().as_ptr() as *const _, s.as_str().len() as _) }
     }
 
     pub fn set_level(level: i32) {

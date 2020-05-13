@@ -2,6 +2,7 @@
 bindgen = { default-features = false, version = "0.53" }
 
 [dependencies]
+heapless = { default-features = false, version = "0.5" }
 libc = { default-features = false, version = "0.2" }
 zondee = { path = "../zondee", version = "0.1" }
 zondee-macros = { optional = true, path = "../zondee-macros", version = "0.1" }

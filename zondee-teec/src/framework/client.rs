@@ -8,7 +8,7 @@ use crate::wrapper::{
     Operation, ParamNone, ParamTmpRef,
 };
 use core::ptr::null_mut;
-use zondee::StackVec;
+use heapless::consts::U256;
 
 #[derive(Debug)]
 pub struct Client {
@@ -55,8 +55,8 @@ impl Client {
         T: serde::Serialize,
         U: for<'a> serde::Deserialize<'a>,
     {
-        let mut input_buffer = StackVec::new([0; 256], 0);
-        let mut output_buffer = StackVec::new([0; 256], 0);
+        let mut input_buffer = heapless::Vec::<u8, U256>::new();
+        let mut output_buffer = heapless::Vec::<u8, U256>::new();
 
         zondee::serialize(&instance, &mut input_buffer);
         let p0 = ParamTmpRef::new_input(&input_buffer);
