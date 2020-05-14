@@ -1,1 +1,1 @@
-pub use zondee_macros::framework_os_invoke_command as invoke_command;
+pub use zondee_macros::framework_utee_setup as setup;

@@ -4,7 +4,7 @@ use proc_macro::TokenStream;
 use quote::quote;
 use syn::parse_macro_input;
 
-pub fn os_create(input: TokenStream) -> TokenStream {
+pub fn utee_create(input: TokenStream) -> TokenStream {
     let fun = parse_macro_input!(input as syn::ItemFn);
     let fun_name = &fun.sig.ident;
     quote!(
@@ -22,7 +22,7 @@ pub fn os_create(input: TokenStream) -> TokenStream {
     .into()
 }
 
-pub fn os_open_session(input: TokenStream) -> TokenStream {
+pub fn utee_open_session(input: TokenStream) -> TokenStream {
     let fun = parse_macro_input!(input as syn::ItemFn);
     let fun_name = &fun.sig.ident;
     quote!(
@@ -44,24 +44,23 @@ pub fn os_open_session(input: TokenStream) -> TokenStream {
     .into()
 }
 
-pub fn os_invoke_command(input: TokenStream) -> TokenStream {
+pub fn utee_invoke_command(input: TokenStream) -> TokenStream {
     let fun = parse_macro_input!(input as syn::ItemFn);
     let fun_name = &fun.sig.ident;
     quote!(
         #[no_mangle]
         pub extern "C" fn TA_InvokeCommandEntryPoint(
             _sess_ctx: *mut core::ffi::c_void,
-            cmd_id: u32,
+            id: u32,
             param_types: u32,
-            params: &mut [zondee_utee::wrapper::raw::TEE_Param; 4],
+            raw_params: &mut [zondee_utee::wrapper::raw::TEE_Param; 4],
         ) -> zondee_utee::wrapper::raw::TEE_Result {
-            let mut params = zondee_utee::wrapper::params(params, param_types);
-            let fun: fn(u32, &mut zondee_utee::wrapper::params) -> zondee_utee::wrapper::Result<()> = #fun_name;
-            match fun(cmd_id, &mut parameters) {
-                Ok(_) => {
-                    optee_utee_sys::TEE_SUCCESS
-                },
-                Err(e) => e.raw_code()
+            let mut params = zondee_utee::wrapper::params(raw_params, param_types);
+            let fun: fn(u32, &mut [zondee_utee::wrapper::Param; 4]) -> zondee_utee::wrapper::Result<()>;
+            fun = #fun_name;
+            match fun(id, &mut params) {
+                Ok(_) => zondee_utee::wrapper::raw::TEE_SUCCESS,
+                Err(e) => e as u32
             }
         }
 
@@ -70,7 +69,7 @@ pub fn os_invoke_command(input: TokenStream) -> TokenStream {
     .into()
 }
 
-pub fn os_close_session(input: TokenStream) -> TokenStream {
+pub fn utee_close_session(input: TokenStream) -> TokenStream {
     let fun = parse_macro_input!(input as syn::ItemFn);
     let fun_name = &fun.sig.ident;
     quote!(
@@ -84,7 +83,7 @@ pub fn os_close_session(input: TokenStream) -> TokenStream {
     .into()
 }
 
-pub fn os_destroy(input: TokenStream) -> TokenStream {
+pub fn utee_destroy(input: TokenStream) -> TokenStream {
     let fun = parse_macro_input!(input as syn::ItemFn);
     let fun_name = &fun.sig.ident;
     quote!(

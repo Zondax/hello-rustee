@@ -33,10 +33,6 @@ where
         }
     }
 
-    pub fn as_mut_raw_ptr(&mut self) -> *mut TEEC_Operation {
-        &mut self.raw
-    }
-
     pub fn params(&self) -> (A, B, C, D) {
         let (f0, f1, f2, f3) = ParamTypes::from(self.raw.paramTypes).into_flags();
         (
@@ -45,5 +41,11 @@ where
             C::from_raw(self.raw.params[2], f2),
             D::from_raw(self.raw.params[3], f3),
         )
+    }
+}
+
+impl<A, B, C, D> Operation<A, B, C, D> {
+    pub fn as_mut_ptr(&mut self) -> *mut TEEC_Operation {
+        &mut self.raw
     }
 }

@@ -3,29 +3,18 @@
 
 use hello_rustee::{Input, Output, UUID};
 use zondee_utee::{
-    framework::invoke_command,
-    wrapper::{self, close_session, create, destroy, open_session, Trace},
+    framework::setup,
+    wrapper::{self, Trace},
 };
-
 
 wrapper::params!(
     wrapper::Uuid::from_fields(UUID.as_fields()),
-    TA_DESCRIPTION: b"Hi RusTEE",
-    TA_VERSION: b"1.0"
+    DESCRIPTION: b"Hi RusTEE",
+    VERSION: b"1.0"
 );
 
-#[create]
-fn create() -> wrapper::Result<()> {
-    Ok(())
-}
-
-#[open_session]
-fn open_session() -> wrapper::Result<()> {
-    Ok(())
-}
-
-#[invoke_command]
-fn invoke_command(input: Input) -> wrapper::Result<Output> {
+#[setup]
+fn setup(input: Input) -> wrapper::Result<Output> {
     Ok(match input {
         Input::HelloFromRee(hello_from_ree) => {
             Trace::msg(format_args!("{}", hello_from_ree.as_str()));
@@ -34,9 +23,3 @@ fn invoke_command(input: Input) -> wrapper::Result<Output> {
         Input::Version => Output::Version(42),
     })
 }
-
-#[close_session]
-fn close_session() {}
-
-#[destroy]
-fn destroy() {}

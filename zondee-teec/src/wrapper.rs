@@ -1,3 +1,4 @@
+mod connection;
 mod operation;
 mod param;
 #[allow(
@@ -9,4 +10,4 @@ mod param;
 pub mod raw;
 mod uuid;
 
-pub use {self::uuid::*, operation::*, param::*};
+pub use {self::uuid::*, connection::*, operation::*, param::*};

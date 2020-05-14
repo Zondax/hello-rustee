@@ -8,7 +8,7 @@ use syn::{
     parse_macro_input, Expr, Ident, Lit, LitByteStr, Token,
 };
 
-struct OptionalOsParams {
+struct OptionalUteeParams {
     ext_prop_value_1: Lit,
     ext_prop_value_2: Lit,
     ta_data_size: Lit,
@@ -21,7 +21,7 @@ struct OptionalOsParams {
     trace_level: Lit,
 }
 
-impl Default for OptionalOsParams {
+impl Default for OptionalUteeParams {
     fn default() -> Self {
         Self {
             ext_prop_value_1: Lit::ByteStr(LitByteStr::new(b"EXT_PROP_1\0", Span::call_site())),
@@ -38,31 +38,31 @@ impl Default for OptionalOsParams {
     }
 }
 
-struct OsParams {
-    oop: OptionalOsParams,
+struct UteeParams {
+    oop: OptionalUteeParams,
     uuid: Expr,
 }
 
-impl Parse for OsParams {
+impl Parse for UteeParams {
     fn parse(input: ParseStream) -> parse::Result<Self> {
         let uuid: Expr = input.parse()?;
-        let mut oop = OptionalOsParams::default();
+        let mut oop = OptionalUteeParams::default();
         loop {
             if input.parse::<Token![,]>().is_err() {
                 break;
             }
             let ident = input.parse::<Ident>()?;
             let lit = match ident.to_string().as_str() {
-                "EXT_PROP_VALUE_1" => &mut oop.ext_prop_value_1,
-                "EXT_PROP_VALUE_2" => &mut oop.ext_prop_value_2,
-                "TA_DATA_SIZE" => &mut oop.ta_data_size,
-                "TA_DESCRIPTION" => &mut oop.ta_description,
-                "TA_FLAGS" => &mut oop.ta_flags,
-                "TA_FRAMEWORK_STACK_SIZE" => &mut oop.ta_framework_stack_size,
-                "TA_STACK_SIZE" => &mut oop.ta_stack_size,
-                "TA_VERSION" => &mut oop.ta_version,
+                "DATA_SIZE" => &mut oop.ta_data_size,
+                "DESCRIPTION" => &mut oop.ta_description,
+                "FLAGS" => &mut oop.ta_flags,
+                "FRAMEWORK_STACK_SIZE" => &mut oop.ta_framework_stack_size,
+                "PROP_VALUE_1" => &mut oop.ext_prop_value_1,
+                "PROP_VALUE_2" => &mut oop.ext_prop_value_2,
+                "STACK_SIZE" => &mut oop.ta_stack_size,
                 "TRACE_EXT_PREFIX" => &mut oop.trace_ext_prefix,
                 "TRACE_LEVEL" => &mut oop.trace_level,
+                "VERSION" => &mut oop.ta_version,
                 _ => break,
             };
             input.parse::<Token![:]>()?;
@@ -77,10 +77,10 @@ impl Parse for OsParams {
     }
 }
 
-pub fn os_params(input: TokenStream) -> TokenStream {
-    let OsParams {
+pub fn utee_params(input: TokenStream) -> TokenStream {
+    let UteeParams {
         oop:
-            OptionalOsParams {
+            OptionalUteeParams {
                 ext_prop_value_1,
                 ext_prop_value_2,
                 ta_data_size,
@@ -93,7 +93,7 @@ pub fn os_params(input: TokenStream) -> TokenStream {
                 trace_level,
             },
         uuid,
-    } = parse_macro_input!(input as OsParams);
+    } = parse_macro_input!(input as UteeParams);
 
     quote!(
         const EXT_PROP_VALUE_1: &[u8] = #ext_prop_value_1;

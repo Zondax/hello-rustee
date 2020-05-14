@@ -5,19 +5,18 @@ use crate::wrapper::{
         TEEC_InvokeCommand, TEEC_OpenSession, TEEC_Operation, TEEC_Session, TEEC_LOGIN_PUBLIC,
         TEEC_SUCCESS,
     },
-    Operation, ParamNone, ParamTmpRef,
+    Operation,
 };
 use core::ptr::null_mut;
-use heapless::consts::U256;
 
 #[derive(Debug)]
-pub struct Client {
+pub struct Connection {
     ctx: TEEC_Context,
     sess: TEEC_Session,
     return_origin: u32,
 }
 
-impl Client {
+impl Connection {
     pub fn new(mut ctx: TEEC_Context, name: &str, sess: TEEC_Session) -> crate::Result<Self> {
         Self::initialize_context(name, &mut ctx)?;
         Ok(Self {
@@ -46,35 +45,28 @@ impl Client {
         if rslt == TEEC_SUCCESS {
             Ok(())
         } else {
-            Err(crate::Error::ClientCodeWithOrigin(rslt, self.return_origin))
+            Err(crate::Error::ConnectionCodeWithOrigin(
+                rslt,
+                self.return_origin,
+            ))
         }
     }
 
-    pub fn invoke_command<T, U>(&mut self, instance: T) -> crate::Result<U>
-    where
-        T: serde::Serialize,
-        U: for<'a> serde::Deserialize<'a>,
-    {
-        let mut input_buffer = heapless::Vec::<u8, U256>::new();
-        let mut output_buffer = heapless::Vec::<u8, U256>::new();
-
-        zondee::serialize(&instance, &mut input_buffer);
-        let p0 = ParamTmpRef::new_input(&input_buffer);
-        let p1 = ParamTmpRef::new_output(&mut output_buffer);
-        let mut operation = Operation::new(p0, p1, ParamNone, ParamNone);
+    pub fn invoke_command<A, B, C, D>(
+        &mut self,
+        id: u32,
+        op: &mut Operation<A, B, C, D>,
+    ) -> crate::Result<()> {
         let rslt = unsafe {
-            TEEC_InvokeCommand(
-                &mut self.sess,
-                0,
-                operation.as_mut_raw_ptr(),
-                &mut self.return_origin,
-            )
+            TEEC_InvokeCommand(&mut self.sess, id, op.as_mut_ptr(), &mut self.return_origin)
         };
         if rslt == TEEC_SUCCESS {
-            let mut scratch = [0; 256];
-            Ok(zondee::deserialize(&output_buffer, &mut scratch))
+            Ok(())
         } else {
-            Err(crate::Error::ClientCodeWithOrigin(rslt, self.return_origin))
+            Err(crate::Error::ConnectionCodeWithOrigin(
+                rslt,
+                self.return_origin,
+            ))
         }
     }
 
@@ -83,12 +75,12 @@ impl Client {
         if rslt == TEEC_SUCCESS {
             Ok(())
         } else {
-            Err(crate::Error::ClientCode(rslt))
+            Err(crate::Error::ConnectionCode(rslt))
         }
     }
 }
 
-impl Drop for Client {
+impl Drop for Connection {
     fn drop(&mut self) {
         unsafe {
             TEEC_CloseSession(&mut self.sess as *mut _);

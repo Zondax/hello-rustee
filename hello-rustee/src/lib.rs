@@ -1,5 +1,5 @@
-use zondee::Uuid;
 use heapless::consts::U64;
+use zondee::Uuid;
 
 pub const UUID: Uuid = Uuid {
     time_low: 2179707489,

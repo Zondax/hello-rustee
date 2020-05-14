@@ -1,25 +1,22 @@
 use hello_rustee::{Input, Output, UUID};
-use zondee_teec::framework::Client;
+use zondee_teec::framework::send_msg;
 
 fn main() -> zondee_teec::Result<()> {
-    let ctx = Default::default();
-    let mut client = Client::new(ctx, "HOST", Default::default())?;
-    client.open_session(UUID.into(), &mut Default::default())?;
-    hello_from_ree(&mut client)?;
-    version(&mut client)?;
+    hello_from_ree()?;
+    version()?;
     Ok(())
 }
 
-fn hello_from_ree(client: &mut Client) -> zondee_teec::Result<()> {
+fn hello_from_ree() -> zondee_teec::Result<()> {
     let input = Input::HelloFromRee("🎉 From REE, this is a UTF-8 message".into());
-    let rslt: Output = client.invoke_command(input)?;
-    println!("{:?}", rslt);
+    let output: Output = send_msg(UUID.into(), input)?;
+    println!("{:?}", output);
     Ok(())
 }
 
-fn version(client: &mut Client) -> zondee_teec::Result<()> {
+fn version() -> zondee_teec::Result<()> {
     let input = Input::Version;
-    let rslt: Output = client.invoke_command(input)?;
-    println!("{:?}", rslt);
+    let output: Output = send_msg(UUID.into(), input)?;
+    println!("{:?}", output);
     Ok(())
 }

@@ -1,3 +1,3 @@
 # Optee
 
-Raw and safe wrappers around the native Optee calls.
+Common definitions around the `zondee-*` crates.
