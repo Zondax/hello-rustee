@@ -1,0 +1,43 @@
+[dependencies]
+zkms-common = {version = "0.1.0", path = "../zkms-common"}
+hex = "0.4.2"
+serde_json = "1.0.41"
+
+[dependencies.sp-keystore]
+version = "0.8.0"
+git = "https://github.com/paritytech/substrate.git"
+branch = "ben-remote-signer"
+features = ["std"]
+
+[dependencies.sc-keystore]
+version = "2.0.0"
+git = "https://github.com/paritytech/substrate.git"
+branch = "ben-remote-signer"
+
+[dependencies.sp-core]
+git = "https://github.com/paritytech/substrate.git" 
+version = "2.0.0"
+branch = "ben-remote-signer"
+
+[dependencies.sp-application-crypto]
+git = "https://github.com/paritytech/substrate.git" 
+version = "2.0.0"
+branch = "ben-remote-signer"
+features = ["full_crypto"]
+
+
+
+[lib]
+name = "zkms_keystore"
+path = "src/lib.rs"
+crate-type = ["rlib"]
+
+[package]
+authors = ["Zondax GmbH <info@zondax.ch>"]
+description = "Provides useful implementation for a key managment system"
+edition = "2018"
+license = "Apache-2.0"
+name = "zkms-keystore"
+readme = "README.md"
+repository = "https://github.com/Zondax/zkms-poc"
+version = "0.1.0"

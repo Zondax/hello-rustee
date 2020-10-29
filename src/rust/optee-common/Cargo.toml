@@ -1,0 +1,9 @@
+[package]
+name = "optee-common"
+version = "0.1.0"
+authors = ["Zondax GmbH <info@zondax.ch>"]
+edition = "2018"
+
+[dependencies]
+zondee_utee = {package = "zondee-utee", path = "../zondee-utee", version = "0.1.0", features = []}
+

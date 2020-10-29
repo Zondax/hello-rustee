@@ -14,6 +14,8 @@ CFLAGS 	+= -I../rust/host/include
 LDFLAGS += --hash-style=gnu
 LDLIBS 	+= -lteec -L$(TEEC_EXPORT)/lib
 LDLIBS 	+= -lrustee_host
+LDLIBS 	+= -lpthread
+LDLIBS 	+= -ldl
 
 # Add both search paths
 LDLIBS 	+= -L../rust/target/armv7-unknown-linux-gnueabihf/release

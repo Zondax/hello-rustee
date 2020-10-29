@@ -1,0 +1,33 @@
+[build-dependencies]
+
+[dependencies]
+serde = { version = "1.0.115", features = ["derive"] }
+serde_cbor = { version = "0.11" }
+futures = { version = "0.3.5", package = "futures", features = ["compat"] }
+
+[dependencies.sp-core]
+git = "https://github.com/paritytech/substrate.git" 
+version = "2.0.0"
+branch = "ben-remote-signer"
+
+[dependencies.sp-consensus-babe]
+git = "https://github.com/paritytech/substrate.git" 
+version = "0.8.0"
+branch = "ben-remote-signer"
+
+[dependencies.sp-keystore]
+version = "0.8.0"
+git = "https://github.com/paritytech/substrate.git"
+branch = "ben-remote-signer"
+features = ["std"]
+
+
+[package]
+authors = ["Zondax GmbH <info@zondax.ch>"]
+description = "Common definitions for zkms-client and zkms-server"
+edition = "2018"
+license = "Apache-2.0"
+name = "zkms-common"
+readme = "README.md"
+repository = "https://github.com/Zondax/zkms-poc"
+version = "0.1.0" 

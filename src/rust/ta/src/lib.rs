@@ -1,15 +1,20 @@
 #![no_std]
-#![no_builtins]
-
-mod optee;
+//#![no_builtins]
 
 #[cfg(test)]
 #[macro_use]
 extern crate log;
 
-use core::fmt::Write;
-use heapless::consts::*;
-use heapless::String;
+use optee_common::CommandId;
+use zondee_utee::wrapper::{
+    raw::{TEE_Param, TEE_PARAM_TYPES},
+    ParamType, Parameters, TeeErrorCode as Error, Trace,
+};
+
+mod optee;
+
+//use heapless::consts::*;
+//use heapless::String;
 
 //use schnorrkel;
 //use schnorrkel::SIGNATURE_LENGTH;
@@ -26,7 +31,7 @@ fn panic(_info: &PanicInfo) -> ! {
 }
 
 /// convert array to hexstring
-pub fn to_hex_string(data: &[u8]) -> Result<String<U512>, String<U512>> {
+/*pub fn to_hex_string(data: &[u8]) -> Result<String<U512>, String<U512>> {
     if data.len() * 2 >= 512 {
         // FIXME: Improve error types
         return Err(String::from("data should be less than 256 bytes"));
@@ -42,6 +47,7 @@ pub fn to_hex_string(data: &[u8]) -> Result<String<U512>, String<U512>> {
 
     Ok(buf)
 }
+*/
 
 #[no_mangle]
 pub extern "C" fn ta_version() -> u8 {
@@ -74,10 +80,62 @@ pub extern "C" fn ta_sign(
     // let signature = keypair.sign(context.bytes(message));
     //
     // signature_out.copy_from_slice(&signature.to_bytes());
+    signature_out.iter_mut().for_each(|i| *i = 'a' as u8);
 
     3
 }
 
+#[no_mangle]
+pub extern "C" fn invoke_command(
+    cmd_id: u32,
+    param_types: u32,
+    parameters: &mut [TEE_Param; 4],
+) -> u32 {
+    let mut params = Parameters::from_raw(parameters, param_types);
+
+    match CommandId::from(cmd_id) {
+        CommandId::SignWith => Trace::msg(format_args!("{}", "Signing with")),
+        CommandId::SignWithAny => Trace::msg(format_args!("{}", "Signing with Any")),
+        CommandId::EncryptPhrase => {
+            let expected_param_types = TEE_PARAM_TYPES(
+                ParamType::MemRefInput as u32,
+                ParamType::MemRefOutput as u32,
+                ParamType::None as u32,
+                ParamType::None as u32,
+            );
+            if param_types != expected_param_types {
+                Trace::msg(format_args!("{}", "Bad parameters for Encryption request"));
+                return Error::BadParameters as _;
+            }
+            // for now just copy the data into the output buffer
+            let mut imemref = unsafe {
+                params
+                    .0
+                    .as_memref()
+                    .expect("this is safe, the type was previously check")
+            };
+            let mut omemref = unsafe {
+                params
+                    .1
+                    .as_memref()
+                    .expect("this is safe, the type was previously check")
+            };
+            if omemref.buffer().len() == imemref.buffer().len() {
+                omemref.buffer().copy_from_slice(imemref.buffer());
+                Trace::msg(format_args!(
+                    "{}",
+                    "Encrypted phrase copied into output buffer"
+                ));
+                return 0;
+            }
+        }
+        _ => {}
+    }
+
+    Error::NotSupported as u32
+}
+
+/*
 #[cfg(test)]
 mod tests {
     extern crate simple_logger;
@@ -102,4 +160,4 @@ mod tests {
 
         info!("Dummy {}", to_hex_string(&dummy).expect("error"));
     }
-}
+}*/

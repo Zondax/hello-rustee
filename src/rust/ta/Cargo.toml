@@ -9,6 +9,11 @@ readme = "README.md"
 name = "rustee_ta"
 crate-type = ["staticlib"]
 
+[dependencies]
+optee_common = {package = "optee-common", path = "../optee-common", version = "0.1.0"}
+zondee_utee = {package = "zondee-utee", path = "../zondee-utee", version = "0.1.0", features = []}
+arrayvec = {default-features = false, version = "0.5.2"}
+
 [target.armv7-unknown-linux-gnueabihf.dev-dependencies]
 panic-halt = "0.2.0"
 
@@ -21,17 +26,15 @@ features = ["getrandom"]
 version = "0.5.1"
 default-features = false
 
-[dependencies.schnorrkel]
-version = "0.9.1"
-default-features = false
+#[dependencies.schnorrkel]
+#version = "0.9.1"
+#default-features = false
 #features = ["u32_backend", "getrandom"]
-features = ["u32_backend"]
+#features = ["u32_backend"]
 
-[dependencies.heapless]
-version = "0.5.3"
 
 [dev-dependencies.log]
-version = "0.4.8"
+version = "0.4.11"
 
 [dev-dependencies.simple_logger]
-version = "1.6.0"
+version = "1.11.0"
