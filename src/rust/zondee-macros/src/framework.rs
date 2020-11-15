@@ -31,7 +31,6 @@ pub fn utee_setup(input: TokenStream) -> TokenStream {
         }
 
         #fun
-        
         #[zondee_utee::wrapper::close_session]
         fn close_session() {}
 

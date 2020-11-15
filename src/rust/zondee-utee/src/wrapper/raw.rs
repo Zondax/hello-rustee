@@ -1,4 +1,4 @@
-include!(concat!(core::env!("OUT_DIR"), "/utee.rs"));
+include!(concat!("utee.rs"));
 
 #[allow(non_snake_case)]
 pub fn TEE_PARAM_TYPES(t0: u32, t1: u32, t2: u32, t3: u32) -> u32 {

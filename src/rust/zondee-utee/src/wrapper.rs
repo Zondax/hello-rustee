@@ -1,5 +1,6 @@
 mod error;
 mod params;
+
 #[allow(
     clippy::all,
     non_camel_case_types,
@@ -7,9 +8,12 @@ mod params;
     non_upper_case_globals
 )]
 pub mod raw;
+
 mod trace;
+
 #[allow(clippy::all, non_camel_case_types)]
 mod user_ta_header;
+
 #[allow(clippy::all, non_camel_case_types)]
 mod uuid;
 
@@ -21,4 +25,4 @@ pub use zondee_macros::{
 };
 pub use {self::uuid::*, error::*, params::*, trace::*, user_ta_header::*};
 
-pub type Result<T> = core::result::Result<T, TeeErrorCode>;
+pub type Result<T> = core::result::Result<T, TaErrorCode>;

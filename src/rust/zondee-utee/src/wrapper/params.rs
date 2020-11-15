@@ -1,18 +1,15 @@
 // https://github.com/mesalock-linux/rust-optee-trustzone-sdk/blob/master/optee-utee/src/param.rs
 
-use crate::wrapper::{
-    self,
-    raw::{MemRef, TEE_Param, Value},
-};
+use crate::wrapper::{self, raw, TaErrorCode};
 use core::{marker::PhantomData, slice};
 
 pub struct Param {
     pub param_type: ParamType,
-    pub raw: *mut TEE_Param,
+    pub raw: *mut raw::TEE_Param,
 }
 
 impl Param {
-    pub fn from_raw(ptr: *mut TEE_Param, param_type: ParamType) -> Self {
+    pub fn from_raw(ptr: *mut raw::TEE_Param, param_type: ParamType) -> Self {
         Self {
             raw: ptr,
             param_type,
@@ -28,7 +25,7 @@ impl Param {
                     phantom: PhantomData,
                 })
             }
-            _ => Err(wrapper::TeeErrorCode::BadParameters),
+            _ => Err(TaErrorCode::BadParameters),
         }
     }
 
@@ -41,11 +38,11 @@ impl Param {
                     phantom: PhantomData,
                 })
             }
-            _ => Err(wrapper::TeeErrorCode::BadParameters),
+            _ => Err(TaErrorCode::BadParameters),
         }
     }
 
-    pub fn raw(&self) -> *mut TEE_Param {
+    pub fn raw(&self) -> *mut raw::TEE_Param {
         self.raw
     }
 }
@@ -53,7 +50,7 @@ impl Param {
 pub struct ParamMemRef<'a> {
     param_type: ParamType,
     phantom: PhantomData<&'a mut ()>,
-    raw: *mut MemRef,
+    raw: *mut raw::MemRef,
 }
 
 impl ParamMemRef<'_> {
@@ -67,7 +64,7 @@ impl ParamMemRef<'_> {
         self.param_type
     }
 
-    pub fn raw(&mut self) -> *mut MemRef {
+    pub fn raw(&mut self) -> *mut raw::MemRef {
         self.raw
     }
 
@@ -77,7 +74,7 @@ impl ParamMemRef<'_> {
 }
 
 pub struct ParamValue<'a> {
-    raw: *mut Value,
+    raw: *mut raw::Value,
     param_type: ParamType,
     phantom: PhantomData<&'a mut ()>,
 }
@@ -111,7 +108,7 @@ impl ParamValue<'_> {
 pub struct Parameters(pub Param, pub Param, pub Param, pub Param);
 
 impl Parameters {
-    pub fn from_raw(tee_params: &mut [TEE_Param; 4], n: u32) -> Self {
+    pub fn from_raw(tee_params: &mut [raw::TEE_Param; 4], n: u32) -> Self {
         let [f0, f1, f2, f3] = params_type(n);
         let p0 = Param::from_raw(&mut tee_params[0], f0);
         let p1 = Param::from_raw(&mut tee_params[1], f1);
@@ -147,7 +144,6 @@ impl From<u32> for ParamType {
         }
     }
 }
-
 
 pub fn params_type(n: u32) -> [ParamType; 4] {
     [
