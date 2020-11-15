@@ -2,7 +2,7 @@
 
 #[derive(Debug)]
 #[repr(u32)]
-pub enum TeeErrorCode {
+pub enum TaErrorCode {
     /// Non-specific cause.                                                                                                       
     Generic = 0xFFFF0000,
     /// Access privileges are not sufficient.                                                                                     
@@ -53,7 +53,7 @@ pub enum TeeErrorCode {
     Unknown = 0xFFFF3029,
 }
 
-impl From<u32> for TeeErrorCode {
+impl From<u32> for TaErrorCode {
     fn from(code: u32) -> Self {
         match code {
             0xFFFF0001..=0xFFFF0011 => unsafe { core::mem::transmute(code) },
@@ -63,40 +63,40 @@ impl From<u32> for TeeErrorCode {
     }
 }
 
-impl TeeErrorCode {
+impl TaErrorCode {
     pub fn as_str(&self) -> &'static str {
         match self {
-            TeeErrorCode::Generic => "Non-specific cause.",
-            TeeErrorCode::AccessDenied => "Access privileges are not sufficient.",
-            TeeErrorCode::Cancel => "The operation was canceled.",
-            TeeErrorCode::AccessConflict => "Concurrent accesses caused conflict.",
-            TeeErrorCode::ExcessData => "Too much data for the requested operation was passed.",
-            TeeErrorCode::BadFormat => "Input data was of invalid format.",
-            TeeErrorCode::BadParameters => "Input parameters were invalid.",
-            TeeErrorCode::BadState => "Operation is not valid in the current state.",
-            TeeErrorCode::ItemNotFound => "The requested data item is not found.",
-            TeeErrorCode::NotImplemented => {
+            TaErrorCode::Generic => "Non-specific cause.",
+            TaErrorCode::AccessDenied => "Access privileges are not sufficient.",
+            TaErrorCode::Cancel => "The operation was canceled.",
+            TaErrorCode::AccessConflict => "Concurrent accesses caused conflict.",
+            TaErrorCode::ExcessData => "Too much data for the requested operation was passed.",
+            TaErrorCode::BadFormat => "Input data was of invalid format.",
+            TaErrorCode::BadParameters => "Input parameters were invalid.",
+            TaErrorCode::BadState => "Operation is not valid in the current state.",
+            TaErrorCode::ItemNotFound => "The requested data item is not found.",
+            TaErrorCode::NotImplemented => {
                 "The requested operation should exist but is not yet implemented."
             }
-            TeeErrorCode::NotSupported => {
+            TaErrorCode::NotSupported => {
                 "The requested operation is valid but is not supported in this implementation."
             }
-            TeeErrorCode::NoData => "Expected data was missing.",
-            TeeErrorCode::OutOfMEmory => "System ran out of resources.",
-            TeeErrorCode::Busy => "The system is busy working on something else.",
-            TeeErrorCode::Communication => "Communication with a remote party failed.",
-            TeeErrorCode::Security => "A security fault was detected.",
-            TeeErrorCode::ShortBuffer => {
+            TaErrorCode::NoData => "Expected data was missing.",
+            TaErrorCode::OutOfMEmory => "System ran out of resources.",
+            TaErrorCode::Busy => "The system is busy working on something else.",
+            TaErrorCode::Communication => "Communication with a remote party failed.",
+            TaErrorCode::Security => "A security fault was detected.",
+            TaErrorCode::ShortBuffer => {
                 "The supplied buffer is too short for the generated output."
             }
-            TeeErrorCode::ExternalCancel => "Undocumented.",
-            TeeErrorCode::TargetDead => "Trusted Application has panicked during the operation.",
+            TaErrorCode::ExternalCancel => "Undocumented.",
+            TaErrorCode::TargetDead => "Trusted Application has panicked during the operation.",
 
-            TeeErrorCode::KeyNotSupported => "Key not supported",
-            TeeErrorCode::PairNotFound => "Pair was not found",
-            TeeErrorCode::ValidationError => "Validation error",
-            TeeErrorCode::Unavailable => "Keystore unavailable",
-            TeeErrorCode::Unknown => "Unknown error.",
+            TaErrorCode::KeyNotSupported => "Key not supported",
+            TaErrorCode::PairNotFound => "Pair was not found",
+            TaErrorCode::ValidationError => "Validation error",
+            TaErrorCode::Unavailable => "Keystore unavailable",
+            TaErrorCode::Unknown => "Unknown error.",
         }
     }
 }

@@ -5,8 +5,9 @@
 #[macro_use]
 extern crate log;
 
-use optee_common::{HandleTaCommand, TeeErrorCode as Error};
+use ta_app::borrow_mut_app;
 use zondee_utee::wrapper::{raw::TEE_Param, Parameters};
+use zondee_utee::{wrapper::TaErrorCode as Error, HandleTaCommand};
 
 mod optee;
 
@@ -26,7 +27,7 @@ pub extern "C" fn invoke_command(
     parameters: &mut [TEE_Param; 4],
 ) -> u32 {
     let mut params = Parameters::from_raw(parameters, param_types);
-    if let Some(ta_handler) = optee::get_ta_handler() {
+    if let Some(ta_handler) = borrow_mut_app().as_mut() {
         match ta_handler.handle_command(cmd_id, param_types, &mut params) {
             Err(code) => code as u32,
             _ => 0u32,

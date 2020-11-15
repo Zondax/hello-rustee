@@ -28,7 +28,7 @@ impl Param {
                     phantom: PhantomData,
                 })
             }
-            _ => Err(wrapper::TeeErrorCode::BadParameters),
+            _ => Err(wrapper::TaErrorCode::BadParameters),
         }
     }
 
@@ -41,7 +41,7 @@ impl Param {
                     phantom: PhantomData,
                 })
             }
-            _ => Err(wrapper::TeeErrorCode::BadParameters),
+            _ => Err(wrapper::TaErrorCode::BadParameters),
         }
     }
 
@@ -147,7 +147,6 @@ impl From<u32> for ParamType {
         }
     }
 }
-
 
 pub fn params_type(n: u32) -> [ParamType; 4] {
     [

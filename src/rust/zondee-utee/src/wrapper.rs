@@ -21,4 +21,4 @@ pub use zondee_macros::{
 };
 pub use {self::uuid::*, error::*, params::*, trace::*, user_ta_header::*};
 
-pub type Result<T> = core::result::Result<T, TeeErrorCode>;
+pub type Result<T> = core::result::Result<T, TaErrorCode>;
