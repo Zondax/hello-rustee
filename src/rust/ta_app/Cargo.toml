@@ -1,0 +1,11 @@
+[package]
+name = "ta_app"
+version = "0.1.0"
+authors = ["neithanmo <neithanmo@gmail.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+optee_common = {package = "optee-common", path = "../optee-common", version = "0.1.0"}
+zondee_utee = {package = "zondee-utee", path = "../zondee-utee", version = "0.1.0"}

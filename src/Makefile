@@ -42,8 +42,8 @@ CARGO_BIN ?= $(HOME)/.cargo/bin
 
 all:
 	cd rust && PATH="/usr/bin:$(PATH)" CARGO_HOME=$(shell pwd)/rust/.cargo $(CARGO_BIN)/cargo build --target $(RUST_TARGET) --release
-	$(MAKE) -C host CROSS_COMPILE="$(HOST_CROSS_COMPILE)"
-	$(MAKE) -C ta CROSS_COMPILE="$(TA_CROSS_COMPILE)" LDFLAGS="" 
+	$(MAKE) -C host CROSS_COMPILE="$(HOST_CROSS_COMPILE)" --no-builtin-variables
+	$(MAKE) -C ta CROSS_COMPILE="$(TA_CROSS_COMPILE)" LDFLAGS=""
 
 clean:
 	cd rust && CARGO_HOME=$(CARGO_CUSTOM_HOME) && $(CARGO_BIN)/cargo clean

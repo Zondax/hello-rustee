@@ -9,9 +9,4 @@
 )]
 
 pub mod jsonrpc_request;
-pub mod transferable_transcript;
-pub mod utils;
-
-pub use jsonrpc_request::{HandlerRequest, KeystoreRequest, KeystoreResponse, RequestMethod};
-pub use transferable_transcript::TransferableVRFTranscriptData;
-pub use utils::{deserialize, serialize};
+pub use jsonrpc_request::{HandleRequest, KeystoreRequest, KeystoreResponse, RequestMethod};

@@ -31,8 +31,8 @@ pub extern "C" fn host_test() -> u32 {
 
 #[no_mangle]
 pub extern "C" fn run() -> u32 {
-    // TODO: This handler should be persistant not in_memory
-    zkms_server::start_server(optee_handler::Handler::in_memory());
+    // Creates and runs the server instance by passing a request handler to be used
+    zkms_server::start_server(optee_handler::Handler::default());
 
     12345
 }

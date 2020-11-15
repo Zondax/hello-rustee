@@ -14,29 +14,22 @@ use tokio::task;
 
 use jsonrpc_tcp_server::ServerBuilder;
 
-use zkms_common::HandlerRequest;
-
-mod wasm_executor;
+use zkms_common::HandleRequest;
 
 pub mod config;
-pub(crate) mod local_handler;
 
 pub mod server;
 pub mod types;
 pub use config::ZkmsConfig;
 pub(crate) use server::ServerHandler;
 pub(crate) use types::RemoteSignerApi;
-pub(crate) use wasm_executor::Executor;
-
-pub(crate) const WASM_BINARY: &[u8] =
-    include_bytes!(concat!(env!("CARGO_MANIFEST_DIR"), "/wasm_runtime.wasm"));
 
 /// Starts the jsonrpc server
 /// # Arguments
 ///
 /// * `handler` - An optional handler that implements the HandlerRequest trait
 /// If it is None a default handler is used.
-pub fn start_server(handler: impl HandlerRequest + 'static) {
+pub fn start_server(handler: impl HandleRequest + 'static) {
     // TODO: later we may want to get the config settings from outside
     let config = ZkmsConfig::default();
 
@@ -48,7 +41,6 @@ pub fn start_server(handler: impl HandlerRequest + 'static) {
         let server_port = &config.start.port;
 
         let server_addr = format!("{}:{}", server_ip, server_port);
-        println!("conntection server to: {}", server_addr);
 
         let server = ServerHandler::new(handler);
 
