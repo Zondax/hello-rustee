@@ -15,6 +15,7 @@ LDFLAGS += --hash-style=gnu
 LDLIBS 	+= -lteec -L$(TEEC_EXPORT)/lib
 LDLIBS 	+= -lrustee_host
 LDLIBS 	+= -lpthread
+LDLIBS 	+= -lm
 LDLIBS 	+= -ldl
 
 # Add both search paths

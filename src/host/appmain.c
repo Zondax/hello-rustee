@@ -17,10 +17,7 @@ TEEC_Result call_rustee(TEEC_Session *sess) {
 
     TEEC_Operation op;
     memset(&op, 0, sizeof(op));
-    op.paramTypes = TEEC_PARAM_TYPES(TEEC_VALUE_INOUT, TEEC_NONE, TEEC_NONE, TEEC_NONE);
-
-    // TODO: The whole function should be in rust, for now we just get a value
-    op.params[0].value.a = host_test();
+    op.paramTypes = TEEC_PARAM_TYPES(TEEC_NONE, TEEC_NONE, TEEC_NONE, TEEC_NONE);
 
     printf("[RUSTEE] <= %d\n", op.params[0].value.a);
 

@@ -8,7 +8,7 @@ $(info )
 $(info ************  QEMU V7 ************)
 $(info )
 export RUST_TARGET ?= armv7-unknown-linux-gnueabihf
-export OPTEE ?= $(HOME)/tee_optee
+export OPTEE ?= $(HOME)/optee_qemu
 export TEEC_EXPORT ?= $(OPTEE)/out-br/host/arm-buildroot-linux-gnueabihf/sysroot
 export HOST_CROSS_COMPILE ?= $(OPTEE)/toolchains/aarch32/bin/arm-linux-gnueabihf-
 export TA_CROSS_COMPILE ?= $(HOST_CROSS_COMPILE)
@@ -16,7 +16,7 @@ export TA_DEV_KIT_DIR ?= $(OPTEE)/optee_os/out/arm/export-ta_arm32
 export OVERRIDE_SYSROOT ?= 1
 export CARGO_CUSTOM_HOME ?= $(CURDIR)/rust/.cargo
 export OPTEE_CLIENT_DIR=$(OPTEE)/optee_client/
-export UTEE_ROOT=$(OPTEE)/optee_os/out/arm/export-ta_arm64
+export UTEE_ROOT=$(TA_DEV_KIT_DIR)
 endif
 
 ifdef QEMU_V8
@@ -32,7 +32,7 @@ export TA_DEV_KIT_DIR ?= $(OPTEE)/optee_os/out/arm/export-ta_arm64
 export OVERRIDE_SYSROOT ?= 1
 export CARGO_CUSTOM_HOME ?= $(CURDIR)/rust/.cargo
 export OPTEE_CLIENT_DIR=$(OPTEE)/optee_client/
-export UTEE_ROOT=$(OPTEE)/optee_os/out/arm/export-ta_arm64
+export UTEE_ROOT=$(TA_DEV_KIT_DIR)
 
 endif
 

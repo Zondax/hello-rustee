@@ -10,6 +10,7 @@ int main(void) {
     TEEC_Result res;
     TEEC_Context ctx;
     TEEC_Session sess;
+    printf("Requesting session %d\n", 0);
 
     uint32_t err_origin;
     res = TEEC_InitializeContext(NULL, &ctx);
