@@ -6,8 +6,8 @@
 extern crate log;
 
 use ta_app::borrow_mut_app;
-use zondee_utee::wrapper::{raw::TEE_Param, Parameters};
-use zondee_utee::{wrapper::TaErrorCode as Error, HandleTaCommand};
+use zondee_utee::wrapper::Parameters;
+use zondee_utee::{wrapper::raw::TEE_Param, wrapper::TaErrorCode as Error, HandleTaCommand};
 
 mod optee;
 

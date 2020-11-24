@@ -1,6 +1,3 @@
-[build-dependencies]
-bindgen = { default-features = false, version = "0.53" }
-
 [dependencies]
 arrayvec = {default-features = false, version = "0.5.2"}
 libc = { default-features = false, version = "0.2" }
