@@ -8,8 +8,8 @@ pub trait HandleRequest: Send + Sync {
 
 #[derive(serde::Deserialize, serde::Serialize)]
 pub enum RequestMethod {
-    Encode(String),
-    Decode(String),
+    Inc(u64),
+    Dec(u64),
 }
 
 pub struct KeystoreRequest {
@@ -18,6 +18,6 @@ pub struct KeystoreRequest {
 }
 
 pub enum KeystoreResponse {
-    Encode(String),
-    Decode(String),
+    Inc(u64),
+    Dec(u64),
 }

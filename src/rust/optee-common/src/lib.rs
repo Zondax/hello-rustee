@@ -6,8 +6,8 @@ pub use tee_error::{TeeError, TeeErrorCode};
 
 #[repr(u32)]
 pub enum CommandId {
-    Encode,
-    Decode,
+    Inc,
+    Dec,
     Unknown,
 }
 

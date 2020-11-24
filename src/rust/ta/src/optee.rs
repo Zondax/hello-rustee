@@ -16,7 +16,9 @@ pub extern "C" fn TA_CreateEntryPoint() -> u32 {
 }
 
 #[no_mangle]
-pub extern "C" fn TA_DestroyEntryPoint() -> () {}
+pub extern "C" fn TA_DestroyEntryPoint() -> () {
+    Trace::msg(format_args!("Destroying entry point"));
+}
 
 #[no_mangle]
 pub extern "C" fn TA_CloseSessionEntryPoint(_session_context: *const u8) -> () {

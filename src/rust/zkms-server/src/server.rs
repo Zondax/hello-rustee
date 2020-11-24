@@ -49,26 +49,26 @@ impl<Handler: HandleRequest + 'static> ServerHandler<Handler> {
 }
 
 impl<Handler: HandleRequest + 'static> RemoteSignerApi for ServerHandler<Handler> {
-    fn encode(&self, msg: String) -> BoxFuture<String> {
-        let receiver = self.process_request(RequestMethod::Encode(msg));
+    fn increment(&self, msg: u64) -> BoxFuture<u64> {
+        let receiver = self.process_request(RequestMethod::Inc(msg));
         Box::new(
             receiver
                 .map(|e| match e {
-                    Ok(KeystoreResponse::Encode(msg)) => Ok(msg),
-                    _ => Ok(String::new()),
+                    Ok(KeystoreResponse::Inc(msg)) => Ok(msg),
+                    _ => Ok(0),
                 })
                 .boxed()
                 .compat(),
         )
     }
 
-    fn decode(&self, msg: String) -> BoxFuture<String> {
-        let receiver = self.process_request(RequestMethod::Decode(msg));
+    fn decrement(&self, msg: u64) -> BoxFuture<u64> {
+        let receiver = self.process_request(RequestMethod::Dec(msg));
         Box::new(
             receiver
                 .map(|e| match e {
-                    Ok(KeystoreResponse::Decode(msg)) => Ok(msg),
-                    _ => Ok(String::new()),
+                    Ok(KeystoreResponse::Dec(msg)) => Ok(msg),
+                    _ => Ok(0),
                 })
                 .boxed()
                 .compat(),

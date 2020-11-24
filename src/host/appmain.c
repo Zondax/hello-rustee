@@ -12,22 +12,22 @@ TEEC_Session *session = NULL;
 TEEC_Result call_rustee(TEEC_Session *sess) {
     session = sess;
 
-    TEEC_Result res;
-    uint32_t err_origin;
+    //TEEC_Result res;
+    //uint32_t err_origin;
 
-    TEEC_Operation op;
-    memset(&op, 0, sizeof(op));
-    op.paramTypes = TEEC_PARAM_TYPES(TEEC_NONE, TEEC_NONE, TEEC_NONE, TEEC_NONE);
+    //TEEC_Operation op;
+    //memset(&op, 0, sizeof(op));
+    //op.paramTypes = TEEC_PARAM_TYPES(TEEC_NONE, TEEC_NONE, TEEC_NONE, TEEC_NONE);
 
-    printf("[RUSTEE] <= %d\n", op.params[0].value.a);
+    //printf("[RUSTEE] <= %d\n", op.params[0].value.a);
 
-    res = TEEC_InvokeCommand(session, TA_FUNCID_SIGN, &op, &err_origin);
-    if (res != TEEC_SUCCESS) {
-        errx(1, "TEEC_InvokeCommand failed. [Code 0x%x origin 0x%x]", res, err_origin);
-    }
+    //res = TEEC_InvokeCommand(session, TA_FUNCID_SIGN, &op, &err_origin);
+    //if (res != TEEC_SUCCESS) {
+    //    errx(1, "TEEC_InvokeCommand failed. [Code 0x%x origin 0x%x]", res, err_origin);
+    //}
 
-    printf("[RUSTEE] => %d\n", op.params[0].value.a);
-    printf("running server\n");
+    //printf("[RUSTEE] => %d\n", op.params[0].value.a);
+    //printf("running server\n");
     run();
     return TEEC_SUCCESS;
 }

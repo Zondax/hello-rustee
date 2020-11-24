@@ -1,4 +1,4 @@
-//#![no_builtins]
+#![no_builtins]
 
 use libc::c_void;
 mod optee_handler;

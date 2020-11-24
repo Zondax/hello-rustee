@@ -58,7 +58,7 @@ impl HandleTaCommand for TaApp {
         params: &mut Parameters,
     ) -> Result<(), Error> {
         match CommandId::from(cmd_id) {
-            CommandId::Encode => {
+            CommandId::Inc => {
                 let expected_param_types = TEE_PARAM_TYPES(
                     ParamType::MemRefInput as u32,
                     ParamType::MemRefOutput as u32,
@@ -82,19 +82,72 @@ impl HandleTaCommand for TaApp {
                         .as_memref()
                         .expect("this is safe, the type was previously check")
                 };
-                if omemref.buffer().len() < imemref.buffer().len() * 2 {
-                    return Err(Error::ShortBuffer);
-                }
-                omemref.buffer().copy_from_slice(imemref.buffer());
-                //if hex::encode_to_slice(imemref.buffer(), omemref.buffer()).is_err() {
-                //    return Error::BadFormat as _;
-                //}
-                return Ok(());
-            }
-            _ => {}
-        }
 
-        Err(Error::NotSupported)
+                if imemref.buffer().len() != core::mem::size_of::<u64>() {
+                    return Err(Error::OutOfMEmory);
+                }
+
+                let mut tmp = [0u8; core::mem::size_of::<u64>()];
+                tmp.as_mut().copy_from_slice(imemref.buffer());
+                let mut passed_value = u64::from_le_bytes(tmp);
+
+                Trace::msg(format_args!("incrementing: {}", passed_value));
+                passed_value += 1;
+                let passed_value = passed_value.to_le_bytes();
+                if omemref.buffer().len() != passed_value.len() {
+                    return Err(Error::OutOfMEmory);
+                }
+
+                omemref.buffer().copy_from_slice(passed_value.as_ref());
+                Ok(())
+            }
+            CommandId::Dec => {
+                let expected_param_types = TEE_PARAM_TYPES(
+                    ParamType::MemRefInput as u32,
+                    ParamType::MemRefOutput as u32,
+                    ParamType::None as u32,
+                    ParamType::None as u32,
+                );
+                if param_types != expected_param_types {
+                    Trace::msg(format_args!("{}", "Bad parameters for Encoding request"));
+                    return Err(Error::BadParameters);
+                }
+                // for now just copy the data into the output buffer
+                let mut imemref = unsafe {
+                    params
+                        .0
+                        .as_memref()
+                        .expect("this is safe, the type was previously check")
+                };
+                let mut omemref = unsafe {
+                    params
+                        .1
+                        .as_memref()
+                        .expect("this is safe, the type was previously check")
+                };
+
+                if imemref.buffer().len() != core::mem::size_of::<u64>() {
+                    return Err(Error::OutOfMEmory);
+                }
+
+                let mut tmp = [0u8; core::mem::size_of::<u64>()];
+                tmp.as_mut().copy_from_slice(imemref.buffer());
+                let passed_value = u64::from_le_bytes(tmp);
+
+                Trace::msg(format_args!("decrementing: {}", passed_value));
+                passed_value.checked_sub(1).ok_or(Error::Generic)?;
+
+                let passed_value = passed_value.to_le_bytes();
+
+                if omemref.buffer().len() != passed_value.len() {
+                    return Err(Error::OutOfMEmory);
+                }
+
+                omemref.buffer().copy_from_slice(passed_value.as_ref());
+                Ok(())
+            }
+            _ => Err(Error::NotSupported),
+        }
     }
 }
 

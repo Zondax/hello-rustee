@@ -1,5 +1,5 @@
 #![no_std]
-//#![no_builtins]
+#![no_builtins]
 
 #[cfg(test)]
 #[macro_use]
