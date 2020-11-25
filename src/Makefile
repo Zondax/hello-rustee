@@ -15,8 +15,8 @@ export TA_CROSS_COMPILE ?= $(HOST_CROSS_COMPILE)
 export TA_DEV_KIT_DIR ?= $(OPTEE)/optee_os/out/arm/export-ta_arm32
 export OVERRIDE_SYSROOT ?= 1
 export CARGO_CUSTOM_HOME ?= $(CURDIR)/rust/.cargo
-export OPTEE_CLIENT_DIR=$(OPTEE)/optee_client/
 export UTEE_ROOT=$(TA_DEV_KIT_DIR)
+export TEEC_ROOT=$(TEEC_EXPORT)/usr
 endif
 
 ifdef QEMU_V8
@@ -31,8 +31,8 @@ export TA_CROSS_COMPILE ?= $(HOST_CROSS_COMPILE)
 export TA_DEV_KIT_DIR ?= $(OPTEE)/optee_os/out/arm/export-ta_arm64
 export OVERRIDE_SYSROOT ?= 1
 export CARGO_CUSTOM_HOME ?= $(CURDIR)/rust/.cargo
-export OPTEE_CLIENT_DIR=$(OPTEE)/optee_client/
 export UTEE_ROOT=$(TA_DEV_KIT_DIR)
+export TEEC_ROOT=$(TEEC_EXPORT)/usr
 
 endif
 

@@ -4,9 +4,10 @@ use libc::c_void;
 mod optee_handler;
 
 use optee_common::{CommandId, TeeError};
-use optee_teec::{Operation, Param};
+//use optee_teec::{Operation, Param};
+use zondee_teec::wrapper::{Operation, Param};
 
-use zkms_server;
+use host_app;
 
 extern "C" {
     fn invoke_optee_command(command_id: u32, op: *mut c_void) -> u32;
@@ -16,7 +17,7 @@ pub(crate) fn invoke_command<A: Param, B: Param, C: Param, D: Param>(
     id: CommandId,
     op: &mut Operation<A, B, C, D>,
 ) -> Result<(), TeeError> {
-    let res = unsafe { invoke_optee_command(id as u32, op.as_mut_raw_ptr() as _) };
+    let res = unsafe { invoke_optee_command(id as u32, op.as_mut_ptr() as _) };
     if res == 0 {
         Ok(())
     } else {
@@ -32,7 +33,7 @@ pub extern "C" fn host_test() -> u32 {
 #[no_mangle]
 pub extern "C" fn run() -> u32 {
     // Creates and runs the server instance by passing a request handler to be used
-    zkms_server::start_server(optee_handler::Handler::default());
+    host_app::start_service(optee_handler::Handler::default());
 
     12345
 }
