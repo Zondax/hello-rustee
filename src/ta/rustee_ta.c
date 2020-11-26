@@ -16,16 +16,6 @@ TEE_Result TA_OpenSessionEntryPoint(uint32_t param_types,
     DMSG("Open Session entry point\n");
     // TODO: Redirect full call to rust library
 
-    uint32_t exp_param_types = TEE_PARAM_TYPES(
-            TEE_PARAM_TYPE_NONE,
-            TEE_PARAM_TYPE_NONE,
-            TEE_PARAM_TYPE_NONE,
-            TEE_PARAM_TYPE_NONE);
-
-    if (param_types != exp_param_types) {
-        return TEE_ERROR_BAD_PARAMETERS;
-    }
-
     return TEE_SUCCESS;
 }
 
@@ -36,6 +26,5 @@ TEE_Result TA_InvokeCommandEntryPoint(void *sess_ctx,
                                       TEE_Param params[4]) {
     UNUSED(sess_ctx)
 
-    DMSG("Invoke COmmand entry point\n");
     return invoke_command(cmd_id, param_types, params);
 }

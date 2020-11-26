@@ -1,10 +1,9 @@
 #![no_builtins]
 
-use libc::c_void;
 mod optee_handler;
 
 use optee_common::{CommandId, TeeError};
-use zondee_teec::wrapper::{Operation, Param, raw};
+use zondee_teec::wrapper::{raw, Operation, Param};
 
 use host_app;
 

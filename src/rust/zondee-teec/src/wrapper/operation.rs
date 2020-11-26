@@ -27,6 +27,7 @@ where
         )
         .into();
         raw.params = [p0.into_raw(), p1.into_raw(), p2.into_raw(), p3.into_raw()];
+
         Operation {
             raw,
             phantom: PhantomData,

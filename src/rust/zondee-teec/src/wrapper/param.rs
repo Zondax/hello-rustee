@@ -76,7 +76,7 @@ impl<'a> Param for ParamTmpRef<'a> {
     fn from_raw(raw: TEEC_Parameter, param_type: ParamType) -> Self {
         Self {
             raw: unsafe { raw.tmpref },
-            param_type: param_type,
+            param_type,
             phantom: PhantomData,
         }
     }
@@ -92,7 +92,8 @@ impl<'a> Param for ParamTmpRef<'a> {
 
 /// These are used to indicate the type of Parameter encoded inside the
 /// operation structure.
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Debug)]
+#[repr(u32)]
 pub enum ParamType {
     /// The Parameter is not used.
     None = 0,
@@ -152,6 +153,7 @@ impl From<u32> for ParamType {
     }
 }
 
+#[derive(Debug)]
 pub struct ParamTypes(u32);
 
 impl ParamTypes {

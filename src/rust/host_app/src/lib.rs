@@ -6,12 +6,12 @@
     unused_qualifications
 )]
 use rand::Rng;
-use zkms_common::{HandleRequest, KeystoreResponse, RequestMethod};
+use zkms_common::{HandleRequest, RequestMethod, RequestResponse};
 
 pub fn start_service(handler: impl HandleRequest + 'static) {
     let mut rng = rand::thread_rng();
-    for _ in 0..10u8 {
-        let value: u64 = rng.gen_range(10, 999);
+    for _ in 1..=10u8 {
+        let value: u64 = rng.gen_range(1, 999);
 
         let request = if value % 2 == 0 {
             RequestMethod::Inc(value)
@@ -24,10 +24,9 @@ pub fn start_service(handler: impl HandleRequest + 'static) {
             .expect("This Should not fail");
 
         let result = match response {
-            KeystoreResponse::Inc(value) => value,
-            KeystoreResponse::Dec(value) => value,
-            _ => 0,
+            RequestResponse::Inc(value) => value,
+            RequestResponse::Dec(value) => value,
         };
-        println!("CLIENT => {}\n TA => {}", value, result);
+        println!("CLIENT => {} - TA => {}", value, result);
     }
 }

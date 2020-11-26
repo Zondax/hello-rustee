@@ -4,11 +4,12 @@
 pub mod framework;
 pub mod wrapper;
 
-/// Trait that must be implemented by types that can process commands from Ta
-pub trait HandleTaCommand {
-    fn handle_command(
-        cmd_id: u32,
-        param_types: u32,
-        parameters: &mut wrapper::Parameters,
-    ) -> Result<(), wrapper::TaErrorCode>;
-}
+///// Trait that must be implemented by types that can process commands from Ta
+//pub trait HandleTaCommand {
+//    fn handle_command(
+//        &mut self,
+//        cmd_id: u32,
+//        input: Option<&[u8]>,
+//        output: Option<&mut [u8]>,
+//    ) -> Result<(), wrapper::TaErrorCode>;
+//}
