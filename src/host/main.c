@@ -26,6 +26,7 @@ int main(void) {
 
     // Now call the rust app passing the session
     appMain(&sess);
+    printf("Clossing session");
 
     // Close session and context
     TEEC_CloseSession(&sess);

@@ -10,36 +10,29 @@
 TEEC_Session *session = NULL;
 
 TEEC_Result call_rustee(TEEC_Session *sess) {
-    session = sess;
-
-    //TEEC_Result res;
-    //uint32_t err_origin;
-
-    //TEEC_Operation op;
-    //memset(&op, 0, sizeof(op));
-    //op.paramTypes = TEEC_PARAM_TYPES(TEEC_NONE, TEEC_NONE, TEEC_NONE, TEEC_NONE);
-
-    //printf("[RUSTEE] <= %d\n", op.params[0].value.a);
-
-    //res = TEEC_InvokeCommand(session, TA_FUNCID_SIGN, &op, &err_origin);
-    //if (res != TEEC_SUCCESS) {
-    //    errx(1, "TEEC_InvokeCommand failed. [Code 0x%x origin 0x%x]", res, err_origin);
-    //}
-
-    //printf("[RUSTEE] => %d\n", op.params[0].value.a);
-    //printf("running server\n");
+    printf("running client service\n");
     run();
     return TEEC_SUCCESS;
 }
 
 TEEC_Result invoke_optee_command(uint32_t command_id, TEEC_Operation *op) {
+    printf("teec invoke_command\n");
     uint32_t err_origin = 0;
-    return TEEC_InvokeCommand(session, command_id, op, &err_origin);
+    if ( session == NULL ) {
+        printf("No session \n");
+        return TEEC_ERROR_ITEM_NOT_FOUND;
+    }
+    printf("session_id: %d\n", session->session_id);
+    printf("hola TA\n");
+    TEEC_InvokeCommand(session, command_id, op, &err_origin);
+    printf("Called \n");
+    return TEEC_SUCCESS;
 } 
 
 void appMain(TEEC_Session *sess) {
     // TODO: Eventually this should be a rust function
     // First we need to expose types and some functions such as TEEC_InvokeCommand
+    session = sess;
 
     call_rustee(sess);
 }

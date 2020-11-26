@@ -20,9 +20,3 @@ zkms-common = { path = "../zkms-common", version = "0.1.0" }
 host_app = { package = "host-app", path = "../host_app", version = "0.1.0" }
 optee_common = {package = "optee-common", path = "../optee-common", version = "0.1.0"}
 zondee_teec = {package = "zondee-teec", path = "../zondee-teec", version = "0.1.0"}
-
-#[dependencies.optee-teec]
-#version = "0.1.0"
-#git = "https://github.com/sccommunity/rust-optee-trustzone-sdk.git"
-#commit = "c279c1b7812fb32939bacb1a995232d4eb8ea424"
-

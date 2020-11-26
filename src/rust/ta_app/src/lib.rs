@@ -9,7 +9,7 @@ use zondee_utee::{
 };
 
 #[derive(Default)]
-struct TaApp {}
+pub struct TaApp {}
 
 // This is safe because all request are serialized by the TA framework
 unsafe impl Sync for TaApp {}
@@ -27,14 +27,12 @@ unsafe impl<T: HandleTaCommand + Sync + Default> Sync for TaHandler<T> {}
 static TA_HANDLER: TaHandler<TaApp> = TaHandler(RefCell::new(None));
 
 pub fn open_session() -> Result<(), ()> {
+    Trace::msg(format_args!("TA_App open_session()\n"));
     // At this point no handler should have been created
     // Only one instance is allowed, so we create our command handler on each new session.
-    if TA_HANDLER.0.borrow().is_some() {
-        Err(())
-    } else {
-        TA_HANDLER.0.borrow_mut().replace(TaApp::default());
-        Ok(())
-    }
+    TA_HANDLER.0.borrow_mut().replace(TaApp::default());
+    Trace::msg(format_args!("TA_app handler created\n"));
+    Ok(())
 }
 
 pub fn close_session() {
@@ -43,20 +41,22 @@ pub fn close_session() {
 }
 
 pub fn borrow_mut_app<'a>() -> RefMut<'a, Option<impl HandleTaCommand>> {
+    Trace::msg(format_args!("Getting TA_app mut handler\n"));
     TA_HANDLER.0.borrow_mut()
 }
 
 pub fn borrow_app<'a>() -> Ref<'a, Option<impl HandleTaCommand>> {
+    Trace::msg(format_args!("Getting TA_app handler\n"));
     TA_HANDLER.0.borrow()
 }
 
 impl HandleTaCommand for TaApp {
     fn handle_command(
-        &mut self,
         cmd_id: u32,
         param_types: u32,
         params: &mut Parameters,
     ) -> Result<(), Error> {
+        Trace::msg(format_args!("TA_ap Processing request {}\n", cmd_id));
         match CommandId::from(cmd_id) {
             CommandId::Inc => {
                 let expected_param_types = TEE_PARAM_TYPES(

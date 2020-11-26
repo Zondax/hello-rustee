@@ -5,9 +5,9 @@
 #[macro_use]
 extern crate log;
 
-use ta_app::borrow_mut_app;
+use ta_app::TaApp;
 use zondee_utee::wrapper::Parameters;
-use zondee_utee::{wrapper::raw::TEE_Param, wrapper::TaErrorCode as Error, HandleTaCommand};
+use zondee_utee::{wrapper::raw::TEE_Param, wrapper::{TaErrorCode as Error, Trace}, HandleTaCommand};
 
 mod optee;
 
@@ -16,7 +16,8 @@ use core::panic::PanicInfo;
 
 #[cfg(not(test))]
 #[panic_handler]
-fn panic(_info: &PanicInfo) -> ! {
+fn panic(info: &PanicInfo) -> ! {
+    Trace::msg(format_args!("{:?}\n", info));
     loop {}
 }
 
@@ -26,14 +27,13 @@ pub extern "C" fn invoke_command(
     param_types: u32,
     parameters: &mut [TEE_Param; 4],
 ) -> u32 {
+    Trace::msg(format_args!("Receiving command {}\n", cmd_id));
     let mut params = Parameters::from_raw(parameters, param_types);
-    if let Some(ta_handler) = borrow_mut_app().as_mut() {
-        match ta_handler.handle_command(cmd_id, param_types, &mut params) {
-            Err(code) => code as u32,
-            _ => 0u32,
-        }
+    Trace::msg(format_args!("Got parameters\n"));
+    if let Err(e) = TaApp::handle_command(cmd_id, param_types, &mut params) {
+        e as _
     } else {
-        Error::BadState as u32
+        0
     }
 }
 

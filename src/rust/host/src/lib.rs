@@ -4,30 +4,24 @@ use libc::c_void;
 mod optee_handler;
 
 use optee_common::{CommandId, TeeError};
-//use optee_teec::{Operation, Param};
-use zondee_teec::wrapper::{Operation, Param};
+use zondee_teec::wrapper::{Operation, Param, raw};
 
 use host_app;
 
 extern "C" {
-    fn invoke_optee_command(command_id: u32, op: *mut c_void) -> u32;
+    fn invoke_optee_command(command_id: u32, op: *mut raw::TEEC_Operation) -> u32;
 }
 
 pub(crate) fn invoke_command<A: Param, B: Param, C: Param, D: Param>(
     id: CommandId,
     op: &mut Operation<A, B, C, D>,
 ) -> Result<(), TeeError> {
-    let res = unsafe { invoke_optee_command(id as u32, op.as_mut_ptr() as _) };
+    let res = unsafe { invoke_optee_command(id as u32, op.as_mut_ptr()) };
     if res == 0 {
         Ok(())
     } else {
         Err(TeeError::from_raw_error(res))
     }
-}
-
-#[no_mangle]
-pub extern "C" fn host_test() -> u32 {
-    12345
 }
 
 #[no_mangle]

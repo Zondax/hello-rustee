@@ -9,4 +9,4 @@
 )]
 
 pub mod jsonrpc_request;
-pub use jsonrpc_request::{HandleRequest, KeystoreRequest, KeystoreResponse, RequestMethod};
+pub use jsonrpc_request::{HandleRequest, KeystoreResponse, RequestMethod};
