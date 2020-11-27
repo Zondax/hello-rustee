@@ -19,3 +19,13 @@ impl From<u32> for CommandId {
         }
     }
 }
+
+// TODO trait should b more generic. We might have different type of parameters or None at all.
+pub trait HandleTaCommand {
+    fn process_command(
+        &mut self,
+        cmd_id: CommandId,
+        input: &[u8],
+        output: &mut [u8],
+    ) -> Result<(), TeeErrorCode>;
+}

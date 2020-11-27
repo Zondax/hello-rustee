@@ -5,7 +5,7 @@
 #[macro_use]
 extern crate log;
 
-use optee_common::CommandId;
+use optee_common::{CommandId, HandleTaCommand};
 use ta_app::borrow_mut_app;
 use zondee_utee::wrapper::{
     raw::{TEE_Param, TEE_PARAM_TYPES},
@@ -44,10 +44,6 @@ pub extern "C" fn invoke_command(
         return Error::BadParameters as _;
     }
 
-    // The idea here is using a more generic approach
-    // for instance, we might use Serialization/Deserialization
-    // so that the inner type is recovered from the byte array depending on the operation
-    // described by the cmd_id argument
     let mut imemref = unsafe {
         params
             .0
@@ -61,30 +57,17 @@ pub extern "C" fn invoke_command(
             .expect("this is safe, the type was previously check")
     };
 
-    if imemref.buffer().len() != core::mem::size_of::<u64>()
-        || omemref.buffer().len() != core::mem::size_of::<u64>()
-    {
-        return Error::OutOfMEmory as _;
-    }
-
-    let mut tmp = [0u8; core::mem::size_of::<u64>()];
-
-    tmp.as_mut().copy_from_slice(imemref.buffer());
-    let passed_value = u64::from_le_bytes(tmp);
-    let mut ret_code = 0;
-
     let cmd = CommandId::from(cmd_id);
 
     // The inner handler could have persistance data or state that is required along the execution of the program
     // so instead of creating a handler on every command_invocation, we created the handler when the session is opened.
     // Such session remains open until the TEEC closes it.
     if let Some(ta_handler) = borrow_mut_app().as_mut() {
-        let _ = ta_handler
-            .process_value(cmd, passed_value)
-            .map(|res| {
-                omemref.buffer().copy_from_slice(res.to_le_bytes().as_ref());
-            })
-            .map_err(|e| ret_code = e as _);
+        if let Err(e) = ta_handler.process_command(cmd, imemref.buffer(), omemref.buffer()) {
+            return e as _;
+        }
+        0
+    } else {
+        Error::ItemNotFound as _
     }
-    ret_code
 }
