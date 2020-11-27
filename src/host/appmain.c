@@ -10,7 +10,7 @@
 TEEC_Session *session = NULL;
 
 TEEC_Result call_rustee(TEEC_Session *sess) {
-    printf("running client service*******\n");
+    printf("running client service\n");
     run();
     return TEEC_SUCCESS;
 }
@@ -21,10 +21,6 @@ TEEC_Result invoke_optee_command(uint32_t command_id, TEEC_Operation *op) {
         return TEEC_ERROR_ITEM_NOT_FOUND;
     }
     op->session = session;
-    //for (int i = 0; i < 4; ++i) {
-    //    size_t size = op->params[i].tmpref.size;
-    //    printf("temref size: %d\n", size);
-    //}
     TEEC_InvokeCommand(session, command_id, op, &err_origin);
     return TEEC_SUCCESS;
 } 
