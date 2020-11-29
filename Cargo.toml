@@ -19,9 +19,6 @@ panic = "abort"
 
 [workspace]
 members = [
-    "hello-rustee",
-    "zondee-macros",
-    "zondee-teec",
-    "zondee-utee",
-    "zondee",
+    "host",
+    "ta",
 ]

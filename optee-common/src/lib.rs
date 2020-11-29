@@ -4,6 +4,15 @@
 mod tee_error;
 pub use tee_error::{TeeError, TeeErrorCode};
 
+use zondee::Uuid;
+
+pub const UUID: Uuid = Uuid {
+    time_low: 2179707489,
+    time_mid: 45827,
+    time_hi_and_version: 19152,
+    clock_seq_and_node: [186, 244, 215, 41, 130, 228, 122, 139],
+};
+
 #[repr(u32)]
 pub enum CommandId {
     Inc,

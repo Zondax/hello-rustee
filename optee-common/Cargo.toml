@@ -9,4 +9,5 @@ name = "optee_common"
 crate-type = ["rlib"]
 
 [dependencies]
+zondee = {path = "../zondee"}
 

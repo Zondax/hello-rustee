@@ -1,26 +1,13 @@
-[[bin]]
-name = "hello_rustee_host"
-path = "src/host.rs"
-
-[[bin]]
-name = "hello_rustee_ta"
-path = "src/ta.rs"
-
 [dependencies]
-heapless = { default-features = false, features = ["serde"], version = "0.5" }
 libc = { default-features = false, version = "0.2" }
 serde = { default-features = false, features = ["derive"], version = "1.0" }
 zondee = { path = "../zondee" }
 zondee-teec = { path = "../zondee-teec" }
-zondee-utee = { features = ["with-zondee-macros"], path = "../zondee-utee" }
 zondee-macros = {path = "../zondee-macros"}
+optee-common = {path = "../optee-common"}
 
 [build_dependencies]
 uuid = { version = "0.7", features = ["v4"] }
-
-[lib]
-name = "hello_rustee"
-path = "src/lib.rs"
 
 [package]
 authors = ["Zondax GmbH <info@zondax.ch>"]
@@ -28,4 +15,3 @@ edition = "2018"
 name = "hello_rustee"
 readme = "README.md"
 version = "0.1.0"
-build = "build.rs"

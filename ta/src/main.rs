@@ -1,7 +1,7 @@
 #![no_main]
 #![no_std]
 
-use hello_rustee::{Input, Output, UUID};
+use optee_common::UUID;
 use zondee_utee::wrapper::{
     close_session, create, destroy, invoke_command, open_session, params, Parameters, Result,
     Trace, Uuid,
@@ -12,6 +12,13 @@ params!(
     DESCRIPTION: b"Hi RusTEE",
     VERSION: b"1.0"
 );
+
+#[panic_handler]
+fn panic_handler(_info: &core::panic::PanicInfo) -> ! {
+    //TODO: Call the tee panic function here - the framework will close all the resurces gracefully
+    //Including active sessions taking care of client being reported with a proper error code
+    loop {}
+}
 
 #[create]
 fn create() -> Result<()> {
@@ -41,14 +48,3 @@ fn invoke_command(id: u32, params: &mut Parameters) -> Result<()> {
     Trace::msg(format_args!("processing command\n"));
     Ok(())
 }
-
-//#[setup]
-//fn setup(input: Input) -> wrapper::Result<Output> {
-//    Ok(match input {
-//        Input::HelloFromRee(hello_from_ree) => {
-//            Trace::msg(format_args!("{}", hello_from_ree.as_str()));
-//            Output::HelloFromTee("From TEE, this is a UTF-8 message 🎊".into())
-//        }
-//        Input::Version => Output::Version(42),
-//    })
-//}

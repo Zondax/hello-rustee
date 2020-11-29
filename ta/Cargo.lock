@@ -80,12 +80,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "half"
-version = "1.6.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d36fab90f82edc3c747f9d438e06cf0a491055896f2a279638bb5beed6c40177"
-
-[[package]]
 name = "hash32"
 version = "0.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -105,18 +99,6 @@ dependencies = [
  "hash32",
  "serde",
  "stable_deref_trait",
-]
-
-[[package]]
-name = "hello_rustee"
-version = "0.1.0"
-dependencies = [
- "libc",
- "serde",
- "uuid",
- "zondee",
- "zondee-macros",
- "zondee-teec",
 ]
 
 [[package]]
@@ -289,16 +271,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "serde_cbor"
-version = "0.11.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1e18acfa2f90e8b735b2836ab8d538de304cbb6729a7360729ea5a895d15a622"
-dependencies = [
- "half",
- "serde",
-]
-
-[[package]]
 name = "serde_derive"
 version = "1.0.117"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -380,8 +352,6 @@ name = "zondee"
 version = "0.1.0"
 dependencies = [
  "arrayvec",
- "serde",
- "serde_cbor",
 ]
 
 [[package]]
@@ -391,17 +361,6 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn",
-]
-
-[[package]]
-name = "zondee-teec"
-version = "0.1.0"
-dependencies = [
- "heapless",
- "libc",
- "serde",
- "zondee",
- "zondee-macros",
 ]
 
 [[package]]
