@@ -17,7 +17,11 @@ pub struct Connection {
 }
 
 impl Connection {
-    pub fn new(mut ctx: TEEC_Context, name: &str, sess: TEEC_Session) -> crate::Result<Self> {
+    pub fn new(name: &str, sess: TEEC_Session) -> crate::Result<Self> {
+        let mut ctx = TEEC_Context {
+            fd: 0,
+            reg_mem: true,
+        };
         Self::initialize_context(name, &mut ctx)?;
         Ok(Self {
             ctx,
@@ -29,8 +33,9 @@ impl Connection {
     pub fn open_session(
         &mut self,
         destination: wrapper::Uuid,
-        operation: &mut TEEC_Operation,
+        _operation: &mut TEEC_Operation,
     ) -> crate::Result<()> {
+        use core::ptr;
         let rslt = unsafe {
             TEEC_OpenSession(
                 &mut self.ctx,
@@ -38,7 +43,7 @@ impl Connection {
                 destination.as_ptr(),
                 TEEC_LOGIN_PUBLIC,
                 null_mut(),
-                operation,
+                ptr::null_mut() as *mut TEEC_Operation,
                 &mut self.return_origin,
             )
         };
@@ -70,12 +75,13 @@ impl Connection {
         }
     }
 
-    fn initialize_context(name: &str, ctx: &mut TEEC_Context) -> crate::Result<()> {
-        let rslt = unsafe { TEEC_InitializeContext(name.as_ptr() as *const _, ctx as *mut _) };
-        if rslt == TEEC_SUCCESS {
-            Ok(())
-        } else {
-            Err(crate::Error::ConnectionCode(rslt))
+    fn initialize_context(_name: &str, ctx: &mut TEEC_Context) -> crate::Result<()> {
+        use core::ptr;
+        unsafe {
+            match TEEC_InitializeContext(ptr::null_mut() as *mut libc::c_char, ctx as *mut _) {
+                TEEC_SUCCESS => Ok(()),
+                code => Err(crate::Error::ConnectionCode(code)),
+            }
         }
     }
 }

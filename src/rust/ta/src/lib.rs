@@ -1,11 +1,25 @@
 #![no_std]
 #![no_builtins]
+#![feature(default_alloc_error_handler)]
+#![feature(core_intrinsics, lang_items /*,alloc_error_handler*/)]
+//
+#[cfg(test)]
+#[macro_use]
+extern crate std;
+
+extern crate wee_alloc;
+#[global_allocator]
+static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
+
+#[cfg(test)]
+#[macro_use]
+extern crate log;
 
 use optee_common::{CommandId, HandleTaCommand};
 use ta_app::borrow_mut_app;
 use zondee_utee::wrapper::{
     raw::{TEE_Param, TEE_PARAM_TYPES},
-    ParamType, Parameters, TaErrorCode as Error, Trace,
+    ParamType, Parameters, TaErrorCode as Error,
 };
 
 mod optee;
@@ -15,9 +29,10 @@ use core::panic::PanicInfo;
 
 #[cfg(not(test))]
 #[panic_handler]
+#[no_mangle]
 fn panic(_info: &PanicInfo) -> ! {
     // TODO: Good place for calling TEE_Panic function
-    loop {}
+    ::core::intrinsics::abort();
 }
 
 #[no_mangle]
@@ -38,7 +53,6 @@ pub extern "C" fn invoke_command(
         ParamType::None as u32,
     );
     if param_types != expected_param_types {
-        Trace::msg(format_args!("{}", "Bad parameters\n"));
         return Error::BadParameters as _;
     }
 

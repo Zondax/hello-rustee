@@ -8,9 +8,10 @@ use rand::Rng;
 use zkms_common::{HandleRequest, RequestMethod, RequestResponse};
 
 pub fn start_service(handler: impl HandleRequest + 'static) {
-    let mut rng = rand::thread_rng();
-    for _ in 1..=10u8 {
-        let value: u64 = rng.gen_range(1, 999);
+    //let mut rng = rand::thread_rng();
+    println!("client service");
+    for i in 1..=10u8 {
+        let value: u64 = i as u64 * 3 + 4; //rng.gen_range(1, 999);
 
         let request = if value % 2 == 0 {
             RequestMethod::Inc(value)

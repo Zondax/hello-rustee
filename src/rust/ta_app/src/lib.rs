@@ -1,9 +1,10 @@
 #![no_std]
+#[macro_use]
+extern crate alloc;
 
 use core::cell::{Ref, RefCell, RefMut};
 
 use optee_common::{CommandId, HandleTaCommand, TeeErrorCode as Error};
-use zondee_utee::wrapper::Trace;
 
 #[derive(Default)]
 pub struct TaApp {}
@@ -42,7 +43,6 @@ impl HandleTaCommand for TaApp {
             CommandId::Dec => value.checked_sub(1).ok_or(Error::Generic)?,
             _ => return Err(Error::NotSupported),
         };
-
         output.copy_from_slice(result.to_le_bytes().as_ref());
 
         Ok(())
@@ -62,12 +62,10 @@ pub fn close_session() {
 }
 
 pub fn borrow_mut_app<'a>() -> RefMut<'a, Option<impl HandleTaCommand + 'static>> {
-    Trace::msg(format_args!("Getting TA_app mut handler\n"));
     TA_HANDLER.0.borrow_mut()
 }
 
 pub fn borrow_app<'a>() -> Ref<'a, Option<impl HandleTaCommand + 'static>> {
-    Trace::msg(format_args!("Getting TA_app handler\n"));
     TA_HANDLER.0.borrow()
 }
 

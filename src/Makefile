@@ -35,6 +35,7 @@ export UTEE_ROOT=$(TA_DEV_KIT_DIR)
 export TEEC_ROOT=$(TEEC_EXPORT)/usr
 export CARGO_CUSTOM_HOME=$(CURDIR)/rust/.cargo
 
+export WEE_ALLOC_STATIC_ARRAY_BACKEND_BYTES = 33554432
 CARGO_BIN ?= $(HOME)/.cargo/bin
 
 all:

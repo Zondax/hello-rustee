@@ -9,7 +9,19 @@ readme = "README.md"
 name = "rustee_ta"
 crate-type = ["staticlib"]
 
+[profile.release]
+lto=true
+codegen-units = 1
+debug=true
+opt-level = "z"
+panic = "abort"
+
+[profile.dev]
+panic = "abort"
+
 [dependencies]
+wee_alloc = {version = "0.4.5", defaul-features = false, features = ["static_array_backend", "size_classes"]}
+hex = {version = "0.4.2", default-features = false}
 optee_common = {package = "optee-common", path = "../optee-common", version = "0.1.0"}
 zondee_utee = {package = "zondee-utee", path = "../zondee-utee", version = "0.1.0"}
 arrayvec = {default-features = false, version = "0.5.2"}
