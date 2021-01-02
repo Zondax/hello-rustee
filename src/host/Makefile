@@ -8,12 +8,15 @@ OBJCOPY ?= $(CROSS_COMPILE)objcopy
 OBJDUMP ?= $(CROSS_COMPILE)objdump
 READELF ?= $(CROSS_COMPILE)readelf
 
-CFLAGS 	+= -Wall -I../ta/include -I$(TEEC_EXPORT)/usr/include -I./include
+CFLAGS 	+= -Wall -I../ta/include -I$(TEEC_EXPORT)/usr/include -I./include -fPIC
 CFLAGS 	+= -I../rust/host/include
 
 LDFLAGS += --hash-style=gnu
 LDLIBS 	+= -lteec -L$(TEEC_EXPORT)/lib
 LDLIBS 	+= -lrustee_host
+LDLIBS 	+= -lpthread
+LDLIBS 	+= -lm
+LDLIBS 	+= -ldl
 
 # Add both search paths
 LDLIBS 	+= -L../rust/target/armv7-unknown-linux-gnueabihf/release

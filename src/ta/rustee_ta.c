@@ -6,73 +6,22 @@
 
 #define UNUSED(X) (void)&X;
 
-// TODO: Do this directly in Rust
 TEE_Result TA_OpenSessionEntryPoint(uint32_t param_types,
                                     TEE_Param params[4],
                                     void **sess_ctx) {
     UNUSED(params)
     UNUSED(sess_ctx)
-    // TODO: Redirect full call to rust library
-
-    uint32_t exp_param_types = TEE_PARAM_TYPES(
-            TEE_PARAM_TYPE_NONE,
-            TEE_PARAM_TYPE_NONE,
-            TEE_PARAM_TYPE_NONE,
-            TEE_PARAM_TYPE_NONE);
-
-    if (param_types != exp_param_types) {
-        return TEE_ERROR_BAD_PARAMETERS;
-    }
+    UNUSED(param_types)
+    DMSG("Open Session entry point\n");
 
     return TEE_SUCCESS;
 }
 
-// TODO: Redirect full call to rust library
 TEE_Result TA_InvokeCommandEntryPoint(void *sess_ctx,
                                       uint32_t cmd_id,
                                       uint32_t param_types,
                                       TEE_Param params[4]) {
     UNUSED(sess_ctx)
 
-    switch (cmd_id) {
-        case TA_FUNCID_VERSION: {
-            // TODO: Do this directly in Rust
-            uint32_t exp_param_types = TEE_PARAM_TYPES(TEE_PARAM_TYPE_VALUE_INOUT,
-                                                       TEE_PARAM_TYPE_NONE,
-                                                       TEE_PARAM_TYPE_NONE,
-                                                       TEE_PARAM_TYPE_NONE);
-            if (param_types != exp_param_types) {
-                return TEE_ERROR_BAD_PARAMETERS;
-            }
-
-            IMSG("[RUSTEE-BEFORE] : %u", params[0].value.a);
-
-            // Here we call rust
-            params[0].value.a += ta_version();
-
-            IMSG("[RUSTEE-AFTER ] : %u", params[0].value.a);
-
-            return TEE_SUCCESS;
-        }
-        case TA_FUNCID_SIGN: {
-            uint32_t exp_param_types = TEE_PARAM_TYPES(TEE_PARAM_TYPE_VALUE_INOUT,
-                                                       TEE_PARAM_TYPE_NONE,
-                                                       TEE_PARAM_TYPE_NONE,
-                                                       TEE_PARAM_TYPE_NONE);
-            if (param_types != exp_param_types) {
-                return TEE_ERROR_BAD_PARAMETERS;
-            }
-
-            IMSG("[RUSTEE-BEFORE] : %u", params[0].value.a);
-
-            // Here we call rust
-            params[0].value.a += ta_sign(0, 0, 0, 0);
-
-            IMSG("[RUSTEE-AFTER ] : %u", params[0].value.a);
-
-            return TEE_SUCCESS;
-        }
-        default:
-            return TEE_ERROR_BAD_PARAMETERS;
-    }
+    return invoke_command(cmd_id, param_types, params);
 }

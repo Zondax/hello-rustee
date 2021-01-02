@@ -1,25 +1,31 @@
-#![no_std]
 #![no_builtins]
 
-#[cfg(not(test))]
-use core::panic::PanicInfo;
+mod optee_handler;
 
-#[cfg(not(test))]
-#[panic_handler]
-fn panic(_info: &PanicInfo) -> ! { loop {} }
+use optee_common::{CommandId, TeeError};
+use zondee_teec::wrapper::{raw, Operation, Param};
 
-#[no_mangle]
-pub extern "C" fn host_test() -> u32 {
-    12345
+use host_app;
+
+extern "C" {
+    fn invoke_optee_command(command_id: u32, op: *mut raw::TEEC_Operation) -> u32;
 }
 
-#[cfg(test)]
-mod tests {
-  use crate::{host_test};
+pub(crate) fn invoke_command<A: Param, B: Param, C: Param, D: Param>(
+    id: CommandId,
+    op: &mut Operation<A, B, C, D>,
+) -> Result<(), TeeError> {
+    let res = unsafe { invoke_optee_command(id as u32, op.as_mut_ptr()) };
+    if res == 0 {
+        Ok(())
+    } else {
+        Err(TeeError::from_raw_error(res))
+    }
+}
 
-  #[test]
-  fn test_local() {
-    let v = host_test();
-    assert_eq!(v, 12345);
-  }
+#[no_mangle]
+pub extern "C" fn run() -> u32 {
+    // Calls he host client service passing the handler that should be used for requests
+    host_app::start_service(optee_handler::Handler::default());
+    0
 }

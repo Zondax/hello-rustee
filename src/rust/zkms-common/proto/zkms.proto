@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package zkms;
+
+service Signer {
+  rpc GetVersion (GetVersionRequest) returns (GetVersionReply) {}
+  rpc Sign (SignRequest) returns (SignReply) {}
+}
+
+// GetVersionRequest
+message GetVersionRequest {
+  // Name
+  string name = 1;
+}
+
+// GetVersionReply
+message GetVersionReply {
+  // Message
+  string message = 1;
+}
+
+// SignRequest
+message SignRequest {
+  bytes message = 1;
+}
+
+// SignReply
+message SignReply {
+  bytes message = 1;
+}
