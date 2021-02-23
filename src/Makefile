@@ -51,6 +51,11 @@ all:
 	$(MAKE) -C host CROSS_COMPILE="$(HOST_CROSS_COMPILE)" --no-builtin-variables
 	$(MAKE) -C ta CROSS_COMPILE="$(TA_CROSS_COMPILE)" LDFLAGS=""
 
+include ta/include/uuid.mk
+copy:
+	cp host/hello_rustee $(SHARED_FOLDER)
+	cp ta/$(TA_UUID).ta $(SHARED_FOLDER)
+
 clean:
 	cd rust && CARGO_HOME=$(CARGO_CUSTOM_HOME) && $(CARGO_BIN)/cargo clean
 	$(MAKE) -C host clean
