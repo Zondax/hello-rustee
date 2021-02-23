@@ -1,4 +1,4 @@
-use crate::wrapper::raw::{trace_get_level, trace_set_level, utee_log};
+use crate::wrapper::raw::{_utee_log as utee_log, trace_get_level, trace_set_level};
 use arrayvec::ArrayString;
 use core::fmt;
 

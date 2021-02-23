@@ -37,6 +37,15 @@ export CARGO_CUSTOM_HOME=$(CURDIR)/rust/.cargo
 
 CARGO_BIN ?= $(HOME)/.cargo/bin
 
+deps:
+	rustup target add $(RUST_TARGET)
+
+#This will generate the bindings to the optee client and the trusted application libaries
+#It is implied that OPTEE has been built
+bindgen:
+	bindgen --with-derive-default --use-core --ctypes-prefix=libc $(TEEC_ROOT)/include/tee_client_api.h -o ./rust/zondee-teec/src/wrapper/teec.rs -- -I$(TEEC_ROOT)/include/
+	bindgen --with-derive-default --use-core --ctypes-prefix=libc $(UTEE_ROOT)/include/utee_syscalls.h -o ./rust/zondee-utee/src/wrapper/utee.rs -- -I$(UTEE_ROOT)/include/
+
 all:
 	cd rust && PATH="/usr/bin:$(PATH)" CARGO_HOME=$(CARGO_CUSTOM_HOME) $(CARGO_BIN)/cargo build --target $(RUST_TARGET) --release
 	$(MAKE) -C host CROSS_COMPILE="$(HOST_CROSS_COMPILE)" --no-builtin-variables
