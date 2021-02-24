@@ -41,6 +41,12 @@ impl HandleTaCommand for TaApp {
                 .read_and_advance_u64(&mut input)?
                 .checked_sub(1)
                 .ok_or(Error::Generic)?,
+            CommandId::Mul => {
+                let a = self.read_and_advance_u64(&mut input)?;
+                let b = self.read_and_advance_u64(&mut input)?;
+
+                a.checked_mul(b).ok_or(Error::Generic)?
+            }
             _ => return Err(Error::NotSupported),
         };
 
@@ -71,6 +77,13 @@ impl TaApp {
         match cmd {
             CommandId::Inc | CommandId::Dec => {
                 if in_len < U64_SIZE || out_len < U64_SIZE {
+                    Err(Error::OutOfMemory)
+                } else {
+                    Ok(())
+                }
+            }
+            CommandId::Mul => {
+                if in_len < U64_SIZE * 2 || out_len < U64_SIZE {
                     Err(Error::OutOfMemory)
                 } else {
                     Ok(())
