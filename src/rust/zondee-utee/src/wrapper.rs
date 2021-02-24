@@ -26,3 +26,9 @@ pub use zondee_macros::{
 pub use {self::uuid::*, error::*, params::*, trace::*, user_ta_header::*};
 
 pub type Result<T> = core::result::Result<T, TaErrorCode>;
+
+pub fn utee_panic(code: u32) -> ! {
+    unsafe { raw::_utee_panic(code as _) }
+
+    loop {}
+}

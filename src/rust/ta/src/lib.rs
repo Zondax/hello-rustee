@@ -5,7 +5,7 @@ use optee_common::{CommandId, HandleTaCommand};
 use ta_app::borrow_mut_app;
 use zondee_utee::wrapper::{
     raw::{TEE_Param, TEE_PARAM_TYPES},
-    ParamType, Parameters, TaErrorCode as Error, Trace,
+    utee_panic, ParamType, Parameters, TaErrorCode as Error, Trace,
 };
 
 mod optee;
@@ -15,9 +15,11 @@ use core::panic::PanicInfo;
 
 #[cfg(not(test))]
 #[panic_handler]
-fn panic(_info: &PanicInfo) -> ! {
+fn panic(info: &PanicInfo) -> ! {
     // TODO: Good place for calling TEE_Panic function
-    loop {}
+    Trace::msg(format_args!("[ERROR] TA Panic: {}", info));
+
+    utee_panic(0);
 }
 
 #[no_mangle]
