@@ -73,8 +73,43 @@ pub fn borrow_app<'a>() -> Ref<'a, Option<impl HandleTaCommand + 'static>> {
 
 #[cfg(test)]
 mod tests {
+    use super::*;
+
     #[test]
-    fn it_works() {
-        assert_eq!(2 + 2, 4);
+    fn inc() {
+        let mut handler = TaApp::default();
+
+        //prepare inputs
+        let input = 0u64.to_le_bytes();
+        let mut output = 0u64.to_le_bytes();
+
+        //call
+        handler
+            .process_command(CommandId::Inc, input.as_slice(), output.as_mut_slice())
+            .expect("incrementing 0");
+
+        //parse output
+        let out = u64::from_le_bytes(output).expect("parsing u64 output");
+
+        assert_eq!(out, 1);
+    }
+
+    #[test]
+    fn dec() {
+        let mut handler = TaApp::default();
+
+        //prepare inputs
+        let input = 1u64.to_le_bytes();
+        let mut output = 0u64.to_le_bytes();
+
+        //call
+        handler
+            .process_command(CommandId::Dec, input.as_slice(), output.as_mut_slice())
+            .expect("incrementing 0");
+
+        //parse output
+        let out = u64::from_le_bytes(output).expect("parsing u64 output");
+
+        assert_eq!(out, 0);
     }
 }
