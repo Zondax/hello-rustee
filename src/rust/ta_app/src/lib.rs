@@ -30,6 +30,8 @@ impl HandleTaCommand for TaApp {
         mut input: &[u8],
         output: &mut [u8],
     ) -> Result<(), Error> {
+        Trace::msg(format_args!("Processing command {:?} ...\n", cmd_id));
+
         Self::check_mem(cmd_id, input.len(), output.len())?;
 
         let result = match cmd_id {
@@ -66,7 +68,7 @@ impl TaApp {
 
         //read and advance slice
         let mut tmp = [0; U64_SIZE];
-        tmp.copy_from_slice(slice);
+        tmp.copy_from_slice(&slice[..U64_SIZE]);
         *slice = &slice[U64_SIZE..];
 
         Ok(u64::from_le_bytes(tmp))

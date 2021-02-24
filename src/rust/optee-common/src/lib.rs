@@ -4,7 +4,7 @@
 mod tee_error;
 pub use tee_error::{TeeError, TeeErrorCode};
 
-#[derive(Copy, Clone)]
+#[derive(Debug, Copy, Clone)]
 #[repr(u32)]
 pub enum CommandId {
     Inc,

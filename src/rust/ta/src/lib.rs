@@ -64,6 +64,10 @@ pub extern "C" fn invoke_command(
         .as_mut()
         .map_or(Error::ItemNotFound as u32, |ta_handler| {
             if let Err(e) = ta_handler.process_command(cmd, imemref.buffer(), omemref.buffer()) {
+                Trace::msg(format_args!(
+                    "[ERROR] processing command failure: {:?}\n",
+                    e
+                ));
                 e as _
             } else {
                 0
