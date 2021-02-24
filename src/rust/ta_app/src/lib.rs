@@ -27,25 +27,57 @@ impl HandleTaCommand for TaApp {
     fn process_command(
         &mut self,
         cmd_id: CommandId,
-        input: &[u8],
+        mut input: &[u8],
         output: &mut [u8],
     ) -> Result<(), Error> {
-        if input.len() < core::mem::size_of::<u64>() || output.len() < core::mem::size_of::<u64>() {
-            return Err(Error::OutOfMEmory);
-        }
+        Self::check_mem(cmd_id, input.len(), output.len())?;
 
-        let mut temp = [0u8; core::mem::size_of::<u64>()];
-        temp.copy_from_slice(input);
-        let value = u64::from_le_bytes(temp);
         let result = match cmd_id {
-            CommandId::Inc => value.checked_add(1).ok_or(Error::Generic)?,
-            CommandId::Dec => value.checked_sub(1).ok_or(Error::Generic)?,
+            CommandId::Inc => self
+                .read_and_advance_u64(&mut input)?
+                .checked_add(1)
+                .ok_or(Error::Generic)?,
+            CommandId::Dec => self
+                .read_and_advance_u64(&mut input)?
+                .checked_sub(1)
+                .ok_or(Error::Generic)?,
             _ => return Err(Error::NotSupported),
         };
 
         output.copy_from_slice(result.to_le_bytes().as_ref());
 
         Ok(())
+    }
+}
+
+const U64_SIZE: usize = core::mem::size_of::<u64>();
+impl TaApp {
+    ///Reads an u64 from the slice, advancing it
+    fn read_and_advance_u64(&self, slice: &mut &[u8]) -> Result<u64, Error> {
+        if slice.len() < U64_SIZE {
+            return Err(Error::OutOfMemory);
+        }
+
+        //read and advance slice
+        let mut tmp = [0; U64_SIZE];
+        tmp.copy_from_slice(slice);
+        *slice = &slice[U64_SIZE..];
+
+        Ok(u64::from_le_bytes(tmp))
+    }
+
+    ///Makes sure the input and output slice have enough length
+    const fn check_mem(cmd: CommandId, in_len: usize, out_len: usize) -> Result<(), Error> {
+        match cmd {
+            CommandId::Inc | CommandId::Dec => {
+                if in_len < U64_SIZE || out_len < U64_SIZE {
+                    Err(Error::OutOfMemory)
+                } else {
+                    Ok(())
+                }
+            }
+            CommandId::Unknown => Err(Error::NotSupported),
+        }
     }
 }
 
