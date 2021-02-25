@@ -3,7 +3,9 @@
 use core::cell::{Ref, RefCell, RefMut};
 
 use optee_common::{CommandId, HandleTaCommand, TeeErrorCode as Error};
-use zondee_utee::wrapper::Trace;
+
+#[macro_use]
+extern crate log;
 
 #[derive(Default)]
 pub struct TaApp {}
@@ -30,7 +32,7 @@ impl HandleTaCommand for TaApp {
         mut input: &[u8],
         output: &mut [u8],
     ) -> Result<(), Error> {
-        Trace::msg(format_args!("Processing command {:?} ...\n", cmd_id));
+        trace!("Processing command {:?} ...", cmd_id);
 
         Self::check_mem(cmd_id, input.len(), output.len())?;
 
@@ -109,12 +111,12 @@ pub fn close_session() {
 }
 
 pub fn borrow_mut_app<'a>() -> RefMut<'a, Option<impl HandleTaCommand + 'static>> {
-    Trace::msg(format_args!("Getting TA_app mut handler\n"));
+    trace!("Getting TA_app mut handler");
     TA_HANDLER.0.borrow_mut()
 }
 
 pub fn borrow_app<'a>() -> Ref<'a, Option<impl HandleTaCommand + 'static>> {
-    Trace::msg(format_args!("Getting TA_app handler\n"));
+    trace!("Getting TA_app handler");
     TA_HANDLER.0.borrow()
 }
 

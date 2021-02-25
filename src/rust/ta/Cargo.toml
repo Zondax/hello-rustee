@@ -14,6 +14,7 @@ optee_common = {package = "optee-common", path = "../optee-common", version = "0
 zondee_utee = {package = "zondee-utee", path = "../zondee-utee", version = "0.1.0"}
 arrayvec = {default-features = false, version = "0.5.2"}
 ta_app = {path = "../ta_app"}
+log = "0.4"
 
 [target.armv7-unknown-linux-gnueabihf.dev-dependencies]
 panic-halt = "0.2.0"
