@@ -43,8 +43,8 @@ deps:
 #This will generate the bindings to the optee client and the trusted application libaries
 #It is implied that OPTEE has been built
 bindgen:
-	bindgen --with-derive-default --use-core --ctypes-prefix=libc $(TEEC_ROOT)/include/tee_client_api.h -o ./rust/zondee-teec/src/wrapper/teec.rs -- -I$(TEEC_ROOT)/include/
-	bindgen --with-derive-default --use-core --ctypes-prefix=libc $(UTEE_ROOT)/include/utee_syscalls.h -o ./rust/zondee-utee/src/wrapper/utee.rs -- -I$(UTEE_ROOT)/include/
+	bindgen --with-derive-default --use-core --ctypes-prefix=libc ./rust/zondee-teec/teec.h -o ./rust/zondee-teec/src/wrapper/teec.rs -- -I$(TEEC_ROOT)/include/
+	bindgen --with-derive-default --use-core --ctypes-prefix=libc ./rust/zondee-utee/utee.h -o ./rust/zondee-utee/src/wrapper/utee.rs -- -I$(UTEE_ROOT)/include/
 
 all:
 	cd rust && PATH="/usr/bin:$(PATH)" CARGO_HOME=$(CARGO_CUSTOM_HOME) $(CARGO_BIN)/cargo build --target $(RUST_TARGET) --release
@@ -52,7 +52,7 @@ all:
 	$(MAKE) -C ta CROSS_COMPILE="$(TA_CROSS_COMPILE)" LDFLAGS=""
 
 include ta/include/uuid.mk
-copy:
+copy: all
 	cp host/hello_rustee $(SHARED_FOLDER)
 	cp ta/$(TA_UUID).ta $(SHARED_FOLDER)
 
@@ -60,3 +60,9 @@ clean:
 	cd rust && CARGO_HOME=$(CARGO_CUSTOM_HOME) && $(CARGO_BIN)/cargo clean
 	$(MAKE) -C host clean
 	$(MAKE) -C ta clean
+	rm $(SHARED_FOLDER)/hello_rustee $(SHARED_FOLDER)/$(TA_UUID).ta
+run: copy
+	$(MAKE) -C $(OPTEE)/build run-only QEMU_VIRTFS_ENABLE=y QEMU_VIRTFS_HOST_DIR=$(SHARED_FOLDER)
+
+run-debug: copy
+	$(MAKE) -C $(OPTEE)/build run-only GDBSERVER=Y CFG_TEE_CORE_LOG_LEVEL=4 CFG_CORE_ASLR=n CFG_TA_ASLR=n CFG_TEE_TA_LOG_LEVEL=4 QEMU_VIRTFS_ENABLE=y QEMU_VIRTFS_HOST_DIR=$(SHARED_FOLDER)

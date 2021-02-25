@@ -102,6 +102,9 @@ pub const PRIX16: &'static [u8; 2usize] = b"X\0";
 pub const PRIX32: &'static [u8; 2usize] = b"X\0";
 pub const PRIX64: &'static [u8; 3usize] = b"lX\0";
 pub const PRIXPTR: &'static [u8; 3usize] = b"lX\0";
+pub const true_: u32 = 1;
+pub const false_: u32 = 0;
+pub const __bool_true_false_are_defined: u32 = 1;
 pub const TEE_INT_CORE_API_SPEC_VERSION: u32 = 10;
 pub const TEE_HANDLE_NULL: u32 = 0;
 pub const TEE_TIMEOUT_INFINITE: u32 = 4294967295;
@@ -462,9 +465,6 @@ pub const TEE_PANIC_ID_TEE_BIGINTCOMPUTEFMM: u32 = 7169;
 pub const TEE_PANIC_ID_TEE_BIGINTCONVERTFROMFMM: u32 = 7170;
 pub const TEE_PANIC_ID_TEE_BIGINTCONVERTTOFMM: u32 = 7171;
 pub const TEE_NUM_PARAMS: u32 = 4;
-pub const true_: u32 = 1;
-pub const false_: u32 = 0;
-pub const __bool_true_false_are_defined: u32 = 1;
 pub const TEE_MEM_INPUT: u32 = 1;
 pub const TEE_MEM_OUTPUT: u32 = 2;
 pub const TEE_MEMREF_0_USED: u32 = 1;
@@ -472,6 +472,24 @@ pub const TEE_MEMREF_1_USED: u32 = 2;
 pub const TEE_MEMREF_2_USED: u32 = 4;
 pub const TEE_MEMREF_3_USED: u32 = 8;
 pub const TEE_SE_READER_NAME_MAX: u32 = 20;
+pub const TA_FLAG_USER_MODE: u32 = 0;
+pub const TA_FLAG_EXEC_DDR: u32 = 0;
+pub const TA_FLAG_SINGLE_INSTANCE: u32 = 4;
+pub const TA_FLAG_MULTI_SESSION: u32 = 8;
+pub const TA_FLAG_INSTANCE_KEEP_ALIVE: u32 = 16;
+pub const TA_FLAG_SECURE_DATA_PATH: u32 = 32;
+pub const TA_FLAG_REMAP_SUPPORT: u32 = 0;
+pub const TA_FLAG_CACHE_MAINTENANCE: u32 = 128;
+pub const TA_FLAG_CONCURRENT: u32 = 256;
+pub const TA_FLAG_DEVICE_ENUM: u32 = 512;
+pub const TA_FLAG_DEVICE_ENUM_SUPP: u32 = 1024;
+pub const TA_PROP_STR_SINGLE_INSTANCE: &'static [u8; 22usize] = b"gpd.ta.singleInstance\0";
+pub const TA_PROP_STR_MULTI_SESSION: &'static [u8; 20usize] = b"gpd.ta.multiSession\0";
+pub const TA_PROP_STR_KEEP_ALIVE: &'static [u8; 25usize] = b"gpd.ta.instanceKeepAlive\0";
+pub const TA_PROP_STR_DATA_SIZE: &'static [u8; 16usize] = b"gpd.ta.dataSize\0";
+pub const TA_PROP_STR_STACK_SIZE: &'static [u8; 17usize] = b"gpd.ta.stackSize\0";
+pub const TA_PROP_STR_VERSION: &'static [u8; 15usize] = b"gpd.ta.version\0";
+pub const TA_PROP_STR_DESCRIPTION: &'static [u8; 19usize] = b"gpd.ta.description\0";
 pub const __GNUC_VA_LIST: u32 = 1;
 pub const TRACE_MIN: u32 = 0;
 pub const TRACE_ERROR: u32 = 1;
@@ -483,6 +501,24 @@ pub const TRACE_PRINTF_LEVEL: u32 = 1;
 pub const MAX_PRINT_SIZE: u32 = 256;
 pub const MAX_FUNC_PRINT_SIZE: u32 = 32;
 pub const TRACE_LEVEL: u32 = 4;
+pub type int_least8_t = i8;
+pub type int_least16_t = i16;
+pub type int_least32_t = i32;
+pub type int_least64_t = i64;
+pub type uint_least8_t = u8;
+pub type uint_least16_t = u16;
+pub type uint_least32_t = u32;
+pub type uint_least64_t = u64;
+pub type int_fast8_t = i8;
+pub type int_fast16_t = i16;
+pub type int_fast32_t = i32;
+pub type int_fast64_t = i64;
+pub type uint_fast8_t = u8;
+pub type uint_fast16_t = u16;
+pub type uint_fast32_t = u32;
+pub type uint_fast64_t = u64;
+pub type intmax_t = i64;
+pub type uintmax_t = u64;
 pub type size_t = libc::c_ulong;
 pub type wchar_t = libc::c_int;
 #[repr(C)]
@@ -527,125 +563,6 @@ fn bindgen_test_layout_max_align_t() {
             stringify!(max_align_t),
             "::",
             stringify!(__clang_max_align_nonce2)
-        )
-    );
-}
-pub type int_least8_t = i8;
-pub type int_least16_t = i16;
-pub type int_least32_t = i32;
-pub type int_least64_t = i64;
-pub type uint_least8_t = u8;
-pub type uint_least16_t = u16;
-pub type uint_least32_t = u32;
-pub type uint_least64_t = u64;
-pub type int_fast8_t = i8;
-pub type int_fast16_t = i16;
-pub type int_fast32_t = i32;
-pub type int_fast64_t = i64;
-pub type uint_fast8_t = u8;
-pub type uint_fast16_t = u16;
-pub type uint_fast32_t = u32;
-pub type uint_fast64_t = u64;
-pub type intmax_t = i64;
-pub type uintmax_t = u64;
-pub const utee_time_category_UTEE_TIME_CAT_SYSTEM: utee_time_category = 0;
-pub const utee_time_category_UTEE_TIME_CAT_TA_PERSISTENT: utee_time_category = 1;
-pub const utee_time_category_UTEE_TIME_CAT_REE: utee_time_category = 2;
-pub type utee_time_category = libc::c_uint;
-pub const utee_entry_func_UTEE_ENTRY_FUNC_OPEN_SESSION: utee_entry_func = 0;
-pub const utee_entry_func_UTEE_ENTRY_FUNC_CLOSE_SESSION: utee_entry_func = 1;
-pub const utee_entry_func_UTEE_ENTRY_FUNC_INVOKE_COMMAND: utee_entry_func = 2;
-pub type utee_entry_func = libc::c_uint;
-pub const utee_cache_operation_TEE_CACHECLEAN: utee_cache_operation = 0;
-pub const utee_cache_operation_TEE_CACHEFLUSH: utee_cache_operation = 1;
-pub const utee_cache_operation_TEE_CACHEINVALIDATE: utee_cache_operation = 2;
-pub type utee_cache_operation = libc::c_uint;
-#[repr(C)]
-#[derive(Debug, Default, Copy, Clone)]
-pub struct utee_params {
-    pub types: u64,
-    pub vals: [u64; 8usize],
-}
-#[test]
-fn bindgen_test_layout_utee_params() {
-    assert_eq!(
-        ::core::mem::size_of::<utee_params>(),
-        72usize,
-        concat!("Size of: ", stringify!(utee_params))
-    );
-    assert_eq!(
-        ::core::mem::align_of::<utee_params>(),
-        8usize,
-        concat!("Alignment of ", stringify!(utee_params))
-    );
-    assert_eq!(
-        unsafe { &(*(::core::ptr::null::<utee_params>())).types as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(utee_params),
-            "::",
-            stringify!(types)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::core::ptr::null::<utee_params>())).vals as *const _ as usize },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(utee_params),
-            "::",
-            stringify!(vals)
-        )
-    );
-}
-#[repr(C)]
-#[derive(Debug, Default, Copy, Clone)]
-pub struct utee_attribute {
-    pub a: u64,
-    pub b: u64,
-    pub attribute_id: u32,
-}
-#[test]
-fn bindgen_test_layout_utee_attribute() {
-    assert_eq!(
-        ::core::mem::size_of::<utee_attribute>(),
-        24usize,
-        concat!("Size of: ", stringify!(utee_attribute))
-    );
-    assert_eq!(
-        ::core::mem::align_of::<utee_attribute>(),
-        8usize,
-        concat!("Alignment of ", stringify!(utee_attribute))
-    );
-    assert_eq!(
-        unsafe { &(*(::core::ptr::null::<utee_attribute>())).a as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(utee_attribute),
-            "::",
-            stringify!(a)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::core::ptr::null::<utee_attribute>())).b as *const _ as usize },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(utee_attribute),
-            "::",
-            stringify!(b)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::core::ptr::null::<utee_attribute>())).attribute_id as *const _ as usize },
-        16usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(utee_attribute),
-            "::",
-            stringify!(attribute_id)
         )
     );
 }
@@ -1753,6 +1670,406 @@ impl Default for TEE_SEAID {
 }
 pub type TEE_ErrorOrigin = u32;
 pub type TEE_Session = *mut libc::c_void;
+pub const utee_time_category_UTEE_TIME_CAT_SYSTEM: utee_time_category = 0;
+pub const utee_time_category_UTEE_TIME_CAT_TA_PERSISTENT: utee_time_category = 1;
+pub const utee_time_category_UTEE_TIME_CAT_REE: utee_time_category = 2;
+pub type utee_time_category = libc::c_uint;
+pub const utee_entry_func_UTEE_ENTRY_FUNC_OPEN_SESSION: utee_entry_func = 0;
+pub const utee_entry_func_UTEE_ENTRY_FUNC_CLOSE_SESSION: utee_entry_func = 1;
+pub const utee_entry_func_UTEE_ENTRY_FUNC_INVOKE_COMMAND: utee_entry_func = 2;
+pub type utee_entry_func = libc::c_uint;
+pub const utee_cache_operation_TEE_CACHECLEAN: utee_cache_operation = 0;
+pub const utee_cache_operation_TEE_CACHEFLUSH: utee_cache_operation = 1;
+pub const utee_cache_operation_TEE_CACHEINVALIDATE: utee_cache_operation = 2;
+pub type utee_cache_operation = libc::c_uint;
+#[repr(C)]
+#[derive(Debug, Default, Copy, Clone)]
+pub struct utee_params {
+    pub types: u64,
+    pub vals: [u64; 8usize],
+}
+#[test]
+fn bindgen_test_layout_utee_params() {
+    assert_eq!(
+        ::core::mem::size_of::<utee_params>(),
+        72usize,
+        concat!("Size of: ", stringify!(utee_params))
+    );
+    assert_eq!(
+        ::core::mem::align_of::<utee_params>(),
+        8usize,
+        concat!("Alignment of ", stringify!(utee_params))
+    );
+    assert_eq!(
+        unsafe { &(*(::core::ptr::null::<utee_params>())).types as *const _ as usize },
+        0usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(utee_params),
+            "::",
+            stringify!(types)
+        )
+    );
+    assert_eq!(
+        unsafe { &(*(::core::ptr::null::<utee_params>())).vals as *const _ as usize },
+        8usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(utee_params),
+            "::",
+            stringify!(vals)
+        )
+    );
+}
+#[repr(C)]
+#[derive(Debug, Default, Copy, Clone)]
+pub struct utee_attribute {
+    pub a: u64,
+    pub b: u64,
+    pub attribute_id: u32,
+}
+#[test]
+fn bindgen_test_layout_utee_attribute() {
+    assert_eq!(
+        ::core::mem::size_of::<utee_attribute>(),
+        24usize,
+        concat!("Size of: ", stringify!(utee_attribute))
+    );
+    assert_eq!(
+        ::core::mem::align_of::<utee_attribute>(),
+        8usize,
+        concat!("Alignment of ", stringify!(utee_attribute))
+    );
+    assert_eq!(
+        unsafe { &(*(::core::ptr::null::<utee_attribute>())).a as *const _ as usize },
+        0usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(utee_attribute),
+            "::",
+            stringify!(a)
+        )
+    );
+    assert_eq!(
+        unsafe { &(*(::core::ptr::null::<utee_attribute>())).b as *const _ as usize },
+        8usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(utee_attribute),
+            "::",
+            stringify!(b)
+        )
+    );
+    assert_eq!(
+        unsafe { &(*(::core::ptr::null::<utee_attribute>())).attribute_id as *const _ as usize },
+        16usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(utee_attribute),
+            "::",
+            stringify!(attribute_id)
+        )
+    );
+}
+#[repr(C)]
+#[derive(Debug, Default, Copy, Clone)]
+pub struct ta_head {
+    pub uuid: TEE_UUID,
+    pub stack_size: u32,
+    pub flags: u32,
+    pub depr_entry: u64,
+}
+#[test]
+fn bindgen_test_layout_ta_head() {
+    assert_eq!(
+        ::core::mem::size_of::<ta_head>(),
+        32usize,
+        concat!("Size of: ", stringify!(ta_head))
+    );
+    assert_eq!(
+        ::core::mem::align_of::<ta_head>(),
+        8usize,
+        concat!("Alignment of ", stringify!(ta_head))
+    );
+    assert_eq!(
+        unsafe { &(*(::core::ptr::null::<ta_head>())).uuid as *const _ as usize },
+        0usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(ta_head),
+            "::",
+            stringify!(uuid)
+        )
+    );
+    assert_eq!(
+        unsafe { &(*(::core::ptr::null::<ta_head>())).stack_size as *const _ as usize },
+        16usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(ta_head),
+            "::",
+            stringify!(stack_size)
+        )
+    );
+    assert_eq!(
+        unsafe { &(*(::core::ptr::null::<ta_head>())).flags as *const _ as usize },
+        20usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(ta_head),
+            "::",
+            stringify!(flags)
+        )
+    );
+    assert_eq!(
+        unsafe { &(*(::core::ptr::null::<ta_head>())).depr_entry as *const _ as usize },
+        24usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(ta_head),
+            "::",
+            stringify!(depr_entry)
+        )
+    );
+}
+extern "C" {
+    pub fn __utee_call_elf_init_fn();
+}
+extern "C" {
+    pub fn __utee_call_elf_fini_fn();
+}
+extern "C" {
+    pub fn __utee_tcb_init();
+}
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct __elf_phdr_info {
+    pub reserved: u32,
+    pub count: u16,
+    pub reserved2: u8,
+    pub zero: libc::c_char,
+    pub dlpi: *mut dl_phdr_info,
+}
+#[test]
+fn bindgen_test_layout___elf_phdr_info() {
+    assert_eq!(
+        ::core::mem::size_of::<__elf_phdr_info>(),
+        16usize,
+        concat!("Size of: ", stringify!(__elf_phdr_info))
+    );
+    assert_eq!(
+        ::core::mem::align_of::<__elf_phdr_info>(),
+        8usize,
+        concat!("Alignment of ", stringify!(__elf_phdr_info))
+    );
+    assert_eq!(
+        unsafe { &(*(::core::ptr::null::<__elf_phdr_info>())).reserved as *const _ as usize },
+        0usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(__elf_phdr_info),
+            "::",
+            stringify!(reserved)
+        )
+    );
+    assert_eq!(
+        unsafe { &(*(::core::ptr::null::<__elf_phdr_info>())).count as *const _ as usize },
+        4usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(__elf_phdr_info),
+            "::",
+            stringify!(count)
+        )
+    );
+    assert_eq!(
+        unsafe { &(*(::core::ptr::null::<__elf_phdr_info>())).reserved2 as *const _ as usize },
+        6usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(__elf_phdr_info),
+            "::",
+            stringify!(reserved2)
+        )
+    );
+    assert_eq!(
+        unsafe { &(*(::core::ptr::null::<__elf_phdr_info>())).zero as *const _ as usize },
+        7usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(__elf_phdr_info),
+            "::",
+            stringify!(zero)
+        )
+    );
+    assert_eq!(
+        unsafe { &(*(::core::ptr::null::<__elf_phdr_info>())).dlpi as *const _ as usize },
+        8usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(__elf_phdr_info),
+            "::",
+            stringify!(dlpi)
+        )
+    );
+}
+impl Default for __elf_phdr_info {
+    fn default() -> Self {
+        unsafe { ::core::mem::zeroed() }
+    }
+}
+#[repr(C)]
+#[derive(Debug, Default, Copy, Clone)]
+pub struct __elf_phdr_info32 {
+    pub reserved: u32,
+    pub count: u16,
+    pub reserved2: u8,
+    pub zero: libc::c_char,
+    pub dlpi: u32,
+}
+#[test]
+fn bindgen_test_layout___elf_phdr_info32() {
+    assert_eq!(
+        ::core::mem::size_of::<__elf_phdr_info32>(),
+        12usize,
+        concat!("Size of: ", stringify!(__elf_phdr_info32))
+    );
+    assert_eq!(
+        ::core::mem::align_of::<__elf_phdr_info32>(),
+        4usize,
+        concat!("Alignment of ", stringify!(__elf_phdr_info32))
+    );
+    assert_eq!(
+        unsafe { &(*(::core::ptr::null::<__elf_phdr_info32>())).reserved as *const _ as usize },
+        0usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(__elf_phdr_info32),
+            "::",
+            stringify!(reserved)
+        )
+    );
+    assert_eq!(
+        unsafe { &(*(::core::ptr::null::<__elf_phdr_info32>())).count as *const _ as usize },
+        4usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(__elf_phdr_info32),
+            "::",
+            stringify!(count)
+        )
+    );
+    assert_eq!(
+        unsafe { &(*(::core::ptr::null::<__elf_phdr_info32>())).reserved2 as *const _ as usize },
+        6usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(__elf_phdr_info32),
+            "::",
+            stringify!(reserved2)
+        )
+    );
+    assert_eq!(
+        unsafe { &(*(::core::ptr::null::<__elf_phdr_info32>())).zero as *const _ as usize },
+        7usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(__elf_phdr_info32),
+            "::",
+            stringify!(zero)
+        )
+    );
+    assert_eq!(
+        unsafe { &(*(::core::ptr::null::<__elf_phdr_info32>())).dlpi as *const _ as usize },
+        8usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(__elf_phdr_info32),
+            "::",
+            stringify!(dlpi)
+        )
+    );
+}
+extern "C" {
+    pub static mut __elf_phdr_info: __elf_phdr_info;
+}
+pub const user_ta_prop_type_USER_TA_PROP_TYPE_BOOL: user_ta_prop_type = 0;
+pub const user_ta_prop_type_USER_TA_PROP_TYPE_U32: user_ta_prop_type = 1;
+pub const user_ta_prop_type_USER_TA_PROP_TYPE_UUID: user_ta_prop_type = 2;
+pub const user_ta_prop_type_USER_TA_PROP_TYPE_IDENTITY: user_ta_prop_type = 3;
+pub const user_ta_prop_type_USER_TA_PROP_TYPE_STRING: user_ta_prop_type = 4;
+pub const user_ta_prop_type_USER_TA_PROP_TYPE_BINARY_BLOCK: user_ta_prop_type = 5;
+pub type user_ta_prop_type = libc::c_uint;
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct user_ta_property {
+    pub name: *const libc::c_char,
+    pub type_: user_ta_prop_type,
+    pub value: *const libc::c_void,
+}
+#[test]
+fn bindgen_test_layout_user_ta_property() {
+    assert_eq!(
+        ::core::mem::size_of::<user_ta_property>(),
+        24usize,
+        concat!("Size of: ", stringify!(user_ta_property))
+    );
+    assert_eq!(
+        ::core::mem::align_of::<user_ta_property>(),
+        8usize,
+        concat!("Alignment of ", stringify!(user_ta_property))
+    );
+    assert_eq!(
+        unsafe { &(*(::core::ptr::null::<user_ta_property>())).name as *const _ as usize },
+        0usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(user_ta_property),
+            "::",
+            stringify!(name)
+        )
+    );
+    assert_eq!(
+        unsafe { &(*(::core::ptr::null::<user_ta_property>())).type_ as *const _ as usize },
+        8usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(user_ta_property),
+            "::",
+            stringify!(type_)
+        )
+    );
+    assert_eq!(
+        unsafe { &(*(::core::ptr::null::<user_ta_property>())).value as *const _ as usize },
+        16usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(user_ta_property),
+            "::",
+            stringify!(value)
+        )
+    );
+}
+impl Default for user_ta_property {
+    fn default() -> Self {
+        unsafe { ::core::mem::zeroed() }
+    }
+}
+extern "C" {
+    pub static mut ta_props: [user_ta_property; 0usize];
+}
+extern "C" {
+    pub static ta_num_props: size_t;
+}
+extern "C" {
+    pub static mut ta_param_types: u32;
+}
+extern "C" {
+    pub static mut ta_params: [TEE_Param; 4usize];
+}
+extern "C" {
+    pub fn tahead_get_trace_level() -> libc::c_int;
+}
 pub type va_list = __builtin_va_list;
 pub type __gnuc_va_list = __builtin_va_list;
 extern "C" {
@@ -1803,6 +2120,698 @@ extern "C" {
         level: libc::c_int,
         buf: *const libc::c_void,
         len: libc::c_int,
+    );
+}
+extern "C" {
+    pub fn TEE_GetPropertyAsString(
+        propsetOrEnumerator: TEE_PropSetHandle,
+        name: *const libc::c_char,
+        valueBuffer: *mut libc::c_char,
+        valueBufferLen: *mut u32,
+    ) -> TEE_Result;
+}
+extern "C" {
+    pub fn TEE_GetPropertyAsBool(
+        propsetOrEnumerator: TEE_PropSetHandle,
+        name: *const libc::c_char,
+        value: *mut bool,
+    ) -> TEE_Result;
+}
+extern "C" {
+    pub fn TEE_GetPropertyAsU32(
+        propsetOrEnumerator: TEE_PropSetHandle,
+        name: *const libc::c_char,
+        value: *mut u32,
+    ) -> TEE_Result;
+}
+extern "C" {
+    pub fn TEE_GetPropertyAsBinaryBlock(
+        propsetOrEnumerator: TEE_PropSetHandle,
+        name: *const libc::c_char,
+        valueBuffer: *mut libc::c_void,
+        valueBufferLen: *mut u32,
+    ) -> TEE_Result;
+}
+extern "C" {
+    pub fn TEE_GetPropertyAsUUID(
+        propsetOrEnumerator: TEE_PropSetHandle,
+        name: *const libc::c_char,
+        value: *mut TEE_UUID,
+    ) -> TEE_Result;
+}
+extern "C" {
+    pub fn TEE_GetPropertyAsIdentity(
+        propsetOrEnumerator: TEE_PropSetHandle,
+        name: *const libc::c_char,
+        value: *mut TEE_Identity,
+    ) -> TEE_Result;
+}
+extern "C" {
+    pub fn TEE_AllocatePropertyEnumerator(enumerator: *mut TEE_PropSetHandle) -> TEE_Result;
+}
+extern "C" {
+    pub fn TEE_FreePropertyEnumerator(enumerator: TEE_PropSetHandle);
+}
+extern "C" {
+    pub fn TEE_StartPropertyEnumerator(enumerator: TEE_PropSetHandle, propSet: TEE_PropSetHandle);
+}
+extern "C" {
+    pub fn TEE_ResetPropertyEnumerator(enumerator: TEE_PropSetHandle);
+}
+extern "C" {
+    pub fn TEE_GetPropertyName(
+        enumerator: TEE_PropSetHandle,
+        nameBuffer: *mut libc::c_void,
+        nameBufferLen: *mut u32,
+    ) -> TEE_Result;
+}
+extern "C" {
+    pub fn TEE_GetNextProperty(enumerator: TEE_PropSetHandle) -> TEE_Result;
+}
+extern "C" {
+    pub fn TEE_Panic(panicCode: TEE_Result);
+}
+extern "C" {
+    pub fn TEE_OpenTASession(
+        destination: *const TEE_UUID,
+        cancellationRequestTimeout: u32,
+        paramTypes: u32,
+        params: *mut TEE_Param,
+        session: *mut TEE_TASessionHandle,
+        returnOrigin: *mut u32,
+    ) -> TEE_Result;
+}
+extern "C" {
+    pub fn TEE_CloseTASession(session: TEE_TASessionHandle);
+}
+extern "C" {
+    pub fn TEE_InvokeTACommand(
+        session: TEE_TASessionHandle,
+        cancellationRequestTimeout: u32,
+        commandID: u32,
+        paramTypes: u32,
+        params: *mut TEE_Param,
+        returnOrigin: *mut u32,
+    ) -> TEE_Result;
+}
+extern "C" {
+    pub fn TEE_GetCancellationFlag() -> bool;
+}
+extern "C" {
+    pub fn TEE_UnmaskCancellation() -> bool;
+}
+extern "C" {
+    pub fn TEE_MaskCancellation() -> bool;
+}
+extern "C" {
+    pub fn TEE_CheckMemoryAccessRights(
+        accessFlags: u32,
+        buffer: *mut libc::c_void,
+        size: u32,
+    ) -> TEE_Result;
+}
+extern "C" {
+    pub fn TEE_SetInstanceData(instanceData: *const libc::c_void);
+}
+extern "C" {
+    pub fn TEE_GetInstanceData() -> *const libc::c_void;
+}
+extern "C" {
+    pub fn TEE_Malloc(size: u32, hint: u32) -> *mut libc::c_void;
+}
+extern "C" {
+    pub fn TEE_Realloc(buffer: *mut libc::c_void, newSize: u32) -> *mut libc::c_void;
+}
+extern "C" {
+    pub fn TEE_Free(buffer: *mut libc::c_void);
+}
+extern "C" {
+    pub fn TEE_MemMove(
+        dest: *mut libc::c_void,
+        src: *const libc::c_void,
+        size: u32,
+    ) -> *mut libc::c_void;
+}
+extern "C" {
+    pub fn TEE_MemCompare(
+        buffer1: *const libc::c_void,
+        buffer2: *const libc::c_void,
+        size: u32,
+    ) -> i32;
+}
+extern "C" {
+    pub fn TEE_MemFill(buff: *mut libc::c_void, x: u32, size: u32) -> *mut libc::c_void;
+}
+extern "C" {
+    pub fn TEE_GetObjectInfo(object: TEE_ObjectHandle, objectInfo: *mut TEE_ObjectInfo);
+}
+extern "C" {
+    pub fn TEE_GetObjectInfo1(
+        object: TEE_ObjectHandle,
+        objectInfo: *mut TEE_ObjectInfo,
+    ) -> TEE_Result;
+}
+extern "C" {
+    pub fn TEE_RestrictObjectUsage(object: TEE_ObjectHandle, objectUsage: u32);
+}
+extern "C" {
+    pub fn TEE_RestrictObjectUsage1(object: TEE_ObjectHandle, objectUsage: u32) -> TEE_Result;
+}
+extern "C" {
+    pub fn TEE_GetObjectBufferAttribute(
+        object: TEE_ObjectHandle,
+        attributeID: u32,
+        buffer: *mut libc::c_void,
+        size: *mut u32,
+    ) -> TEE_Result;
+}
+extern "C" {
+    pub fn TEE_GetObjectValueAttribute(
+        object: TEE_ObjectHandle,
+        attributeID: u32,
+        a: *mut u32,
+        b: *mut u32,
+    ) -> TEE_Result;
+}
+extern "C" {
+    pub fn TEE_CloseObject(object: TEE_ObjectHandle);
+}
+extern "C" {
+    pub fn TEE_AllocateTransientObject(
+        objectType: TEE_ObjectType,
+        maxKeySize: u32,
+        object: *mut TEE_ObjectHandle,
+    ) -> TEE_Result;
+}
+extern "C" {
+    pub fn TEE_FreeTransientObject(object: TEE_ObjectHandle);
+}
+extern "C" {
+    pub fn TEE_ResetTransientObject(object: TEE_ObjectHandle);
+}
+extern "C" {
+    pub fn TEE_PopulateTransientObject(
+        object: TEE_ObjectHandle,
+        attrs: *const TEE_Attribute,
+        attrCount: u32,
+    ) -> TEE_Result;
+}
+extern "C" {
+    pub fn TEE_InitRefAttribute(
+        attr: *mut TEE_Attribute,
+        attributeID: u32,
+        buffer: *const libc::c_void,
+        length: u32,
+    );
+}
+extern "C" {
+    pub fn TEE_InitValueAttribute(attr: *mut TEE_Attribute, attributeID: u32, a: u32, b: u32);
+}
+extern "C" {
+    pub fn TEE_CopyObjectAttributes(destObject: TEE_ObjectHandle, srcObject: TEE_ObjectHandle);
+}
+extern "C" {
+    pub fn TEE_CopyObjectAttributes1(
+        destObject: TEE_ObjectHandle,
+        srcObject: TEE_ObjectHandle,
+    ) -> TEE_Result;
+}
+extern "C" {
+    pub fn TEE_GenerateKey(
+        object: TEE_ObjectHandle,
+        keySize: u32,
+        params: *const TEE_Attribute,
+        paramCount: u32,
+    ) -> TEE_Result;
+}
+extern "C" {
+    pub fn TEE_OpenPersistentObject(
+        storageID: u32,
+        objectID: *const libc::c_void,
+        objectIDLen: u32,
+        flags: u32,
+        object: *mut TEE_ObjectHandle,
+    ) -> TEE_Result;
+}
+extern "C" {
+    pub fn TEE_CreatePersistentObject(
+        storageID: u32,
+        objectID: *const libc::c_void,
+        objectIDLen: u32,
+        flags: u32,
+        attributes: TEE_ObjectHandle,
+        initialData: *const libc::c_void,
+        initialDataLen: u32,
+        object: *mut TEE_ObjectHandle,
+    ) -> TEE_Result;
+}
+extern "C" {
+    pub fn TEE_CloseAndDeletePersistentObject(object: TEE_ObjectHandle);
+}
+extern "C" {
+    pub fn TEE_CloseAndDeletePersistentObject1(object: TEE_ObjectHandle) -> TEE_Result;
+}
+extern "C" {
+    pub fn TEE_RenamePersistentObject(
+        object: TEE_ObjectHandle,
+        newObjectID: *const libc::c_void,
+        newObjectIDLen: u32,
+    ) -> TEE_Result;
+}
+extern "C" {
+    pub fn TEE_AllocatePersistentObjectEnumerator(
+        objectEnumerator: *mut TEE_ObjectEnumHandle,
+    ) -> TEE_Result;
+}
+extern "C" {
+    pub fn TEE_FreePersistentObjectEnumerator(objectEnumerator: TEE_ObjectEnumHandle);
+}
+extern "C" {
+    pub fn TEE_ResetPersistentObjectEnumerator(objectEnumerator: TEE_ObjectEnumHandle);
+}
+extern "C" {
+    pub fn TEE_StartPersistentObjectEnumerator(
+        objectEnumerator: TEE_ObjectEnumHandle,
+        storageID: u32,
+    ) -> TEE_Result;
+}
+extern "C" {
+    pub fn TEE_GetNextPersistentObject(
+        objectEnumerator: TEE_ObjectEnumHandle,
+        objectInfo: *mut TEE_ObjectInfo,
+        objectID: *mut libc::c_void,
+        objectIDLen: *mut u32,
+    ) -> TEE_Result;
+}
+extern "C" {
+    pub fn TEE_ReadObjectData(
+        object: TEE_ObjectHandle,
+        buffer: *mut libc::c_void,
+        size: u32,
+        count: *mut u32,
+    ) -> TEE_Result;
+}
+extern "C" {
+    pub fn TEE_WriteObjectData(
+        object: TEE_ObjectHandle,
+        buffer: *const libc::c_void,
+        size: u32,
+    ) -> TEE_Result;
+}
+extern "C" {
+    pub fn TEE_TruncateObjectData(object: TEE_ObjectHandle, size: u32) -> TEE_Result;
+}
+extern "C" {
+    pub fn TEE_SeekObjectData(
+        object: TEE_ObjectHandle,
+        offset: i32,
+        whence: TEE_Whence,
+    ) -> TEE_Result;
+}
+extern "C" {
+    pub fn TEE_AllocateOperation(
+        operation: *mut TEE_OperationHandle,
+        algorithm: u32,
+        mode: u32,
+        maxKeySize: u32,
+    ) -> TEE_Result;
+}
+extern "C" {
+    pub fn TEE_FreeOperation(operation: TEE_OperationHandle);
+}
+extern "C" {
+    pub fn TEE_GetOperationInfo(
+        operation: TEE_OperationHandle,
+        operationInfo: *mut TEE_OperationInfo,
+    );
+}
+extern "C" {
+    pub fn TEE_GetOperationInfoMultiple(
+        operation: TEE_OperationHandle,
+        operationInfoMultiple: *mut TEE_OperationInfoMultiple,
+        operationSize: *mut u32,
+    ) -> TEE_Result;
+}
+extern "C" {
+    pub fn TEE_ResetOperation(operation: TEE_OperationHandle);
+}
+extern "C" {
+    pub fn TEE_SetOperationKey(operation: TEE_OperationHandle, key: TEE_ObjectHandle)
+        -> TEE_Result;
+}
+extern "C" {
+    pub fn TEE_SetOperationKey2(
+        operation: TEE_OperationHandle,
+        key1: TEE_ObjectHandle,
+        key2: TEE_ObjectHandle,
+    ) -> TEE_Result;
+}
+extern "C" {
+    pub fn TEE_CopyOperation(dstOperation: TEE_OperationHandle, srcOperation: TEE_OperationHandle);
+}
+extern "C" {
+    pub fn TEE_IsAlgorithmSupported(algId: u32, element: u32) -> TEE_Result;
+}
+extern "C" {
+    pub fn TEE_DigestUpdate(
+        operation: TEE_OperationHandle,
+        chunk: *const libc::c_void,
+        chunkSize: u32,
+    );
+}
+extern "C" {
+    pub fn TEE_DigestDoFinal(
+        operation: TEE_OperationHandle,
+        chunk: *const libc::c_void,
+        chunkLen: u32,
+        hash: *mut libc::c_void,
+        hashLen: *mut u32,
+    ) -> TEE_Result;
+}
+extern "C" {
+    pub fn TEE_CipherInit(operation: TEE_OperationHandle, IV: *const libc::c_void, IVLen: u32);
+}
+extern "C" {
+    pub fn TEE_CipherUpdate(
+        operation: TEE_OperationHandle,
+        srcData: *const libc::c_void,
+        srcLen: u32,
+        destData: *mut libc::c_void,
+        destLen: *mut u32,
+    ) -> TEE_Result;
+}
+extern "C" {
+    pub fn TEE_CipherDoFinal(
+        operation: TEE_OperationHandle,
+        srcData: *const libc::c_void,
+        srcLen: u32,
+        destData: *mut libc::c_void,
+        destLen: *mut u32,
+    ) -> TEE_Result;
+}
+extern "C" {
+    pub fn TEE_MACInit(operation: TEE_OperationHandle, IV: *const libc::c_void, IVLen: u32);
+}
+extern "C" {
+    pub fn TEE_MACUpdate(
+        operation: TEE_OperationHandle,
+        chunk: *const libc::c_void,
+        chunkSize: u32,
+    );
+}
+extern "C" {
+    pub fn TEE_MACComputeFinal(
+        operation: TEE_OperationHandle,
+        message: *const libc::c_void,
+        messageLen: u32,
+        mac: *mut libc::c_void,
+        macLen: *mut u32,
+    ) -> TEE_Result;
+}
+extern "C" {
+    pub fn TEE_MACCompareFinal(
+        operation: TEE_OperationHandle,
+        message: *const libc::c_void,
+        messageLen: u32,
+        mac: *const libc::c_void,
+        macLen: u32,
+    ) -> TEE_Result;
+}
+extern "C" {
+    pub fn TEE_AEInit(
+        operation: TEE_OperationHandle,
+        nonce: *const libc::c_void,
+        nonceLen: u32,
+        tagLen: u32,
+        AADLen: u32,
+        payloadLen: u32,
+    ) -> TEE_Result;
+}
+extern "C" {
+    pub fn TEE_AEUpdateAAD(
+        operation: TEE_OperationHandle,
+        AADdata: *const libc::c_void,
+        AADdataLen: u32,
+    );
+}
+extern "C" {
+    pub fn TEE_AEUpdate(
+        operation: TEE_OperationHandle,
+        srcData: *const libc::c_void,
+        srcLen: u32,
+        destData: *mut libc::c_void,
+        destLen: *mut u32,
+    ) -> TEE_Result;
+}
+extern "C" {
+    pub fn TEE_AEEncryptFinal(
+        operation: TEE_OperationHandle,
+        srcData: *const libc::c_void,
+        srcLen: u32,
+        destData: *mut libc::c_void,
+        destLen: *mut u32,
+        tag: *mut libc::c_void,
+        tagLen: *mut u32,
+    ) -> TEE_Result;
+}
+extern "C" {
+    pub fn TEE_AEDecryptFinal(
+        operation: TEE_OperationHandle,
+        srcData: *const libc::c_void,
+        srcLen: u32,
+        destData: *mut libc::c_void,
+        destLen: *mut u32,
+        tag: *mut libc::c_void,
+        tagLen: u32,
+    ) -> TEE_Result;
+}
+extern "C" {
+    pub fn TEE_AsymmetricEncrypt(
+        operation: TEE_OperationHandle,
+        params: *const TEE_Attribute,
+        paramCount: u32,
+        srcData: *const libc::c_void,
+        srcLen: u32,
+        destData: *mut libc::c_void,
+        destLen: *mut u32,
+    ) -> TEE_Result;
+}
+extern "C" {
+    pub fn TEE_AsymmetricDecrypt(
+        operation: TEE_OperationHandle,
+        params: *const TEE_Attribute,
+        paramCount: u32,
+        srcData: *const libc::c_void,
+        srcLen: u32,
+        destData: *mut libc::c_void,
+        destLen: *mut u32,
+    ) -> TEE_Result;
+}
+extern "C" {
+    pub fn TEE_AsymmetricSignDigest(
+        operation: TEE_OperationHandle,
+        params: *const TEE_Attribute,
+        paramCount: u32,
+        digest: *const libc::c_void,
+        digestLen: u32,
+        signature: *mut libc::c_void,
+        signatureLen: *mut u32,
+    ) -> TEE_Result;
+}
+extern "C" {
+    pub fn TEE_AsymmetricVerifyDigest(
+        operation: TEE_OperationHandle,
+        params: *const TEE_Attribute,
+        paramCount: u32,
+        digest: *const libc::c_void,
+        digestLen: u32,
+        signature: *const libc::c_void,
+        signatureLen: u32,
+    ) -> TEE_Result;
+}
+extern "C" {
+    pub fn TEE_DeriveKey(
+        operation: TEE_OperationHandle,
+        params: *const TEE_Attribute,
+        paramCount: u32,
+        derivedKey: TEE_ObjectHandle,
+    );
+}
+extern "C" {
+    pub fn TEE_GenerateRandom(randomBuffer: *mut libc::c_void, randomBufferLen: u32);
+}
+extern "C" {
+    pub fn TEE_GetSystemTime(time: *mut TEE_Time);
+}
+extern "C" {
+    pub fn TEE_Wait(timeout: u32) -> TEE_Result;
+}
+extern "C" {
+    pub fn TEE_GetTAPersistentTime(time: *mut TEE_Time) -> TEE_Result;
+}
+extern "C" {
+    pub fn TEE_SetTAPersistentTime(time: *const TEE_Time) -> TEE_Result;
+}
+extern "C" {
+    pub fn TEE_GetREETime(time: *mut TEE_Time);
+}
+extern "C" {
+    pub fn TEE_BigIntFMMSizeInU32(modulusSizeInBits: u32) -> u32;
+}
+extern "C" {
+    pub fn TEE_BigIntFMMContextSizeInU32(modulusSizeInBits: u32) -> u32;
+}
+extern "C" {
+    pub fn TEE_BigIntInit(bigInt: *mut TEE_BigInt, len: u32);
+}
+extern "C" {
+    pub fn TEE_BigIntInitFMMContext(
+        context: *mut TEE_BigIntFMMContext,
+        len: u32,
+        modulus: *const TEE_BigInt,
+    );
+}
+extern "C" {
+    pub fn TEE_BigIntInitFMM(bigIntFMM: *mut TEE_BigIntFMM, len: u32);
+}
+extern "C" {
+    pub fn TEE_BigIntConvertFromOctetString(
+        dest: *mut TEE_BigInt,
+        buffer: *const u8,
+        bufferLen: u32,
+        sign: i32,
+    ) -> TEE_Result;
+}
+extern "C" {
+    pub fn TEE_BigIntConvertToOctetString(
+        buffer: *mut u8,
+        bufferLen: *mut u32,
+        bigInt: *const TEE_BigInt,
+    ) -> TEE_Result;
+}
+extern "C" {
+    pub fn TEE_BigIntConvertFromS32(dest: *mut TEE_BigInt, shortVal: i32);
+}
+extern "C" {
+    pub fn TEE_BigIntConvertToS32(dest: *mut i32, src: *const TEE_BigInt) -> TEE_Result;
+}
+extern "C" {
+    pub fn TEE_BigIntCmp(op1: *const TEE_BigInt, op2: *const TEE_BigInt) -> i32;
+}
+extern "C" {
+    pub fn TEE_BigIntCmpS32(op: *const TEE_BigInt, shortVal: i32) -> i32;
+}
+extern "C" {
+    pub fn TEE_BigIntShiftRight(dest: *mut TEE_BigInt, op: *const TEE_BigInt, bits: size_t);
+}
+extern "C" {
+    pub fn TEE_BigIntGetBit(src: *const TEE_BigInt, bitIndex: u32) -> bool;
+}
+extern "C" {
+    pub fn TEE_BigIntGetBitCount(src: *const TEE_BigInt) -> u32;
+}
+extern "C" {
+    pub fn TEE_BigIntAdd(dest: *mut TEE_BigInt, op1: *const TEE_BigInt, op2: *const TEE_BigInt);
+}
+extern "C" {
+    pub fn TEE_BigIntSub(dest: *mut TEE_BigInt, op1: *const TEE_BigInt, op2: *const TEE_BigInt);
+}
+extern "C" {
+    pub fn TEE_BigIntNeg(dest: *mut TEE_BigInt, op: *const TEE_BigInt);
+}
+extern "C" {
+    pub fn TEE_BigIntMul(dest: *mut TEE_BigInt, op1: *const TEE_BigInt, op2: *const TEE_BigInt);
+}
+extern "C" {
+    pub fn TEE_BigIntSquare(dest: *mut TEE_BigInt, op: *const TEE_BigInt);
+}
+extern "C" {
+    pub fn TEE_BigIntDiv(
+        dest_q: *mut TEE_BigInt,
+        dest_r: *mut TEE_BigInt,
+        op1: *const TEE_BigInt,
+        op2: *const TEE_BigInt,
+    );
+}
+extern "C" {
+    pub fn TEE_BigIntMod(dest: *mut TEE_BigInt, op: *const TEE_BigInt, n: *const TEE_BigInt);
+}
+extern "C" {
+    pub fn TEE_BigIntAddMod(
+        dest: *mut TEE_BigInt,
+        op1: *const TEE_BigInt,
+        op2: *const TEE_BigInt,
+        n: *const TEE_BigInt,
+    );
+}
+extern "C" {
+    pub fn TEE_BigIntSubMod(
+        dest: *mut TEE_BigInt,
+        op1: *const TEE_BigInt,
+        op2: *const TEE_BigInt,
+        n: *const TEE_BigInt,
+    );
+}
+extern "C" {
+    pub fn TEE_BigIntMulMod(
+        dest: *mut TEE_BigInt,
+        op1: *const TEE_BigInt,
+        op2: *const TEE_BigInt,
+        n: *const TEE_BigInt,
+    );
+}
+extern "C" {
+    pub fn TEE_BigIntSquareMod(dest: *mut TEE_BigInt, op: *const TEE_BigInt, n: *const TEE_BigInt);
+}
+extern "C" {
+    pub fn TEE_BigIntInvMod(dest: *mut TEE_BigInt, op: *const TEE_BigInt, n: *const TEE_BigInt);
+}
+extern "C" {
+    pub fn TEE_BigIntRelativePrime(op1: *const TEE_BigInt, op2: *const TEE_BigInt) -> bool;
+}
+extern "C" {
+    pub fn TEE_BigIntComputeExtendedGcd(
+        gcd: *mut TEE_BigInt,
+        u: *mut TEE_BigInt,
+        v: *mut TEE_BigInt,
+        op1: *const TEE_BigInt,
+        op2: *const TEE_BigInt,
+    );
+}
+extern "C" {
+    pub fn TEE_BigIntIsProbablePrime(op: *const TEE_BigInt, confidenceLevel: u32) -> i32;
+}
+extern "C" {
+    pub fn TEE_BigIntConvertToFMM(
+        dest: *mut TEE_BigIntFMM,
+        src: *const TEE_BigInt,
+        n: *const TEE_BigInt,
+        context: *const TEE_BigIntFMMContext,
+    );
+}
+extern "C" {
+    pub fn TEE_BigIntConvertFromFMM(
+        dest: *mut TEE_BigInt,
+        src: *const TEE_BigIntFMM,
+        n: *const TEE_BigInt,
+        context: *const TEE_BigIntFMMContext,
+    );
+}
+extern "C" {
+    pub fn TEE_BigIntFMMConvertToBigInt(
+        dest: *mut TEE_BigInt,
+        src: *const TEE_BigIntFMM,
+        n: *const TEE_BigInt,
+        context: *const TEE_BigIntFMMContext,
+    );
+}
+extern "C" {
+    pub fn TEE_BigIntComputeFMM(
+        dest: *mut TEE_BigIntFMM,
+        op1: *const TEE_BigIntFMM,
+        op2: *const TEE_BigIntFMM,
+        n: *const TEE_BigInt,
+        context: *const TEE_BigIntFMMContext,
     );
 }
 extern "C" {
@@ -2226,6 +3235,11 @@ extern "C" {
 }
 extern "C" {
     pub fn _utee_gprof_send(buf: *mut libc::c_void, size: size_t, id: *mut u32) -> TEE_Result;
+}
+#[repr(C)]
+#[derive(Debug, Default, Copy, Clone)]
+pub struct dl_phdr_info {
+    pub _address: u8,
 }
 pub type __builtin_va_list = [__va_list_tag; 1usize];
 #[repr(C)]
