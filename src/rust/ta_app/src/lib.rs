@@ -134,11 +134,11 @@ mod tests {
 
         //call
         handler
-            .process_command(CommandId::Inc, input.as_slice(), output.as_mut_slice())
+            .process_command(CommandId::Inc, &input[..], &mut output[..])
             .expect("incrementing 0");
 
         //parse output
-        let out = u64::from_le_bytes(output).expect("parsing u64 output");
+        let out = u64::from_le_bytes(output);
 
         assert_eq!(out, 1);
     }
@@ -153,12 +153,34 @@ mod tests {
 
         //call
         handler
-            .process_command(CommandId::Dec, input.as_slice(), output.as_mut_slice())
+            .process_command(CommandId::Dec, &input[..], &mut output[..])
             .expect("incrementing 0");
 
         //parse output
-        let out = u64::from_le_bytes(output).expect("parsing u64 output");
+        let out = u64::from_le_bytes(output);
 
         assert_eq!(out, 0);
+    }
+
+    #[test]
+    fn mul() {
+        let mut handler = TaApp::default();
+
+        //prepare inputs
+
+        let mut input = [0u8; 16];
+        input[..8].copy_from_slice(&2u64.to_le_bytes());
+        input[8..].copy_from_slice(&2u64.to_le_bytes());
+        let mut output = 0u64.to_le_bytes();
+
+        //call
+        handler
+            .process_command(CommandId::Mul, &input[..], &mut output[..])
+            .expect("multypling 2*2");
+
+        //parse output
+        let out = u64::from_le_bytes(output);
+
+        assert_eq!(out, 4);
     }
 }
