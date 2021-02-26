@@ -15,4 +15,5 @@ arrayvec = { default-features = false, version = "0.5.2" }
 libc = { default-features = false, version = "0.2" }
 zondee = { path = "../zondee", version = "0.1" }
 zondee-macros = { optional = true, path = "../zondee-macros", version = "0.1" }
-log = { version = "0.4", default-features = false }
+log = { version = "0.4" }
+getrandom = { version = "0.2", optional = true }

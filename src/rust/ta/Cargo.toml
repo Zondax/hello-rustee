@@ -10,26 +10,14 @@ name = "rustee_ta"
 crate-type = ["staticlib"]
 
 [dependencies]
-optee_common = {package = "optee-common", path = "../optee-common", version = "0.1.0"}
-zondee_utee = {package = "zondee-utee", path = "../zondee-utee", version = "0.1.0"}
-arrayvec = {default-features = false, version = "0.5.2"}
-ta_app = {path = "../ta_app"}
+optee_common = { package = "optee-common", path = "../optee-common", version = "0.1.0" }
+zondee_utee = { package = "zondee-utee", path = "../zondee-utee", version = "0.1.0" }
+arrayvec = { default-features = false, version = "0.5.2"}
+ta_app = { path = "../ta_app" }
 log = "0.4"
 
 [target.armv7-unknown-linux-gnueabihf.dev-dependencies]
 panic-halt = "0.2.0"
 
-[dependencies.rand]
-version = "0.7.3"
-default-features = false
-features = ["getrandom"]
-
-[dependencies.rand_core]
-version = "0.5.1"
-default-features = false
-
-[dev-dependencies.log]
-version = "0.4.11"
-
-[dev-dependencies.simple_logger]
-version = "1.11.0"
+[dev-dependencies]
+simple_logger = "1.11"
