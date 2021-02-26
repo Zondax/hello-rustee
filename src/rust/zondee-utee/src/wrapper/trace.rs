@@ -18,6 +18,7 @@ impl log::Log for TEELogger {
         if self.enabled(record.metadata()) {
             let mut s = ArrayString::<[_; 256]>::new();
             fmt::write(&mut s, *record.args()).expect("Bad formatting");
+            s.push('\n');
 
             unsafe { utee_log(s.as_str().as_ptr() as *const _, s.as_str().len() as _) }
         }
@@ -51,5 +52,12 @@ impl TEELogger {
         unsafe {
             trace_set_level(level as i32);
         }
+    }
+
+    ///Install this logger as the global logger
+    pub fn install() -> Result<(), log::SetLoggerError> {
+        unsafe { log::set_logger_racy(&Self {}) }?;
+        log::set_max_level(Level::Trace.to_level_filter());
+        Ok(())
     }
 }
