@@ -6,7 +6,7 @@ edition = "2018"
 readme = "README.md"
 
 [features]
-default = []
+default = ["rand_core"]
 framework = ["zondee/with-serde_cbor", "zondee/with-serde", "with-zondee-macros", "zondee-macros/framework"]
 with-zondee-macros = ["zondee-macros"]
 
@@ -16,4 +16,5 @@ libc = { default-features = false, version = "0.2" }
 zondee = { path = "../zondee", version = "0.1" }
 zondee-macros = { optional = true, path = "../zondee-macros", version = "0.1" }
 log = { version = "0.4" }
-getrandom = { version = "0.2", optional = true }
+getrandom = { version = "0.2", optional = true } #this seems to link `open` since it detects linux...
+rand_core = { version = "0.6", optional = true }
