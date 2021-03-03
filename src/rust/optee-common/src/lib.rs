@@ -4,17 +4,19 @@
 mod tee_error;
 pub use tee_error::{TeeError, TeeErrorCode};
 
+#[derive(Debug, Copy, Clone)]
 #[repr(u32)]
 pub enum CommandId {
     Inc,
     Dec,
+    Mul,
     Unknown,
 }
 
 impl From<u32> for CommandId {
     fn from(cmd: u32) -> Self {
         match cmd {
-            0..=1 => unsafe { core::mem::transmute(cmd) },
+            0..=2 => unsafe { core::mem::transmute(cmd) },
             _ => CommandId::Unknown,
         }
     }

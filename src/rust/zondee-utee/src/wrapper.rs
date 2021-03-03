@@ -17,12 +17,20 @@ mod user_ta_header;
 #[allow(clippy::all, non_camel_case_types)]
 mod uuid;
 
+mod rand;
+
 #[cfg(feature = "with-zondee-macros")]
 pub use zondee_macros::{
     wrapper_utee_close_session as close_session, wrapper_utee_create as create,
     wrapper_utee_destroy as destroy, wrapper_utee_invoke_command as invoke_command,
     wrapper_utee_open_session as open_session, wrapper_utee_params as params,
 };
-pub use {self::uuid::*, error::*, params::*, trace::*, user_ta_header::*};
+pub use {self::uuid::*, error::*, params::*, rand::*, trace::*, user_ta_header::*};
 
 pub type Result<T> = core::result::Result<T, TaErrorCode>;
+
+pub fn utee_panic(code: u32) -> ! {
+    unsafe { raw::_utee_panic(code as _) }
+
+    loop {}
+}

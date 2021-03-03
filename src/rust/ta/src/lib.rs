@@ -5,19 +5,24 @@ use optee_common::{CommandId, HandleTaCommand};
 use ta_app::borrow_mut_app;
 use zondee_utee::wrapper::{
     raw::{TEE_Param, TEE_PARAM_TYPES},
-    ParamType, Parameters, TaErrorCode as Error, Trace,
+    utee_panic, ParamType, Parameters, TaErrorCode as Error,
 };
 
 mod optee;
+
+#[macro_use]
+extern crate log;
 
 #[cfg(not(test))]
 use core::panic::PanicInfo;
 
 #[cfg(not(test))]
 #[panic_handler]
-fn panic(_info: &PanicInfo) -> ! {
+fn panic(info: &PanicInfo) -> ! {
     // TODO: Good place for calling TEE_Panic function
-    loop {}
+    error!("[ERROR] TA Panic: {}", info);
+
+    utee_panic(0);
 }
 
 #[no_mangle]
@@ -38,7 +43,7 @@ pub extern "C" fn invoke_command(
         ParamType::None as u32,
     );
     if param_types != expected_param_types {
-        Trace::msg(format_args!("{}", "Bad parameters\n"));
+        error!("[ERROR] Bad parameters");
         return Error::BadParameters as _;
     }
 
@@ -64,6 +69,7 @@ pub extern "C" fn invoke_command(
         .as_mut()
         .map_or(Error::ItemNotFound as u32, |ta_handler| {
             if let Err(e) = ta_handler.process_command(cmd, imemref.buffer(), omemref.buffer()) {
+                error!("[ERROR] processing command failure: {:?}", e);
                 e as _
             } else {
                 0

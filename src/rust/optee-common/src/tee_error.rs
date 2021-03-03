@@ -29,7 +29,7 @@ pub enum TeeErrorCode {
     /// Expected data was missing.                                                                                                
     NoData = 0xFFFF000B,
     /// System ran out of resources.                                                                                              
-    OutOfMEmory = 0xFFFF000C,
+    OutOfMemory = 0xFFFF000C,
     /// The system is busy working on something else.                                                                             
     Busy = 0xFFFF000D,
     /// Communication with a remote party failed.                                                                                 
@@ -83,7 +83,7 @@ impl TeeErrorCode {
                 "The requested operation is valid but is not supported in this implementation."
             }
             TeeErrorCode::NoData => "Expected data was missing.",
-            TeeErrorCode::OutOfMEmory => "System ran out of resources.",
+            TeeErrorCode::OutOfMemory => "System ran out of resources.",
             TeeErrorCode::Busy => "The system is busy working on something else.",
             TeeErrorCode::Communication => "Communication with a remote party failed.",
             TeeErrorCode::Security => "A security fault was detected.",
