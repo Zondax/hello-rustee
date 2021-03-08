@@ -43,6 +43,21 @@ impl HandleRequest for Handler {
                 let out = u64::from_le_bytes(out);
                 Ok(RequestResponse::Dec(out))
             }
+            RequestMethod::Mul(a, b) => {
+                let mut msg = [0u8; 16];
+                msg[..8].copy_from_slice(&a.to_le_bytes());
+                msg[8..].copy_from_slice(&b.to_le_bytes());
+                let p0 = ParamTmpRef::new_input(msg.as_mut());
+
+                let mut out = [0u8; 8];
+                let p1 = ParamTmpRef::new_output(out.as_mut());
+
+                let mut op = Operation::new(p0, p1, ParamNone, ParamNone);
+                invoke_command(CommandId::Mul as _, &mut op).map_err(|e| e.to_string())?;
+
+                let out = u64::from_le_bytes(out);
+                Ok(RequestResponse::Mul(out))
+            }
         }
     }
 }

@@ -7,14 +7,16 @@ pub trait HandleRequest: Send + Sync {
     fn process_request(&self, request: RequestMethod) -> Result<RequestResponse, String>;
 }
 
-#[derive(serde::Deserialize, serde::Serialize, Debug)]
+#[derive(serde::Deserialize, serde::Serialize, Debug, Clone)]
 pub enum RequestMethod {
     Inc(u64),
     Dec(u64),
+    Mul(u64, u64),
 }
 
 #[derive(serde::Deserialize, serde::Serialize, Debug)]
 pub enum RequestResponse {
     Inc(u64),
     Dec(u64),
+    Mul(u64),
 }

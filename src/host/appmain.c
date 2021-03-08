@@ -16,14 +16,14 @@ TEEC_Result call_rustee(TEEC_Session *sess) {
 }
 
 TEEC_Result invoke_optee_command(uint32_t command_id, TEEC_Operation *op) {
-    uint32_t err_origin = 0;
-    if ( session == NULL ) {
-        return TEEC_ERROR_ITEM_NOT_FOUND;
-    }
-    op->session = session;
-    TEEC_InvokeCommand(session, command_id, op, &err_origin);
-    return TEEC_SUCCESS;
-} 
+  uint32_t err_origin = 0;
+  if (session == NULL) {
+    return TEEC_ERROR_ITEM_NOT_FOUND;
+  }
+  op->session = session;
+
+  return TEEC_InvokeCommand(session, command_id, op, &err_origin);
+}
 
 void appMain(TEEC_Session *sess) {
     // TODO: Eventually this should be a rust function
