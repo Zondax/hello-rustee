@@ -21,6 +21,8 @@ mod rand;
 
 mod alloc;
 
+pub mod storage;
+
 #[cfg(feature = "with-zondee-macros")]
 pub use zondee_macros::{
     wrapper_utee_close_session as close_session, wrapper_utee_create as create,
