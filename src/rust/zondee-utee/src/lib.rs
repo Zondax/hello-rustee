@@ -1,5 +1,7 @@
 #![no_std]
 
+extern crate no_std_compat as std;
+
 #[cfg(feature = "framework")]
 pub mod framework;
 pub mod wrapper;
