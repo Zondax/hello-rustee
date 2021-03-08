@@ -19,13 +19,16 @@ mod uuid;
 
 mod rand;
 
+mod alloc;
+
 #[cfg(feature = "with-zondee-macros")]
 pub use zondee_macros::{
     wrapper_utee_close_session as close_session, wrapper_utee_create as create,
     wrapper_utee_destroy as destroy, wrapper_utee_invoke_command as invoke_command,
     wrapper_utee_open_session as open_session, wrapper_utee_params as params,
 };
-pub use {self::uuid::*, error::*, params::*, rand::*, trace::*, user_ta_header::*};
+
+pub use {self::uuid::*, alloc::*, error::*, params::*, rand::*, trace::*, user_ta_header::*};
 
 pub type Result<T> = core::result::Result<T, TaErrorCode>;
 
