@@ -8,7 +8,7 @@ $(info )
 $(info ************  QEMU V7 ************)
 $(info )
 export RUST_TARGET ?= armv7-unknown-linux-gnueabihf
-export OPTEE ?= $(HOME)/optee_qemu
+export OPTEE ?= $(HOME)/optee
 export TEEC_EXPORT ?= $(OPTEE)/out-br/host/arm-buildroot-linux-gnueabihf/sysroot
 export HOST_CROSS_COMPILE ?= $(OPTEE)/toolchains/aarch32/bin/arm-linux-gnueabihf-
 export TA_CROSS_COMPILE ?= $(HOST_CROSS_COMPILE)
@@ -24,7 +24,7 @@ $(info )
 $(info ************  QEMU V8 ************)
 $(info )
 export RUST_TARGET ?= aarch64-unknown-linux-gnu
-export OPTEE ?= $(HOME)/tee_optee
+export OPTEE ?= $(HOME)/optee
 export TEEC_EXPORT ?= $(OPTEE)/out-br/host/aarch64-buildroot-linux-gnu/sysroot
 export HOST_CROSS_COMPILE = $(OPTEE)/toolchains/aarch64/bin/aarch64-linux-gnu-
 export TA_CROSS_COMPILE ?= $(HOST_CROSS_COMPILE)
