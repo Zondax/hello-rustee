@@ -6,14 +6,14 @@ jobs:
       - image: zondax/builder-qemuv7
     steps:
       - checkout
-      - run: . $HOME/.cargo/env && cd src && QEMU_V7=1 make
+      - run: . $HOME/.cargo/env && QEMU_V7=1 make
 
   build_armv8:
     docker:
       - image: zondax/builder-qemuv8
     steps:
       - checkout
-      - run: . $HOME/.cargo/env && cd src && QEMU_v8=1 make
+      - run: . $HOME/.cargo/env && QEMU_v8=1 make
 
 workflows:
   version: 2
