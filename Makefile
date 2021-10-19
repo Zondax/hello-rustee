@@ -16,7 +16,7 @@ deps:
 	git submodule update --init
 	$(MAKE) -C framework $@
 
-all: deps
+all:
 	$(MAKE) -C framework $@
 
 copy:
