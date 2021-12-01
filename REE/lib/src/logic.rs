@@ -1,3 +1,6 @@
+#[macro_use]
+extern crate log;
+
 use zondee_teec::wrapper::{Operation, ParamNone, ParamTmpRef};
 
 fn send(cmd_id: u32, msg: &[u8], out_len: usize) -> Result<Vec<u8>, u32> {
@@ -15,6 +18,10 @@ fn send(cmd_id: u32, msg: &[u8], out_len: usize) -> Result<Vec<u8>, u32> {
 
 pub fn echo(msg: &[u8]) -> Result<bool, u32> {
     let out = send(0, msg, msg.len())?;
+    info!(
+        "[TEE] >> {}",
+        str::from_utf8(out.as_ref()).expect("Error: Invalid msg")
+    );
 
     Ok(out == msg)
 }
