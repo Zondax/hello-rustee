@@ -1,14 +1,3 @@
 /.idea
-src/target
-src/.cargo/registry
-src/rust/.cargo/.package-cache
-src/ta/8d22f026-eb0a-4401-b575-5cf59327119b.*
-src/ta/*.cmd
-src/ta/*.d
-src/ta/*.o
-src/ta/*.lds
-src/ta/dyn_list
-src/host/*.o
-src/host/hello_rustee
-src/oe-logs
-src/oe-workdir
+REE/lib/target
+TEE/lib/target
