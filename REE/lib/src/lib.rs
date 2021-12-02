@@ -40,10 +40,10 @@ pub extern "C" fn run() -> u32 {
 
         Below is some example code
     ****************** */
-    let msg = b"been to trusted and back";
+    let msg = "been to trusted and back";
     info!("[TEE] << {}", msg);
 
-    assert_eq!(logic::echo(msg), Ok(true));
+    assert_eq!(logic::echo(msg.as_bytes()), Ok(true));
     0
 }
 
